@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Rxjava," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="OKloong的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="承接上一篇Rxjava2源码分析（1）这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。 1.map操作符的基本用法这里按照国际惯例，先上map的基本用法。12345678910111213141516171819Observable.create(new ObservableOnSubscribe&amp;lt;Integer&amp;gt;() &amp;#123">
+<meta name="keywords" content="Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2源码分析（2）——操作符">
+<meta property="og:url" content="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/index.html">
+<meta property="og:site_name" content="OKloong的博客">
+<meta property="og:description" content="承接上一篇Rxjava2源码分析（1）这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。 1.map操作符的基本用法这里按照国际惯例，先上map的基本用法。12345678910111213141516171819Observable.create(new ObservableOnSubscribe&amp;lt;Integer&amp;gt;() &amp;#123">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-26T16:06:24.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2源码分析（2）——操作符">
+<meta name="twitter:description" content="承接上一篇Rxjava2源码分析（1）这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。 1.map操作符的基本用法这里按照国际惯例，先上map的基本用法。12345678910111213141516171819Observable.create(new ObservableOnSubscribe&amp;lt;Integer&amp;gt;() &amp;#123">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/"/>
+
+
+
+
+
+  <title>Rxjava2源码分析（2）——操作符 | OKloong的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">OKloong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">知识需要沉淀</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-knowledge">
+          <a href="/books/system" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            知识库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Okloong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/im.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="OKloong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rxjava2源码分析（2）——操作符</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T11:14:52+08:00">
+                2018-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>承接上一篇Rxjava2源码分析（1）<br>这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。</p>
+<h2 id="1-map操作符的基本用法"><a href="#1-map操作符的基本用法" class="headerlink" title="1.map操作符的基本用法"></a>1.map操作符的基本用法</h2><p>这里按照国际惯例，先上map的基本用法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">                e.onNext(1);</span><br><span class="line">                e.onNext(2);</span><br><span class="line">                e.onNext(3);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(new Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return &quot;This is result &quot; + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).subscribe(new Consumer&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">                mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">                Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-map源码跟踪"><a href="#2-map源码跟踪" class="headerlink" title="2.map源码跟踪"></a>2.map源码跟踪</h2><h4 id="2-1-map"><a href="#2-1-map" class="headerlink" title="2.1 map"></a>2.1 map</h4><p>跟踪map进去，进入Observable里面，你会发现同样有RxJavaPlugins.onAssembly这东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public final &lt;R&gt; Observable&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(mapper, &quot;mapper is null&quot;);</span><br><span class="line">        return RxJavaPlugins.onAssembly(new ObservableMap&lt;T, R&gt;(this, mapper));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>RxJavaPlugins.onAssembly上文已经说过了，这次主要关注ObservableMap。<code>new ObservableMap&lt;T, R&gt;(this, mapper)</code>里面的this是create返回的Observable对象，mapper是你给的Function对象。</p>
+<h4 id="2-2-ObservableMap"><a href="#2-2-ObservableMap" class="headerlink" title="2.2 ObservableMap"></a>2.2 ObservableMap</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">public final class ObservableMap&lt;T, U&gt; extends AbstractObservableWithUpstream&lt;T, U&gt; &#123;</span><br><span class="line">    final Function&lt;? super T, ? extends U&gt; function;</span><br><span class="line"></span><br><span class="line">    public ObservableMap(ObservableSource&lt;T&gt; source, Function&lt;? super T, ? extends U&gt; function) &#123;</span><br><span class="line">        super(source);</span><br><span class="line">        this.function = function;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void subscribeActual(Observer&lt;? super U&gt; t) &#123; </span><br><span class="line">        source.subscribe(new MapObserver&lt;T, U&gt;(t, function));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    static final class MapObserver&lt;T, U&gt; extends BasicFuseableObserver&lt;T, U&gt; &#123;</span><br><span class="line">        final Function&lt;? super T, ? extends U&gt; mapper;</span><br><span class="line"></span><br><span class="line">        MapObserver(Observer&lt;? super U&gt; actual, Function&lt;? super T, ? extends U&gt; mapper) &#123;</span><br><span class="line">            super(actual);</span><br><span class="line">            this.mapper = mapper;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onNext(T t) &#123;</span><br><span class="line">            if (done) &#123; //默认done为false，跳过</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (sourceMode != NONE) &#123; //默认sourceMode 为0，跳过</span><br><span class="line">                actual.onNext(null);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            U v;</span><br><span class="line"></span><br><span class="line">            try &#123;</span><br><span class="line">                v = ObjectHelper.requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;);//1</span><br><span class="line">            &#125; catch (Throwable ex) &#123;</span><br><span class="line">                fail(ex);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            actual.onNext(v);//2</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public int requestFusion(int mode) &#123;</span><br><span class="line">            return transitiveBoundaryFusion(mode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Nullable</span><br><span class="line">        @Override</span><br><span class="line">        public U poll() throws Exception &#123;</span><br><span class="line">            T t = qs.poll();</span><br><span class="line">            return t != null ? ObjectHelper.&lt;U&gt;requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;) : null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AbstractObservableWithUpstream"><a href="#AbstractObservableWithUpstream" class="headerlink" title="AbstractObservableWithUpstream"></a>AbstractObservableWithUpstream</h3><p>AbstractObservableWithUpstream是什么？它继承了Observable类，把ObservableSource对象保存了起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractObservableWithUpstream&lt;T, U&gt; extends Observable&lt;U&gt; implements HasUpstreamObservableSource&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    /** The source consumable Observable. */</span><br><span class="line">    protected final ObservableSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Constructs the ObservableSource with the given consumable.</span><br><span class="line">     * @param source the consumable Observable</span><br><span class="line">     */</span><br><span class="line">    AbstractObservableWithUpstream(ObservableSource&lt;T&gt; source) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final ObservableSource&lt;T&gt; source() &#123;</span><br><span class="line">        return source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-mapper-apply-t"><a href="#1-mapper-apply-t" class="headerlink" title="//1 mapper.apply(t)"></a>//1 mapper.apply(t)</h4><p>在ObservableMap里面，subscribeActual，将完成上游Observable的订阅。MapObserver里面的mapper.apply(t)将上游的t转换成下游所需的U。这里怎么变换是你一开始时候就设定好的。这里我们当初传入map里面的Function如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return &quot;This is result &quot; + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-actual-onNext-v"><a href="#2-actual-onNext-v" class="headerlink" title="//2 actual.onNext(v)"></a>//2 actual.onNext(v)</h4><p><code>actual.onNext(v);</code> 是交接给下游的Observer。actual对应本例就是当初create的对象，执行onNext方法就是执行当初自己定义的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Consumer&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">                mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">                Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>至此，当初的<code>e.onNext(1)</code> 将得到响应。</p>
+<p>总结一下。订阅过程是最后一个Observable往上一个Observable订阅（本例中是MapObserver）。从最后一个Observable里面的subscribe有个subscribeActual方法调用，这个方法会一层层订阅，直至第一个Observable。然后触发第一个Observable的subscribe，这里面会触发数据流操作。在本例中，订阅至到第一个Observable的subscribe实现类，里面的<code>e.onNext(1);</code> 会触发数据一层层往下流，下一个是MapObserver对数据的操作，到最后的Observable。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Okloong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/" title="Rxjava2源码分析（2）——操作符">http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rxjava/" rel="tag"># Rxjava</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（1）/" rel="next" title="Rxjava2源码分析（1）">
+                <i class="fa fa-chevron-left"></i> Rxjava2源码分析（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt"></span>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_tqq"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_cqq"></span>
+<a class="jiathis_button_qzone"></a>
+<a class="jiathis_button_douban"></a>
+<a class="jiathis_button_fav"></a>
+<a class="jiathis_button_copy"></a>
+<a class="jiathis_button_email"></a>
+<a class="jiathis_button_share"></a>
+
+
+<a href="http://www.jiathis.com/share?uid=2147773" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2147773" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwNC84MTY4"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/im.jpg"
+                alt="Okloong" />
+            
+              <p class="site-author-name" itemprop="name">Okloong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/loongX" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/loongago?viewmode=list" target="_blank" title="CSDN">
+                    
+                      <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-map操作符的基本用法"><span class="nav-text">1.map操作符的基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-map源码跟踪"><span class="nav-text">2.map源码跟踪</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-map"><span class="nav-text">2.1 map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-ObservableMap"><span class="nav-text">2.2 ObservableMap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractObservableWithUpstream"><span class="nav-text">AbstractObservableWithUpstream</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-mapper-apply-t"><span class="nav-text">//1 mapper.apply(t)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-actual-onNext-v"><span class="nav-text">//2 actual.onNext(v)</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Okloong</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

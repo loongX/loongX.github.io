@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Annotation," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="OKloong的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。">
+<meta name="keywords" content="Annotation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android注解">
+<meta property="og:url" content="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/index.html">
+<meta property="og:site_name" content="OKloong的博客">
+<meta property="og:description" content="Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://okloong.com/images/Java注解.jpg">
+<meta property="og:updated_time" content="2018-07-26T16:06:24.982Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android注解">
+<meta name="twitter:description" content="Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。">
+<meta name="twitter:image" content="http://okloong.com/images/Java注解.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/"/>
+
+
+
+
+
+  <title>Android注解 | OKloong的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">OKloong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">知识需要沉淀</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-knowledge">
+          <a href="/books/system" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            知识库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Okloong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/im.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="OKloong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android注解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-06T11:07:48+08:00">
+                2017-11-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Annotation/" itemprop="url" rel="index">
+                    <span itemprop="name">Annotation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。<br><a id="more"></a></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>从下面这张图可以看到Java注解的结构分支。<br><img src="/images/Java注解.jpg" alt="Java注解"> </p>
+<p> Java注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。<br> 注解是附加在代码中的一些元信息，用于一些工具在编译、运行时进行解析和使用，起到说明、配置的功能。</p>
+<p> （1）元注解<br>元注解是指注解的注解，负责注解其他的注解。有@Retention @Target @Document @Inherited这四种。</p>
+<p>（2）@Retention: 定义注解的保留策略<br>@Retention(RetentionPolicy.SOURCE)   //注解仅存在于源码中，在class字节码文件中不包含<br>@Retention(RetentionPolicy.CLASS)     // 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得，<br>@Retention(RetentionPolicy.RUNTIME)  // 注解会在class字节码文件中存在，在运行时可以通过反射获取到</p>
+<p>（3）@Target：定义注解的作用目标<br>其定义的源码为：<br>@Target(ElementType.TYPE)   //接口、类、枚举、注解<br>@Target(ElementType.FIELD) //字段、枚举的常量<br>@Target(ElementType.METHOD) //方法<br>@Target(ElementType.PARAMETER) //方法参数<br>@Target(ElementType.CONSTRUCTOR)  //构造函数<br>@Target(ElementType.LOCAL_VARIABLE)//局部变量<br>@Target(ElementType.ANNOTATION_TYPE)//注解<br>@Target(ElementType.PACKAGE) ///包   </p>
+<p>（4）@Document：说明该注解将被包含在javadoc中</p>
+<p>（5）@Inherited：允许子类可以继承父类中的该注解</p>
+<h2 id="运行时注解"><a href="#运行时注解" class="headerlink" title="运行时注解"></a>运行时注解</h2><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><h4 id="参数注解"><a href="#参数注解" class="headerlink" title="参数注解"></a>参数注解</h4><p>下面将用注解实现了一个findViewById功能。</p>
+<h5 id="（1）-定义注解"><a href="#（1）-定义注解" class="headerlink" title="（1） 定义注解"></a>（1） 定义注解</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ViewInject &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* parent view id */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">parentId</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（2）-定义注解处理"><a href="#（2）-定义注解处理" class="headerlink" title="（2） 定义注解处理"></a>（2） 定义注解处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ViewUtils</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inject</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        injectObject(activity, <span class="keyword">new</span> ViewFinder(activity));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"ConstantConditions"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectObject</span><span class="params">(Object handler, ViewFinder finder)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class&lt;?&gt; handlerType = handler.getClass();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// inject view</span></span><br><span class="line">        Field[] fields = handlerType.getDeclaredFields();</span><br><span class="line">        <span class="keyword">if</span> (fields != <span class="keyword">null</span> &amp;&amp; fields.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">                ViewInject viewInject = field.getAnnotation(ViewInject.class);</span><br><span class="line">                <span class="keyword">if</span> (viewInject != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        View view = finder.findViewById(viewInject.value(), viewInject.parentId());</span><br><span class="line">                        <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                            field.set(handler, view);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewFinder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Activity activity;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewFinder</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">findViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  activity.findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">findViewById</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> pid)</span> </span>&#123;</span><br><span class="line">        View pView = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            pView = <span class="keyword">this</span>.findViewById(pid);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        View view = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (pView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            view = pView.findViewById(id);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            view = <span class="keyword">this</span>.findViewById(id);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（3）-注解的使用"><a href="#（3）-注解的使用" class="headerlink" title="（3） 注解的使用"></a>（3） 注解的使用</h5><p>这是activity里面的调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DIYAnnotationActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewInject</span>(R.id.textView)</span><br><span class="line">    <span class="keyword">private</span> TextView textView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_annotation);</span><br><span class="line">        <span class="comment">//调用</span></span><br><span class="line">        ViewUtils.inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                textView.setText(<span class="string">"成功了！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>布局文件比较简单就不罗列了。这里可以看出，反射用法过程是：定义注解–定义注解处理方法–调用。</p>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>下面将在原有的基础上添加点击事件注解。</p>
+<h5 id="（1）定义注解"><a href="#（1）定义注解" class="headerlink" title="（1）定义注解"></a>（1）定义注解</h5><p>定义一个onclick声明<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> OnClick &#123;</span><br><span class="line">    <span class="keyword">int</span>[] value();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span>[] parentId() <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="（2）定义注解处理"><a href="#（2）定义注解处理" class="headerlink" title="（2）定义注解处理"></a>（2）定义注解处理</h5><p>然后在ViewUtils里声明多一个方法。这是用了Java的动态代理方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewUtils</span> </span>&#123;</span><br><span class="line">    ......省略</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inject</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        injectObject(activity, <span class="keyword">new</span> ViewFinder(activity));</span><br><span class="line">        injectEvent(activity);</span><br><span class="line">    &#125;</span><br><span class="line">	......省略</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectEvent</span><span class="params">(<span class="keyword">final</span> Activity activity)</span> </span>&#123;</span><br><span class="line">        Class&lt;? extends Activity&gt; clazz = activity.getClass();</span><br><span class="line">        Method[] methods = clazz.getDeclaredMethods();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">final</span> Method methodY : methods) &#123;</span><br><span class="line">            OnClick click = methodY.getAnnotation(OnClick.class);</span><br><span class="line">            <span class="keyword">if</span> (click != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span>[] viewId = click.value();</span><br><span class="line">                methodY.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                Object listener = Proxy.newProxyInstance(View.OnClickListener.class.getClassLoader(),</span><br><span class="line">                        <span class="keyword">new</span> Class[]&#123;View.OnClickListener.class&#125;, <span class="keyword">new</span> InvocationHandler() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                                <span class="keyword">return</span> methodY.invoke(activity, args);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> id : viewId) &#123;</span><br><span class="line">                        View v = activity.findViewById(id);</span><br><span class="line">                        Method setClickListener = v.getClass().getMethod(<span class="string">"setOnClickListener"</span>, View.OnClickListener.class);</span><br><span class="line">                        setClickListener.invoke(v, listener);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（3）在activity里面调用"><a href="#（3）在activity里面调用" class="headerlink" title="（3）在activity里面调用"></a>（3）在activity里面调用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@OnClick</span>(R.id.tb_2)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">       textView.setText(<span class="string">"你按了button2"</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="方法注解"><a href="#方法注解" class="headerlink" title="方法注解"></a>方法注解</h4><p>给setcontentview注解</p>
+<h5 id="（1）定义注解-1"><a href="#（1）定义注解-1" class="headerlink" title="（1）定义注解"></a>（1）定义注解</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ContentView &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（2）注解处理"><a href="#（2）注解处理" class="headerlink" title="（2）注解处理"></a>（2）注解处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectContentView</span><span class="params">(Object handler)</span></span>&#123;</span><br><span class="line">    Class&lt;?&gt; handlerType = handler.getClass();</span><br><span class="line">    <span class="comment">// inject ContentView</span></span><br><span class="line"></span><br><span class="line">    ContentView contentView = handlerType.getAnnotation(ContentView.class);</span><br><span class="line">    <span class="keyword">if</span> (contentView != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Method setContentViewMethod = handlerType.getMethod(<span class="string">"setContentView"</span>, <span class="keyword">int</span>.class);</span><br><span class="line">            setContentViewMethod.invoke(handler, contentView.value());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（3）调用"><a href="#（3）调用" class="headerlink" title="（3）调用"></a>（3）调用</h5><p>activity里面调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ContentView</span>(R.layout.activity_annotation)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DIYAnnotationActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewInject</span>(R.id.textView)</span><br><span class="line">    <span class="keyword">private</span> TextView textView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"><span class="comment">//        setContentView(R.layout.activity_annotation);</span></span><br><span class="line">        ViewUtils.injectContentView(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        ViewUtils.inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                textView.setText(<span class="string">"成功了！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnClick</span>(R.id.tb_2)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        textView.setText(<span class="string">"你按了button2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编译时注解"><a href="#编译时注解" class="headerlink" title="编译时注解"></a>编译时注解</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>APT(annotation processing tool) 是一种处理注释的工具,它对源代码文件进行检测找出其中的Annotation，使用Annotation进行额外的处理。Annotation处理器在处理Annotation时可以根据源文件中的Annotation生成额外的源文件和其它的文件,APT还会编译生成的源文件和原来的源文件，将它们一起生成class文件.简化工作量。但是在java8 开始apt就被移除了，使用JSR 269 API（Pluggable Annotation Processing API） 来处理注解，所以要用APT要定义编译的jdk版本为1.7。</p>
+<p>实现一个apt工具分两步，一是实现处理器（实现接口AnnotationProcessor），二是实现返回此处理器的工厂类（实现接口AnnotationProcessorFactory）。</p>
+<p>APT首先检测源代码文件中哪些annotation存在。然后APT将查找我们编写的annotation processor factories类，并且要求factories类提供处理源文件中所涉及的annotation的annotation processor。接下来，一个合适的annotation processors将被执行，如果在processors生成源代码文件时，该文件中含有annotation，则APT将重复上面的过程直到没有新文件生成。整个过程APT就像一个在编译时处理annotation的javac.</p>
+<p>编写一个annotation processors需要使用java lib目录中的tools.jar提供的以下4个包：<br><a href="https://docs.oracle.com/javase/7/docs/technotes/guides/apt/" target="_blank" rel="noopener">apt相关资料</a></p>
+<ul>
+<li><p>com.sun.mirror.apt: 和APT交互的接口；</p>
+</li>
+<li><p>com.sun.mirror.declaration: 用于模式化类成员、类方法、类声明的接口；</p>
+</li>
+<li><p>com.sun.mirror.type: 用于模式化源代码中类型的接口；</p>
+</li>
+<li><p>com.sun.mirror.util: 提供了用于处理类型和声明的一些工具。</p>
+</li>
+</ul>
+<ul>
+<li><p>javax.annotation.processing.SupportedAnnotationTypes：这个注解用来注册注解处理器要处理的注解类型。有效值为完全限定名（就是带所在包名和路径的类全名）-通配符（此次英语原文为Wildcards,就是？这个符号代表的类型。比如说List&lt;? extends String,想要深入了解，可以看一下这里）也可以。</p>
+</li>
+<li><p>javax.annotation.processing.SupportedSourceVersion:这是用来注册注解处理器要处理的源代码版本。</p>
+</li>
+<li><p>javax.annotation.processing.SupportedOptions:这个注解用来注册可能通过命令行传递给处理器的操作选项。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Okloong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/" title="Android注解">http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Annotation/" rel="tag"># Annotation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/30/StudyByFeedback/" rel="next" title="反馈式学习">
+                <i class="fa fa-chevron-left"></i> 反馈式学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（1）/" rel="prev" title="Rxjava2源码分析（1）">
+                Rxjava2源码分析（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt"></span>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_tqq"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_cqq"></span>
+<a class="jiathis_button_qzone"></a>
+<a class="jiathis_button_douban"></a>
+<a class="jiathis_button_fav"></a>
+<a class="jiathis_button_copy"></a>
+<a class="jiathis_button_email"></a>
+<a class="jiathis_button_share"></a>
+
+
+<a href="http://www.jiathis.com/share?uid=2147773" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2147773" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwNC84MTY4"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/im.jpg"
+                alt="Okloong" />
+            
+              <p class="site-author-name" itemprop="name">Okloong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/loongX" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/loongago?viewmode=list" target="_blank" title="CSDN">
+                    
+                      <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时注解"><span class="nav-text">运行时注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#举例"><span class="nav-text">举例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参数注解"><span class="nav-text">参数注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）-定义注解"><span class="nav-text">（1） 定义注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）-定义注解处理"><span class="nav-text">（2） 定义注解处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）-注解的使用"><span class="nav-text">（3） 注解的使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态代理"><span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）定义注解"><span class="nav-text">（1）定义注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）定义注解处理"><span class="nav-text">（2）定义注解处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）在activity里面调用"><span class="nav-text">（3）在activity里面调用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法注解"><span class="nav-text">方法注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）定义注解-1"><span class="nav-text">（1）定义注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）注解处理"><span class="nav-text">（2）注解处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）调用"><span class="nav-text">（3）调用</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译时注解"><span class="nav-text">编译时注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-text">介绍</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Okloong</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

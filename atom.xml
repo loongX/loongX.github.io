@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>OKloong的博客</title>
+  
+  <subtitle>知识需要沉淀</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://okloong.com/"/>
+  <updated>2018-07-26T16:06:24.946Z</updated>
+  <id>http://okloong.com/</id>
+  
+  <author>
+    <name>Okloong</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Rxjava2源码分析（2）——操作符</title>
+    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%AC%A6/"/>
+    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/</id>
+    <published>2018-06-13T03:14:52.000Z</published>
+    <updated>2018-07-26T16:06:24.946Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;承接上一篇Rxjava2源码分析（1）&lt;br&gt;这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。&lt;/p&gt;
+&lt;h2 id=&quot;1-map操作符的基本用法&quot;&gt;&lt;a href=&quot;#1-map操作符的基本用法&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="http://okloong.com/categories/Android/"/>
+    
+    
+      <category term="Rxjava" scheme="http://okloong.com/tags/Rxjava/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rxjava2源码分析（1）</title>
+    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%881%EF%BC%89/"/>
+    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（1）/</id>
+    <published>2018-06-13T03:13:01.000Z</published>
+    <updated>2018-07-26T16:06:24.944Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1、基本用法&quot;&gt;&lt;a href=&quot;#1、基本用法&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Android" scheme="http://okloong.com/categories/Android/"/>
+    
+    
+      <category term="Rxjava" scheme="http://okloong.com/tags/Rxjava/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android注解</title>
+    <link href="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/"/>
+    <id>http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/</id>
+    <published>2017-11-06T03:07:48.000Z</published>
+    <updated>2018-07-26T16:06:24.982Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Annotation" scheme="http://okloong.com/categories/Annotation/"/>
+    
+    
+      <category term="Annotation" scheme="http://okloong.com/tags/Annotation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>反馈式学习</title>
+    <link href="http://okloong.com/2017/09/30/StudyByFeedback/"/>
+    <id>http://okloong.com/2017/09/30/StudyByFeedback/</id>
+    <published>2017-09-30T07:41:08.000Z</published>
+    <updated>2018-07-26T16:06:25.279Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;excerpt in=&quot;&quot; index=&quot;&quot; |=&quot;&quot; 首页摘要=&quot;&quot;&gt;&lt;br&gt;本篇文章将讲述我自己的学习方法——反馈式学习。每个人对学习方法都有不同的理解，可能某个人对某种学习方式有较深刻的感触，而其他人却不感兴趣。这可能是学习方式没能勾起你的生活体验。但如果你深究到底，你可能会发现它们的核心原理是一样的。同样，这篇文章里面的学习形式其实并不重要，最主要的还是其原理。希望你能根据其背后原理整出自己的学习方法。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="综合" scheme="http://okloong.com/categories/%E7%BB%BC%E5%90%88/"/>
+    
+    
+      <category term="综合" scheme="http://okloong.com/tags/%E7%BB%BC%E5%90%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo博客搭建</title>
+    <link href="http://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/"/>
+    <id>http://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/</id>
+    <published>2017-09-23T08:30:05.000Z</published>
+    <updated>2018-07-26T16:06:24.836Z</updated>
+    
+    <summary type="html">
+    
+      &lt;excerpt in=&quot;&quot; index=&quot;&quot; |=&quot;&quot; 首页摘要=&quot;&quot;&gt; 
+
+&lt;p&gt;Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown解析文章，生成的静态网页布置在GitHub上面，作为个人博客使用十分方便。本文前面部分将讲Windows10环境来搭建hexo博客，并介绍hexo博客的相关设置以及优化，后面会有linux环境下的相关配置。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="web" scheme="http://okloong.com/categories/web/"/>
+    
+    
+      <category term="blog" scheme="http://okloong.com/tags/blog/"/>
+    
+  </entry>
+  
+</feed>

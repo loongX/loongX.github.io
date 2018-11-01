@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://okloong.com/"/>
-  <updated>2018-07-26T16:06:24.946Z</updated>
+  <updated>2018-09-11T14:43:22.265Z</updated>
   <id>http://okloong.com/</id>
   
   <author>
@@ -17,48 +17,15 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Rxjava2源码分析（2）——操作符</title>
-    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%882%EF%BC%89%E2%80%94%E2%80%94%E6%93%8D%E4%BD%9C%E7%AC%A6/"/>
-    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（2）——操作符/</id>
-    <published>2018-06-13T03:14:52.000Z</published>
-    <updated>2018-07-26T16:06:24.946Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;承接上一篇Rxjava2源码分析（1）&lt;br&gt;这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。&lt;/p&gt;
-&lt;h2 id=&quot;1-map操作符的基本用法&quot;&gt;&lt;a href=&quot;#1-map操作符的基本用法&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Android" scheme="http://okloong.com/categories/Android/"/>
-    
-    
-      <category term="Rxjava" scheme="http://okloong.com/tags/Rxjava/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Rxjava2源码分析（1）</title>
-    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%881%EF%BC%89/"/>
-    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析（1）/</id>
+    <title>Rxjava2源码分析</title>
+    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/</id>
     <published>2018-06-13T03:13:01.000Z</published>
-    <updated>2018-07-26T16:06:24.944Z</updated>
+    <updated>2018-09-11T14:43:22.265Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;1、基本用法&quot;&gt;&lt;a href=&quot;#1、基本用法&quot; class=&quot;headerlink&quot;
-        
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。&lt;/p&gt;
     
     </summary>
     
@@ -94,7 +61,7 @@
     <link href="http://okloong.com/2017/09/30/StudyByFeedback/"/>
     <id>http://okloong.com/2017/09/30/StudyByFeedback/</id>
     <published>2017-09-30T07:41:08.000Z</published>
-    <updated>2018-07-26T16:06:25.279Z</updated>
+    <updated>2018-11-01T15:44:45.140Z</updated>
     
     <summary type="html">
     

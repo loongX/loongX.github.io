@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Rxjava," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="OKloong的博客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。">
+<meta name="keywords" content="Rxjava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rxjava2源码分析">
+<meta property="og:url" content="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/index.html">
+<meta property="og:site_name" content="OKloong的博客">
+<meta property="og:description" content="前言本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-11T14:43:22.265Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rxjava2源码分析">
+<meta name="twitter:description" content="前言本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/"/>
+
+
+
+
+
+  <title>Rxjava2源码分析 | OKloong的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">OKloong的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">知识需要沉淀</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-knowledge">
+          <a href="/books/system" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            知识库
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Okloong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/im.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="OKloong的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rxjava2源码分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T11:13:01+08:00">
+                2018-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。</p>
+<a id="more"></a>
+<h2 id="1、基本用法"><a href="#1、基本用法" class="headerlink" title="1、基本用法"></a>1、基本用法</h2><p>本文解读是rxjava的2.1.0版本，对应的rxandroid版本为2.0.1。<br>先看看基本用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">              e.onNext(1);</span><br><span class="line">              e.onNext(2);</span><br><span class="line">              e.onNext(3);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;).subscribe(new Consumer&lt;String&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">              mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">              Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="2、原理探究"><a href="#2、原理探究" class="headerlink" title="2、原理探究"></a>2、原理探究</h2><p>Rxjava主要要素是Observable(被观察者)、Observer(观察者)、subscribe(订阅)和事件。理解这些我们接下来往下看。</p>
+<h3 id="2-1-Observable-create"><a href="#2-1-Observable-create" class="headerlink" title="2.1 Observable.create"></a>2.1 Observable.create</h3><p>跟踪Observable.create<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@CheckReturnValue</span><br><span class="line">  @SchedulerSupport(SchedulerSupport.NONE)</span><br><span class="line">  public static &lt;T&gt; Observable&lt;T&gt; create(ObservableOnSubscribe&lt;T&gt; source) &#123;</span><br><span class="line">      ObjectHelper.requireNonNull(source, &quot;source is null&quot;);</span><br><span class="line">      return RxJavaPlugins.onAssembly(new ObservableCreate&lt;T&gt;(source));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>传入的是ObservableOnSubscribe类型对象，方法的返回值是调用RxJavaPlugins.onAssembly()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface ObservableOnSubscribe&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    void subscribe(@NonNull ObservableEmitter&lt;T&gt; e) throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="onAssembly"><a href="#onAssembly" class="headerlink" title="onAssembly"></a>onAssembly</h4><p>在RxJavaPlugins里面看到<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings</span>(&#123; <span class="string">"rawtypes"</span>, <span class="string">"unchecked"</span> &#125;)</span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">onAssembly</span><span class="params">(@NonNull Observable&lt;T&gt; source)</span> </span>&#123;</span><br><span class="line">        Function&lt;? <span class="keyword">super</span> Observable, ? extends Observable&gt; f = onObservableAssembly;<span class="comment">//1</span></span><br><span class="line">        <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> apply(f, source); <span class="comment">//2</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> source;<span class="comment">//3</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这里可以看出RxJavaPlugin的作用是方便测试和追踪。可以配合instanceof 等等替换某些你想追踪的Obseravble/Observer/Scheduler等等 。你想想onObservableAssembly不为null的情形。</p>
+<h4 id="1-onObservableAssembly"><a href="#1-onObservableAssembly" class="headerlink" title="//1 onObservableAssembly"></a>//1 onObservableAssembly</h4><p> onObservableAssembly是个对象属性，你可以set和get来控制你的对象，主要是用来测试用的。由于没set该对象，此时的f为null，所以返回 source，也就是上面的基本用法里面new 出来的ObservableOnSubscribe对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static volatile Function&lt;? super Observable, ? extends Observable&gt; onObservableAssembly;</span><br></pre></td></tr></table></figure>
+<p>Function类只有一个方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface Function&lt;T, R&gt; &#123;</span><br><span class="line">    @NonNull</span><br><span class="line">    R apply(@NonNull T t) throws Exception;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来看看ObservableCreate里面有什么</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public final class ObservableCreate&lt;T&gt; extends Observable&lt;T&gt; &#123;</span><br><span class="line">    final ObservableOnSubscribe&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    public ObservableCreate(ObservableOnSubscribe&lt;T&gt; source) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">        CreateEmitter&lt;T&gt; parent = new CreateEmitter&lt;T&gt;(observer);</span><br><span class="line">        observer.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            source.subscribe(parent);</span><br><span class="line">        &#125; catch (Throwable ex) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(ex);</span><br><span class="line">            parent.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>请记住这个subscribeActual和这个ObservableCreate，下面会用到。</em></strong></p>
+<h3 id="2-2-observable-subscribe-consumer"><a href="#2-2-observable-subscribe-consumer" class="headerlink" title="2.2 observable.subscribe(consumer)"></a>2.2 observable.subscribe(consumer)</h3><p>下面是订阅的环节。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final Disposable subscribe(Consumer&lt;? super T&gt; onNext) &#123;</span><br><span class="line">        return subscribe(onNext, Functions.ON_ERROR_MISSING, Functions.EMPTY_ACTION, Functions.emptyConsumer());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>往下追<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public final Disposable subscribe(Consumer&lt;? super T&gt; onNext, Consumer&lt;? super Throwable&gt; onError,</span><br><span class="line">            Action onComplete, Consumer&lt;? super Disposable&gt; onSubscribe) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(onNext, &quot;onNext is null&quot;);</span><br><span class="line">        ObjectHelper.requireNonNull(onError, &quot;onError is null&quot;);</span><br><span class="line">        ObjectHelper.requireNonNull(onComplete, &quot;onComplete is null&quot;);</span><br><span class="line">        ObjectHelper.requireNonNull(onSubscribe, &quot;onSubscribe is null&quot;);</span><br><span class="line"></span><br><span class="line">        LambdaObserver&lt;T&gt; ls = new LambdaObserver&lt;T&gt;(onNext, onError, onComplete, onSubscribe);//1</span><br><span class="line"></span><br><span class="line">        subscribe(ls);//2</span><br><span class="line"></span><br><span class="line">        return ls;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-LambdaObserver"><a href="#1-LambdaObserver" class="headerlink" title="//1 LambdaObserver"></a>//1 LambdaObserver</h4><p>这里新建了一个LambdaObserver类型的对象，把传入的参数转换了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">public final class LambdaObserver&lt;T&gt; extends AtomicReference&lt;Disposable&gt; implements Observer&lt;T&gt;, Disposable &#123;</span><br><span class="line"></span><br><span class="line">    private static final long serialVersionUID = -7251123623727029452L;</span><br><span class="line">    final Consumer&lt;? super T&gt; onNext;</span><br><span class="line">    final Consumer&lt;? super Throwable&gt; onError;</span><br><span class="line">    final Action onComplete;</span><br><span class="line">    final Consumer&lt;? super Disposable&gt; onSubscribe;</span><br><span class="line"></span><br><span class="line">    public LambdaObserver(Consumer&lt;? super T&gt; onNext, Consumer&lt;? super Throwable&gt; onError,</span><br><span class="line">            Action onComplete,</span><br><span class="line">            Consumer&lt;? super Disposable&gt; onSubscribe) &#123;</span><br><span class="line">        super();</span><br><span class="line">        this.onNext = onNext;</span><br><span class="line">        this.onError = onError;</span><br><span class="line">        this.onComplete = onComplete;</span><br><span class="line">        this.onSubscribe = onSubscribe;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onSubscribe(Disposable s) &#123;</span><br><span class="line">        if (DisposableHelper.setOnce(this, s)) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                onSubscribe.accept(this);</span><br><span class="line">            &#125; catch (Throwable ex) &#123;</span><br><span class="line">                Exceptions.throwIfFatal(ex);</span><br><span class="line">                s.dispose();</span><br><span class="line">                onError(ex);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">    public void onNext(T t) &#123;</span><br><span class="line">        if (!isDisposed()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                onNext.accept(t);</span><br><span class="line">            &#125; catch (Throwable e) &#123;</span><br><span class="line">                Exceptions.throwIfFatal(e);</span><br><span class="line">                get().dispose();</span><br><span class="line">                onError(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     @Override</span><br><span class="line">    public void onError(Throwable t) &#123;</span><br><span class="line">        if (!isDisposed()) &#123;</span><br><span class="line">            lazySet(DisposableHelper.DISPOSED);</span><br><span class="line">            try &#123;</span><br><span class="line">                onError.accept(t);</span><br><span class="line">            &#125; catch (Throwable e) &#123;</span><br><span class="line">                Exceptions.throwIfFatal(e);</span><br><span class="line">                RxJavaPlugins.onError(new CompositeException(t, e));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onComplete() &#123;</span><br><span class="line">        if (!isDisposed()) &#123;</span><br><span class="line">            lazySet(DisposableHelper.DISPOSED);</span><br><span class="line">            try &#123;</span><br><span class="line">                onComplete.run();</span><br><span class="line">            &#125; catch (Throwable e) &#123;</span><br><span class="line">                Exceptions.throwIfFatal(e);</span><br><span class="line">                RxJavaPlugins.onError(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void dispose() &#123;</span><br><span class="line">        DisposableHelper.dispose(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean isDisposed() &#123;</span><br><span class="line">        return get() == DisposableHelper.DISPOSED;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看得出LambdaObserver是封装了一层，用来隔绝参数用。</p>
+<h4 id="2-subscribe-ls"><a href="#2-subscribe-ls" class="headerlink" title="//2  subscribe(ls)"></a>//2  subscribe(ls)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Observable&lt;T&gt; implements ObservableSource&lt;T&gt; &#123;</span><br><span class="line">......</span><br><span class="line"> public final void subscribe(Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(observer, &quot;observer is null&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            observer = RxJavaPlugins.onSubscribe(this, observer); //3</span><br><span class="line"></span><br><span class="line">            ObjectHelper.requireNonNull(observer, &quot;Plugin returned null Observer&quot;);</span><br><span class="line"></span><br><span class="line">            subscribeActual(observer); //4</span><br><span class="line">        &#125; catch (NullPointerException e) &#123; // NOPMD</span><br><span class="line">            throw e;</span><br><span class="line">        &#125; catch (Throwable e) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(e);</span><br><span class="line">            // can&apos;t call onError because no way to know if a Disposable has been set or not</span><br><span class="line">            // can&apos;t call onSubscribe because the call might have set a Subscription already</span><br><span class="line">            RxJavaPlugins.onError(e);</span><br><span class="line"></span><br><span class="line">            NullPointerException npe = new NullPointerException(&quot;Actually not, but can&apos;t throw other exceptions due to RS&quot;);</span><br><span class="line">            npe.initCause(e);</span><br><span class="line">            throw npe;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">protected abstract void subscribeActual(Observer&lt;? super T&gt; observer);</span><br><span class="line"></span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<h4 id="3-RxJavaPlugins-onSubscribe"><a href="#3-RxJavaPlugins-onSubscribe" class="headerlink" title="//3 RxJavaPlugins.onSubscribe"></a>//3 RxJavaPlugins.onSubscribe</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;T&gt; Observer&lt;? super T&gt; onSubscribe(@NonNull Observable&lt;T&gt; source, @NonNull Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">       BiFunction&lt;? super Observable, ? super Observer, ? extends Observer&gt; f = onObservableSubscribe;</span><br><span class="line">       if (f != null) &#123;</span><br><span class="line">           return apply(f, source, observer);</span><br><span class="line">       &#125;</span><br><span class="line">       return observer;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这里同样只原路返回observer，因为f为null。</p>
+<h4 id="4-subscribeActual-observer"><a href="#4-subscribeActual-observer" class="headerlink" title="//4 subscribeActual(observer)"></a>//4 subscribeActual(observer)</h4><p>追踪subscribeActual只是一个抽象方法。这时调用的是当初ObservableCreate里面实现的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected abstract void subscribeActual(Observer&lt;? super T&gt; observer);</span><br></pre></td></tr></table></figure></p>
+<p>ObservableCreate里面的实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public final class ObservableCreate&lt;T&gt; extends Observable&lt;T&gt; &#123;</span><br><span class="line">    final ObservableOnSubscribe&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    public ObservableCreate(ObservableOnSubscribe&lt;T&gt; source) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void subscribeActual(Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">        CreateEmitter&lt;T&gt; parent = new CreateEmitter&lt;T&gt;(observer); //1</span><br><span class="line">        observer.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            source.subscribe(parent);//2</span><br><span class="line">        &#125; catch (Throwable ex) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(ex);</span><br><span class="line">            parent.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-3-subscribeActual"><a href="#2-3-subscribeActual" class="headerlink" title="2.3 subscribeActual"></a>2.3 subscribeActual</h3><h4 id="1-CreateEmitter-lt-T-gt-parent-new-CreateEmitter-lt-T-gt-observer"><a href="#1-CreateEmitter-lt-T-gt-parent-new-CreateEmitter-lt-T-gt-observer" class="headerlink" title="//1 CreateEmitter &lt; T &gt; parent = new CreateEmitter&lt; T &gt;(observer);"></a>//1 CreateEmitter &lt; T &gt; parent = new CreateEmitter&lt; T &gt;(observer);</h4><p>注意上面，observer传入的对象其实就是LambdaObserver。这个CreateEmitter给LambdaObserver封装了一层<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">static final class CreateEmitter&lt;T&gt;</span><br><span class="line">    extends AtomicReference&lt;Disposable&gt;</span><br><span class="line">    implements ObservableEmitter&lt;T&gt;, Disposable &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        private static final long serialVersionUID = -3434801548987643227L;</span><br><span class="line"></span><br><span class="line">        final Observer&lt;? super T&gt; observer;</span><br><span class="line"></span><br><span class="line">        CreateEmitter(Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">            this.observer = observer;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">         @Override</span><br><span class="line">        public void onNext(T t) &#123;</span><br><span class="line">            if (t == null) &#123;</span><br><span class="line">                onError(new NullPointerException(&quot;onNext called with null. Null values are generally not allowed in 2.x operators and sources.&quot;));</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            if (!isDisposed()) &#123;</span><br><span class="line">                observer.onNext(t);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>observer.onSubscribe(parent);</p>
+<p>这里是传入系统默认值，这里为空，可以认为不起作用。</p>
+<h4 id="2-source-subscribe-parent"><a href="#2-source-subscribe-parent" class="headerlink" title="//2 source.subscribe(parent);"></a>//2 source.subscribe(parent);</h4><p>看到这个source没，这个是source当初new出来的对象并传进来的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">                e.onNext(1);</span><br><span class="line">                e.onNext(2);</span><br><span class="line">                e.onNext(3);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以在new ObservableOnSubscribe里面的subscribe调用的e.onNext就调用到了后来new Consumer里面的 accept方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Consumer&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">                mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">                Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>这一篇将讲下Rxjava2的操作符。在Rxjava里面最常用的是map操作符，接下来将从map入手分析。</p>
+<h2 id="1-map操作符的基本用法"><a href="#1-map操作符的基本用法" class="headerlink" title="1.map操作符的基本用法"></a>1.map操作符的基本用法</h2><p>这里按照国际惯例，先上map的基本用法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(new ObservableOnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void subscribe(@NonNull ObservableEmitter&lt;Integer&gt; e) throws Exception &#123;</span><br><span class="line">                e.onNext(1);</span><br><span class="line">                e.onNext(2);</span><br><span class="line">                e.onNext(3);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(new Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return &quot;This is result &quot; + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).subscribe(new Consumer&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">                mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">                Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-map源码跟踪"><a href="#2-map源码跟踪" class="headerlink" title="2.map源码跟踪"></a>2.map源码跟踪</h2><h4 id="2-1-map"><a href="#2-1-map" class="headerlink" title="2.1 map"></a>2.1 map</h4><p>跟踪map进去，进入Observable里面，你会发现同样有RxJavaPlugins.onAssembly这东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public final &lt;R&gt; Observable&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper) &#123;</span><br><span class="line">        ObjectHelper.requireNonNull(mapper, &quot;mapper is null&quot;);</span><br><span class="line">        return RxJavaPlugins.onAssembly(new ObservableMap&lt;T, R&gt;(this, mapper));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>RxJavaPlugins.onAssembly上文已经说过了，这次主要关注ObservableMap。<code>new ObservableMap&lt;T, R&gt;(this, mapper)</code>里面的this是create返回的Observable对象，mapper是你给的Function对象。</p>
+<h4 id="2-2-ObservableMap"><a href="#2-2-ObservableMap" class="headerlink" title="2.2 ObservableMap"></a>2.2 ObservableMap</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">public final class ObservableMap&lt;T, U&gt; extends AbstractObservableWithUpstream&lt;T, U&gt; &#123;</span><br><span class="line">    final Function&lt;? super T, ? extends U&gt; function;</span><br><span class="line"></span><br><span class="line">    public ObservableMap(ObservableSource&lt;T&gt; source, Function&lt;? super T, ? extends U&gt; function) &#123;</span><br><span class="line">        super(source);</span><br><span class="line">        this.function = function;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void subscribeActual(Observer&lt;? super U&gt; t) &#123; </span><br><span class="line">        source.subscribe(new MapObserver&lt;T, U&gt;(t, function));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    static final class MapObserver&lt;T, U&gt; extends BasicFuseableObserver&lt;T, U&gt; &#123;</span><br><span class="line">        final Function&lt;? super T, ? extends U&gt; mapper;</span><br><span class="line"></span><br><span class="line">        MapObserver(Observer&lt;? super U&gt; actual, Function&lt;? super T, ? extends U&gt; mapper) &#123;</span><br><span class="line">            super(actual);</span><br><span class="line">            this.mapper = mapper;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onNext(T t) &#123;</span><br><span class="line">            if (done) &#123; //默认done为false，跳过</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (sourceMode != NONE) &#123; //默认sourceMode 为0，跳过</span><br><span class="line">                actual.onNext(null);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            U v;</span><br><span class="line"></span><br><span class="line">            try &#123;</span><br><span class="line">                v = ObjectHelper.requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;);//1</span><br><span class="line">            &#125; catch (Throwable ex) &#123;</span><br><span class="line">                fail(ex);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            actual.onNext(v);//2</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public int requestFusion(int mode) &#123;</span><br><span class="line">            return transitiveBoundaryFusion(mode);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Nullable</span><br><span class="line">        @Override</span><br><span class="line">        public U poll() throws Exception &#123;</span><br><span class="line">            T t = qs.poll();</span><br><span class="line">            return t != null ? ObjectHelper.&lt;U&gt;requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;) : null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AbstractObservableWithUpstream"><a href="#AbstractObservableWithUpstream" class="headerlink" title="AbstractObservableWithUpstream"></a>AbstractObservableWithUpstream</h3><p>AbstractObservableWithUpstream是什么？它继承了Observable类，把ObservableSource对象保存了起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">abstract class AbstractObservableWithUpstream&lt;T, U&gt; extends Observable&lt;U&gt; implements HasUpstreamObservableSource&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    /** The source consumable Observable. */</span><br><span class="line">    protected final ObservableSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Constructs the ObservableSource with the given consumable.</span><br><span class="line">     * @param source the consumable Observable</span><br><span class="line">     */</span><br><span class="line">    AbstractObservableWithUpstream(ObservableSource&lt;T&gt; source) &#123;</span><br><span class="line">        this.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final ObservableSource&lt;T&gt; source() &#123;</span><br><span class="line">        return source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-mapper-apply-t"><a href="#1-mapper-apply-t" class="headerlink" title="//1 mapper.apply(t)"></a>//1 mapper.apply(t)</h4><p>在ObservableMap里面，subscribeActual，将完成上游Observable的订阅。MapObserver里面的mapper.apply(t)将上游的t转换成下游所需的U。这里怎么变换是你一开始时候就设定好的。这里我们当初传入map里面的Function如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">new Function&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String apply(@NonNull Integer integer) throws Exception &#123;</span><br><span class="line">                return &quot;This is result &quot; + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-actual-onNext-v"><a href="#2-actual-onNext-v" class="headerlink" title="//2 actual.onNext(v)"></a>//2 actual.onNext(v)</h4><p><code>actual.onNext(v);</code> 是交接给下游的Observer。actual对应本例就是当初create的对象，执行onNext方法就是执行当初自己定义的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Consumer&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void accept(@NonNull String s) throws Exception &#123;</span><br><span class="line">                mRxOperatorsText.append(&quot;accept : &quot; + s +&quot;\n&quot;);</span><br><span class="line">                Log.e(TAG, &quot;accept : &quot; + s +&quot;\n&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>至此，当初的<code>e.onNext(1)</code> 将得到响应。</p>
+<p>总结一下。订阅过程是最后一个Observable往上一个Observable订阅（本例中是MapObserver）。从最后一个Observable里面的subscribe有个subscribeActual方法调用，这个方法会一层层订阅，直至第一个Observable。然后触发第一个Observable的subscribe，这里面会触发数据流操作。在本例中，订阅至到第一个Observable的subscribe实现类，里面的<code>e.onNext(1);</code> 会触发数据一层层往下流，下一个是MapObserver对数据的操作，到最后的Observable。</p>
+<p>Rxjava2里面最惊艳的莫过于线程调度吗，下文将探讨一下线程调度的原理。</p>
+<h2 id="1-基本用法"><a href="#1-基本用法" class="headerlink" title="1. 基本用法"></a>1. 基本用法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable.create((ObservableOnSubscribe&lt;Integer&gt;) e -&gt; &#123; </span><br><span class="line">		e.onNext(1); </span><br><span class="line">		e.onNext(2); </span><br><span class="line">		e.onComplete(); &#125;)</span><br><span class="line">	.subscribeOn(Schedulers.io())</span><br><span class="line">	.observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">	.subscribe(</span><br><span class="line">		i -&gt; System.out.println(&quot;onNext : i= &quot; + i));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@CheckReturnValue</span><br><span class="line">   @SchedulerSupport(SchedulerSupport.CUSTOM)</span><br><span class="line">   public final Observable&lt;T&gt; observeOn(Scheduler scheduler) &#123;</span><br><span class="line">       return observeOn(scheduler, false, bufferSize());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@CheckReturnValue</span><br><span class="line">   @SchedulerSupport(SchedulerSupport.CUSTOM)</span><br><span class="line">   public final Observable&lt;T&gt; observeOn(Scheduler scheduler, boolean delayError, int bufferSize) &#123;</span><br><span class="line">       ObjectHelper.requireNonNull(scheduler, &quot;scheduler is null&quot;);</span><br><span class="line">       ObjectHelper.verifyPositive(bufferSize, &quot;bufferSize&quot;);</span><br><span class="line">       return RxJavaPlugins.onAssembly(new ObservableObserveOn&lt;T&gt;(this, scheduler, delayError, bufferSize));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@SuppressWarnings(&#123; &quot;rawtypes&quot;, &quot;unchecked&quot; &#125;)</span><br><span class="line">    @NonNull</span><br><span class="line">    public static &lt;T&gt; Observable&lt;T&gt; onAssembly(@NonNull Observable&lt;T&gt; source) &#123;</span><br><span class="line">        Function&lt;? super Observable, ? extends Observable&gt; f = onObservableAssembly;</span><br><span class="line">        if (f != null) &#123;</span><br><span class="line">            return apply(f, source);</span><br><span class="line">        &#125;</span><br><span class="line">        return source;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br></pre></td><td class="code"><pre><span class="line">public final class ObservableObserveOn&lt;T&gt; extends AbstractObservableWithUpstream&lt;T, T&gt; &#123;</span><br><span class="line">    final Scheduler scheduler;</span><br><span class="line">    final boolean delayError;</span><br><span class="line">    final int bufferSize;</span><br><span class="line"></span><br><span class="line">    public ObservableObserveOn(ObservableSource&lt;T&gt; source, Scheduler scheduler, boolean delayError, int bufferSize) &#123;</span><br><span class="line">        super(source);</span><br><span class="line">        this.scheduler = scheduler;</span><br><span class="line">        this.delayError = delayError;</span><br><span class="line">        this.bufferSize = bufferSize;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void subscribeActual(Observer&lt;? super T&gt; observer) &#123;</span><br><span class="line">        if (this.scheduler instanceof TrampolineScheduler) &#123;</span><br><span class="line">            this.source.subscribe(observer);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            Worker w = this.scheduler.createWorker();</span><br><span class="line">            this.source.subscribe(new ObservableObserveOn.ObserveOnObserver(observer, w, this.delayError, this.bufferSize));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class ObserveOnObserver&lt;T&gt; extends BasicIntQueueDisposable&lt;T&gt; implements Observer&lt;T&gt;, Runnable &#123;</span><br><span class="line">        private static final long serialVersionUID = 6576896619930983584L;</span><br><span class="line">        final Observer&lt;? super T&gt; actual;</span><br><span class="line">        final Worker worker;</span><br><span class="line">        final boolean delayError;</span><br><span class="line">        final int bufferSize;</span><br><span class="line">        SimpleQueue&lt;T&gt; queue;</span><br><span class="line">        Disposable s;</span><br><span class="line">        Throwable error;</span><br><span class="line">        volatile boolean done;</span><br><span class="line">        volatile boolean cancelled;</span><br><span class="line">        int sourceMode;</span><br><span class="line">        boolean outputFused;</span><br><span class="line"></span><br><span class="line">        ObserveOnObserver(Observer&lt;? super T&gt; actual, Worker worker, boolean delayError, int bufferSize) &#123;</span><br><span class="line">            this.actual = actual;</span><br><span class="line">            this.worker = worker;</span><br><span class="line">            this.delayError = delayError;</span><br><span class="line">            this.bufferSize = bufferSize;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void onSubscribe(Disposable s) &#123;</span><br><span class="line">            if (DisposableHelper.validate(this.s, s)) &#123;</span><br><span class="line">                this.s = s;</span><br><span class="line">                if (s instanceof QueueDisposable) &#123;</span><br><span class="line">                    QueueDisposable&lt;T&gt; qd = (QueueDisposable)s;</span><br><span class="line">                    int m = qd.requestFusion(7);</span><br><span class="line">                    if (m == 1) &#123;</span><br><span class="line">                        this.sourceMode = m;</span><br><span class="line">                        this.queue = qd;</span><br><span class="line">                        this.done = true;</span><br><span class="line">                        this.actual.onSubscribe(this);</span><br><span class="line">                        this.schedule();</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (m == 2) &#123;</span><br><span class="line">                        this.sourceMode = m;</span><br><span class="line">                        this.queue = qd;</span><br><span class="line">                        this.actual.onSubscribe(this);</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                this.queue = new SpscLinkedArrayQueue(this.bufferSize);</span><br><span class="line">                this.actual.onSubscribe(this);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void onNext(T t) &#123;</span><br><span class="line">            if (!this.done) &#123;</span><br><span class="line">                if (this.sourceMode != 2) &#123;</span><br><span class="line">                    this.queue.offer(t);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                this.schedule();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void onError(Throwable t) &#123;</span><br><span class="line">            if (this.done) &#123;</span><br><span class="line">                RxJavaPlugins.onError(t);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                this.error = t;</span><br><span class="line">                this.done = true;</span><br><span class="line">                this.schedule();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void onComplete() &#123;</span><br><span class="line">            if (!this.done) &#123;</span><br><span class="line">                this.done = true;</span><br><span class="line">                this.schedule();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            if (!this.cancelled) &#123;</span><br><span class="line">                this.cancelled = true;</span><br><span class="line">                this.s.dispose();</span><br><span class="line">                this.worker.dispose();</span><br><span class="line">                if (this.getAndIncrement() == 0) &#123;</span><br><span class="line">                    this.queue.clear();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return this.cancelled;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        void schedule() &#123;</span><br><span class="line">            if (this.getAndIncrement() == 0) &#123;</span><br><span class="line">                this.worker.schedule(this);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        void drainNormal() &#123;</span><br><span class="line">            int missed = 1;</span><br><span class="line">            SimpleQueue&lt;T&gt; q = this.queue;</span><br><span class="line">            Observer a = this.actual;</span><br><span class="line"></span><br><span class="line">            do &#123;</span><br><span class="line">                if (this.checkTerminated(this.done, q.isEmpty(), a)) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                while(true) &#123;</span><br><span class="line">                    boolean d = this.done;</span><br><span class="line"></span><br><span class="line">                    Object v;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        v = q.poll();</span><br><span class="line">                    &#125; catch (Throwable var7) &#123;</span><br><span class="line">                        Exceptions.throwIfFatal(var7);</span><br><span class="line">                        this.s.dispose();</span><br><span class="line">                        q.clear();</span><br><span class="line">                        a.onError(var7);</span><br><span class="line">                        this.worker.dispose();</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    boolean empty = v == null;</span><br><span class="line">                    if (this.checkTerminated(d, empty, a)) &#123;</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (empty) &#123;</span><br><span class="line">                        missed = this.addAndGet(-missed);</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    a.onNext(v);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; while(missed != 0);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        void drainFused() &#123;</span><br><span class="line">            int missed = 1;</span><br><span class="line"></span><br><span class="line">            do &#123;</span><br><span class="line">                if (this.cancelled) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                boolean d = this.done;</span><br><span class="line">                Throwable ex = this.error;</span><br><span class="line">                if (!this.delayError &amp;&amp; d &amp;&amp; ex != null) &#123;</span><br><span class="line">                    this.actual.onError(this.error);</span><br><span class="line">                    this.worker.dispose();</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                this.actual.onNext((Object)null);</span><br><span class="line">                if (d) &#123;</span><br><span class="line">                    ex = this.error;</span><br><span class="line">                    if (ex != null) &#123;</span><br><span class="line">                        this.actual.onError(ex);</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        this.actual.onComplete();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    this.worker.dispose();</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                missed = this.addAndGet(-missed);</span><br><span class="line">            &#125; while(missed != 0);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void run() &#123;</span><br><span class="line">            if (this.outputFused) &#123;</span><br><span class="line">                this.drainFused();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                this.drainNormal();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        boolean checkTerminated(boolean d, boolean empty, Observer&lt;? super T&gt; a) &#123;</span><br><span class="line">            if (this.cancelled) &#123;</span><br><span class="line">                this.queue.clear();</span><br><span class="line">                return true;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                if (d) &#123;</span><br><span class="line">                    Throwable e = this.error;</span><br><span class="line">                    if (this.delayError) &#123;</span><br><span class="line">                        if (empty) &#123;</span><br><span class="line">                            if (e != null) &#123;</span><br><span class="line">                                a.onError(e);</span><br><span class="line">                            &#125; else &#123;</span><br><span class="line">                                a.onComplete();</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            this.worker.dispose();</span><br><span class="line">                            return true;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        if (e != null) &#123;</span><br><span class="line">                            this.queue.clear();</span><br><span class="line">                            a.onError(e);</span><br><span class="line">                            this.worker.dispose();</span><br><span class="line">                            return true;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        if (empty) &#123;</span><br><span class="line">                            a.onComplete();</span><br><span class="line">                            this.worker.dispose();</span><br><span class="line">                            return true;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public int requestFusion(int mode) &#123;</span><br><span class="line">            if ((mode &amp; 2) != 0) &#123;</span><br><span class="line">                this.outputFused = true;</span><br><span class="line">                return 2;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Nullable</span><br><span class="line">        public T poll() throws Exception &#123;</span><br><span class="line">            return this.queue.poll();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void clear() &#123;</span><br><span class="line">            this.queue.clear();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public boolean isEmpty() &#123;</span><br><span class="line">            return this.queue.isEmpty();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AndroidSchedulers.mainThread()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public final class AndroidSchedulers &#123;</span><br><span class="line"></span><br><span class="line">    private static final class MainHolder &#123;</span><br><span class="line"></span><br><span class="line">        static final Scheduler DEFAULT = new HandlerScheduler(new Handler(Looper.getMainLooper()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static final Scheduler MAIN_THREAD = RxAndroidPlugins.initMainThreadScheduler(</span><br><span class="line">            new Callable&lt;Scheduler&gt;() &#123;</span><br><span class="line">                @Override public Scheduler call() throws Exception &#123;</span><br><span class="line">                    return MainHolder.DEFAULT;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">    /** A &#123;@link Scheduler&#125; which executes actions on the Android main thread. */</span><br><span class="line">    public static Scheduler mainThread() &#123;</span><br><span class="line">        return RxAndroidPlugins.onMainThreadScheduler(MAIN_THREAD);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /** A &#123;@link Scheduler&#125; which executes actions on &#123;@code looper&#125;. */</span><br><span class="line">    public static Scheduler from(Looper looper) &#123;</span><br><span class="line">        if (looper == null) throw new NullPointerException(&quot;looper == null&quot;);</span><br><span class="line">        return new HandlerScheduler(new Handler(looper));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private AndroidSchedulers() &#123;</span><br><span class="line">        throw new AssertionError(&quot;No instances.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public static Scheduler io() &#123;</span><br><span class="line">    return RxJavaPlugins.onIoScheduler(IO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@NonNull</span><br><span class="line">public static Scheduler onIoScheduler(@NonNull Scheduler defaultScheduler) &#123;</span><br><span class="line">    Function&lt;? super Scheduler, ? extends Scheduler&gt; f = onIoHandler;</span><br><span class="line">    if (f == null) &#123;</span><br><span class="line">        return defaultScheduler;</span><br><span class="line">    &#125;</span><br><span class="line">    return apply(f, defaultScheduler);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Scheduler &#123;</span><br><span class="line">    /**</span><br><span class="line">     * The tolerance for a clock drift in nanoseconds where the periodic scheduler will rebase.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * The associated system parameter, &#123;@code rx.scheduler.drift-tolerance&#125;, expects its value in minutes.</span><br><span class="line">     */</span><br><span class="line">    static final long CLOCK_DRIFT_TOLERANCE_NANOSECONDS;</span><br><span class="line">    static &#123;</span><br><span class="line">        CLOCK_DRIFT_TOLERANCE_NANOSECONDS = TimeUnit.MINUTES.toNanos(</span><br><span class="line">                Long.getLong(&quot;rx2.scheduler.drift-tolerance&quot;, 15));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Returns the clock drift tolerance in nanoseconds.</span><br><span class="line">     * &lt;p&gt;Related system property: &#123;@code rx2.scheduler.drift-tolerance&#125; in minutes</span><br><span class="line">     * @return the tolerance in nanoseconds</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    public static long clockDriftTolerance() &#123;</span><br><span class="line">        return CLOCK_DRIFT_TOLERANCE_NANOSECONDS;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Retrieves or creates a new &#123;@link Scheduler.Worker&#125; that represents serial execution of actions.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * When work is completed it should be unsubscribed using &#123;@link Scheduler.Worker#dispose()&#125;.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * Work on a &#123;@link Scheduler.Worker&#125; is guaranteed to be sequential.</span><br><span class="line">     *</span><br><span class="line">     * @return a Worker representing a serial queue of actions to be executed</span><br><span class="line">     */</span><br><span class="line">    @NonNull</span><br><span class="line">    public abstract Worker createWorker();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Returns the &apos;current time&apos; of the Scheduler in the specified time unit.</span><br><span class="line">     * @param unit the time unit</span><br><span class="line">     * @return the &apos;current time&apos;</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    public long now(@NonNull TimeUnit unit) &#123;</span><br><span class="line">        return unit.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Allows the Scheduler instance to start threads</span><br><span class="line">     * and accept tasks on them.</span><br><span class="line">     * &lt;p&gt;Implementations should make sure the call is idempotent and thread-safe.</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    public void start() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Instructs the Scheduler instance to stop threads</span><br><span class="line">     * and stop accepting tasks on any outstanding Workers.</span><br><span class="line">     * &lt;p&gt;Implementations should make sure the call is idempotent and thread-safe.</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    public void shutdown() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Schedules the given task on this scheduler non-delayed execution.</span><br><span class="line">     *</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * This method is safe to be called from multiple threads but there are no</span><br><span class="line">     * ordering guarantees between tasks.</span><br><span class="line">     *</span><br><span class="line">     * @param run the task to execute</span><br><span class="line">     *</span><br><span class="line">     * @return the Disposable instance that let&apos;s one cancel this particular task.</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    @NonNull</span><br><span class="line">    public Disposable scheduleDirect(@NonNull Runnable run) &#123;</span><br><span class="line">        return scheduleDirect(run, 0L, TimeUnit.NANOSECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Schedules the execution of the given task with the given delay amount.</span><br><span class="line">     *</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * This method is safe to be called from multiple threads but there are no</span><br><span class="line">     * ordering guarantees between tasks.</span><br><span class="line">     *</span><br><span class="line">     * @param run the task to schedule</span><br><span class="line">     * @param delay the delay amount, non-positive values indicate non-delayed scheduling</span><br><span class="line">     * @param unit the unit of measure of the delay amount</span><br><span class="line">     * @return the Disposable that let&apos;s one cancel this particular delayed task.</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    @NonNull</span><br><span class="line">    public Disposable scheduleDirect(@NonNull Runnable run, long delay, @NonNull TimeUnit unit) &#123;</span><br><span class="line">        final Worker w = createWorker();</span><br><span class="line"></span><br><span class="line">        final Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        DisposeTask task = new DisposeTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">        w.schedule(task, delay, unit);</span><br><span class="line"></span><br><span class="line">        return task;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Schedules a periodic execution of the given task with the given initial delay and period.</span><br><span class="line">     *</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * This method is safe to be called from multiple threads but there are no</span><br><span class="line">     * ordering guarantees between tasks.</span><br><span class="line">     *</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * The periodic execution is at a fixed rate, that is, the first execution will be after the initial</span><br><span class="line">     * delay, the second after initialDelay + period, the third after initialDelay + 2 * period, and so on.</span><br><span class="line">     *</span><br><span class="line">     * @param run the task to schedule</span><br><span class="line">     * @param initialDelay the initial delay amount, non-positive values indicate non-delayed scheduling</span><br><span class="line">     * @param period the period at which the task should be re-executed</span><br><span class="line">     * @param unit the unit of measure of the delay amount</span><br><span class="line">     * @return the Disposable that let&apos;s one cancel this particular delayed task.</span><br><span class="line">     * @since 2.0</span><br><span class="line">     */</span><br><span class="line">    @NonNull</span><br><span class="line">    public Disposable schedulePeriodicallyDirect(@NonNull Runnable run, long initialDelay, long period, @NonNull TimeUnit unit) &#123;</span><br><span class="line">        final Worker w = createWorker();</span><br><span class="line"></span><br><span class="line">        final Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        PeriodicDirectTask periodicTask = new PeriodicDirectTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">        Disposable d = w.schedulePeriodically(periodicTask, initialDelay, period, unit);</span><br><span class="line">        if (d == EmptyDisposable.INSTANCE) &#123;</span><br><span class="line">            return d;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return periodicTask;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Allows the use of operators for controlling the timing around when</span><br><span class="line">     * actions scheduled on workers are actually done. This makes it possible to</span><br><span class="line">     * layer additional behavior on this &#123;@link Scheduler&#125;. The only parameter</span><br><span class="line">     * is a function that flattens an &#123;@link Flowable&#125; of &#123;@link Flowable&#125;</span><br><span class="line">     * of &#123;@link Completable&#125;s into just one &#123;@link Completable&#125;. There must be</span><br><span class="line">     * a chain of operators connecting the returned value to the source</span><br><span class="line">     * &#123;@link Flowable&#125; otherwise any work scheduled on the returned</span><br><span class="line">     * &#123;@link Scheduler&#125; will not be executed.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * When &#123;@link Scheduler#createWorker()&#125; is invoked a &#123;@link Flowable&#125; of</span><br><span class="line">     * &#123;@link Completable&#125;s is onNext&apos;d to the combinator to be flattened. If</span><br><span class="line">     * the inner &#123;@link Flowable&#125; is not immediately subscribed to an calls to</span><br><span class="line">     * &#123;@link Worker#schedule&#125; are buffered. Once the &#123;@link Flowable&#125; is</span><br><span class="line">     * subscribed to actions are then onNext&apos;d as &#123;@link Completable&#125;s.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * Finally the actions scheduled on the parent &#123;@link Scheduler&#125; when the</span><br><span class="line">     * inner most &#123;@link Completable&#125;s are subscribed to.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * When the &#123;@link Worker&#125; is unsubscribed the &#123;@link Completable&#125; emits an</span><br><span class="line">     * onComplete and triggers any behavior in the flattening operator. The</span><br><span class="line">     * &#123;@link Flowable&#125; and all &#123;@link Completable&#125;s give to the flattening</span><br><span class="line">     * function never onError.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * Limit the amount concurrency two at a time without creating a new fix</span><br><span class="line">     * size thread pool:</span><br><span class="line">     * </span><br><span class="line">     * &lt;pre&gt;</span><br><span class="line">     * Scheduler limitScheduler = Schedulers.computation().when(workers -&gt; &#123;</span><br><span class="line">     *  // use merge max concurrent to limit the number of concurrent</span><br><span class="line">     *  // callbacks two at a time</span><br><span class="line">     *  return Completable.merge(Flowable.merge(workers), 2);</span><br><span class="line">     * &#125;);</span><br><span class="line">     * &lt;/pre&gt;</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * This is a slightly different way to limit the concurrency but it has some</span><br><span class="line">     * interesting benefits and drawbacks to the method above. It works by</span><br><span class="line">     * limited the number of concurrent &#123;@link Worker&#125;s rather than individual</span><br><span class="line">     * actions. Generally each &#123;@link Flowable&#125; uses its own &#123;@link Worker&#125;.</span><br><span class="line">     * This means that this will essentially limit the number of concurrent</span><br><span class="line">     * subscribes. The danger comes from using operators like</span><br><span class="line">     * &#123;@link Flowable#zip(org.reactivestreams.Publisher, org.reactivestreams.Publisher, io.reactivex.functions.BiFunction)&#125; where</span><br><span class="line">     * subscribing to the first &#123;@link Flowable&#125; could deadlock the</span><br><span class="line">     * subscription to the second.</span><br><span class="line">     * </span><br><span class="line">     * &lt;pre&gt;</span><br><span class="line">     * Scheduler limitScheduler = Schedulers.computation().when(workers -&gt; &#123;</span><br><span class="line">     *  // use merge max concurrent to limit the number of concurrent</span><br><span class="line">     *  // Flowables two at a time</span><br><span class="line">     *  return Completable.merge(Flowable.merge(workers, 2));</span><br><span class="line">     * &#125;);</span><br><span class="line">     * &lt;/pre&gt;</span><br><span class="line">     * </span><br><span class="line">     * Slowing down the rate to no more than than 1 a second. This suffers from</span><br><span class="line">     * the same problem as the one above I could find an &#123;@link Flowable&#125;</span><br><span class="line">     * operator that limits the rate without dropping the values (aka leaky</span><br><span class="line">     * bucket algorithm).</span><br><span class="line">     * </span><br><span class="line">     * &lt;pre&gt;</span><br><span class="line">     * Scheduler slowScheduler = Schedulers.computation().when(workers -&gt; &#123;</span><br><span class="line">     *  // use concatenate to make each worker happen one at a time.</span><br><span class="line">     *  return Completable.concat(workers.map(actions -&gt; &#123;</span><br><span class="line">     *      // delay the starting of the next worker by 1 second.</span><br><span class="line">     *      return Completable.merge(actions.delaySubscription(1, TimeUnit.SECONDS));</span><br><span class="line">     *  &#125;));</span><br><span class="line">     * &#125;);</span><br><span class="line">     * &lt;/pre&gt;</span><br><span class="line">     * </span><br><span class="line">     * &lt;p&gt;History: 2.0.1 - experimental</span><br><span class="line">     * @param &lt;S&gt; a Scheduler and a Subscription</span><br><span class="line">     * @param combine the function that takes a two-level nested Flowable sequence of a Completable and returns</span><br><span class="line">     * the Completable that will be subscribed to and should trigger the execution of the scheduled Actions.</span><br><span class="line">     * @return the Scheduler with the customized execution behavior</span><br><span class="line">     * @since 2.1</span><br><span class="line">     */</span><br><span class="line">    @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">    @NonNull</span><br><span class="line">    public &lt;S extends Scheduler &amp; Disposable&gt; S when(@NonNull Function&lt;Flowable&lt;Flowable&lt;Completable&gt;&gt;, Completable&gt; combine) &#123;</span><br><span class="line">        return (S) new SchedulerWhen(combine, this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Sequential Scheduler for executing actions on a single thread or event loop.</span><br><span class="line">     * &lt;p&gt;</span><br><span class="line">     * Disposing the &#123;@link Worker&#125; cancels all outstanding work and allows resource cleanup.</span><br><span class="line">     */</span><br><span class="line">    public abstract static class Worker implements Disposable &#123;</span><br><span class="line">        /**</span><br><span class="line">         * Schedules a Runnable for execution without delay.</span><br><span class="line">         *</span><br><span class="line">         * &lt;p&gt;The default implementation delegates to &#123;@link #schedule(Runnable, long, TimeUnit)&#125;.</span><br><span class="line">         *</span><br><span class="line">         * @param run</span><br><span class="line">         *            Runnable to schedule</span><br><span class="line">         * @return a Disposable to be able to unsubscribe the action (cancel it if not executed)</span><br><span class="line">         */</span><br><span class="line">        @NonNull</span><br><span class="line">        public Disposable schedule(@NonNull Runnable run) &#123;</span><br><span class="line">            return schedule(run, 0L, TimeUnit.NANOSECONDS);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Schedules an Runnable for execution at some point in the future.</span><br><span class="line">         * &lt;p&gt;</span><br><span class="line">         * Note to implementors: non-positive &#123;@code delayTime&#125; should be regarded as non-delayed schedule, i.e.,</span><br><span class="line">         * as if the &#123;@link #schedule(Runnable)&#125; was called.</span><br><span class="line">         *</span><br><span class="line">         * @param run</span><br><span class="line">         *            the Runnable to schedule</span><br><span class="line">         * @param delay</span><br><span class="line">         *            time to wait before executing the action; non-positive values indicate an non-delayed</span><br><span class="line">         *            schedule</span><br><span class="line">         * @param unit</span><br><span class="line">         *            the time unit of &#123;@code delayTime&#125;</span><br><span class="line">         * @return a Disposable to be able to unsubscribe the action (cancel it if not executed)</span><br><span class="line">         */</span><br><span class="line">        @NonNull</span><br><span class="line">        public abstract Disposable schedule(@NonNull Runnable run, long delay, @NonNull TimeUnit unit);</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Schedules a cancelable action to be executed periodically. This default implementation schedules</span><br><span class="line">         * recursively and waits for actions to complete (instead of potentially executing long-running actions</span><br><span class="line">         * concurrently). Each scheduler that can do periodic scheduling in a better way should override this.</span><br><span class="line">         * &lt;p&gt;</span><br><span class="line">         * Note to implementors: non-positive &#123;@code initialTime&#125; and &#123;@code period&#125; should be regarded as</span><br><span class="line">         * non-delayed scheduling of the first and any subsequent executions.</span><br><span class="line">         *</span><br><span class="line">         * @param run</span><br><span class="line">         *            the Runnable to execute periodically</span><br><span class="line">         * @param initialDelay</span><br><span class="line">         *            time to wait before executing the action for the first time; non-positive values indicate</span><br><span class="line">         *            an non-delayed schedule</span><br><span class="line">         * @param period</span><br><span class="line">         *            the time interval to wait each time in between executing the action; non-positive values</span><br><span class="line">         *            indicate no delay between repeated schedules</span><br><span class="line">         * @param unit</span><br><span class="line">         *            the time unit of &#123;@code period&#125;</span><br><span class="line">         * @return a Disposable to be able to unsubscribe the action (cancel it if not executed)</span><br><span class="line">         */</span><br><span class="line">        @NonNull</span><br><span class="line">        public Disposable schedulePeriodically(@NonNull Runnable run, final long initialDelay, final long period, @NonNull final TimeUnit unit) &#123;</span><br><span class="line">            final SequentialDisposable first = new SequentialDisposable();</span><br><span class="line"></span><br><span class="line">            final SequentialDisposable sd = new SequentialDisposable(first);</span><br><span class="line"></span><br><span class="line">            final Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">            final long periodInNanoseconds = unit.toNanos(period);</span><br><span class="line">            final long firstNowNanoseconds = now(TimeUnit.NANOSECONDS);</span><br><span class="line">            final long firstStartInNanoseconds = firstNowNanoseconds + unit.toNanos(initialDelay);</span><br><span class="line"></span><br><span class="line">            Disposable d = schedule(new PeriodicTask(firstStartInNanoseconds, decoratedRun, firstNowNanoseconds, sd,</span><br><span class="line">                    periodInNanoseconds), initialDelay, unit);</span><br><span class="line"></span><br><span class="line">            if (d == EmptyDisposable.INSTANCE) &#123;</span><br><span class="line">                return d;</span><br><span class="line">            &#125;</span><br><span class="line">            first.replace(d);</span><br><span class="line"></span><br><span class="line">            return sd;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Returns the &apos;current time&apos; of the Worker in the specified time unit.</span><br><span class="line">         * @param unit the time unit</span><br><span class="line">         * @return the &apos;current time&apos;</span><br><span class="line">         * @since 2.0</span><br><span class="line">         */</span><br><span class="line">        public long now(@NonNull TimeUnit unit) &#123;</span><br><span class="line">            return unit.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * Holds state and logic to calculate when the next delayed invocation</span><br><span class="line">         * of this task has to happen (accounting for clock drifts).</span><br><span class="line">         */</span><br><span class="line">        final class PeriodicTask implements Runnable &#123;</span><br><span class="line">            @NonNull</span><br><span class="line">            final Runnable decoratedRun;</span><br><span class="line">            @NonNull</span><br><span class="line">            final SequentialDisposable sd;</span><br><span class="line">            final long periodInNanoseconds;</span><br><span class="line">            long count;</span><br><span class="line">            long lastNowNanoseconds;</span><br><span class="line">            long startInNanoseconds;</span><br><span class="line"></span><br><span class="line">            PeriodicTask(long firstStartInNanoseconds, @NonNull Runnable decoratedRun,</span><br><span class="line">                    long firstNowNanoseconds, @NonNull SequentialDisposable sd, long periodInNanoseconds) &#123;</span><br><span class="line">                this.decoratedRun = decoratedRun;</span><br><span class="line">                this.sd = sd;</span><br><span class="line">                this.periodInNanoseconds = periodInNanoseconds;</span><br><span class="line">                lastNowNanoseconds = firstNowNanoseconds;</span><br><span class="line">                startInNanoseconds = firstStartInNanoseconds;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                decoratedRun.run();</span><br><span class="line"></span><br><span class="line">                if (!sd.isDisposed()) &#123;</span><br><span class="line"></span><br><span class="line">                    long nextTick;</span><br><span class="line"></span><br><span class="line">                    long nowNanoseconds = now(TimeUnit.NANOSECONDS);</span><br><span class="line">                    // If the clock moved in a direction quite a bit, rebase the repetition period</span><br><span class="line">                    if (nowNanoseconds + CLOCK_DRIFT_TOLERANCE_NANOSECONDS &lt; lastNowNanoseconds</span><br><span class="line">                            || nowNanoseconds &gt;= lastNowNanoseconds + periodInNanoseconds + CLOCK_DRIFT_TOLERANCE_NANOSECONDS) &#123;</span><br><span class="line">                        nextTick = nowNanoseconds + periodInNanoseconds;</span><br><span class="line">                        /*</span><br><span class="line">                         * Shift the start point back by the drift as if the whole thing</span><br><span class="line">                         * started count periods ago.</span><br><span class="line">                         */</span><br><span class="line">                        startInNanoseconds = nextTick - (periodInNanoseconds * (++count));</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        nextTick = startInNanoseconds + (++count * periodInNanoseconds);</span><br><span class="line">                    &#125;</span><br><span class="line">                    lastNowNanoseconds = nowNanoseconds;</span><br><span class="line"></span><br><span class="line">                    long delay = nextTick - nowNanoseconds;</span><br><span class="line">                    sd.replace(schedule(this, delay, TimeUnit.NANOSECONDS));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class PeriodicDirectTask</span><br><span class="line">    implements Runnable, Disposable &#123;</span><br><span class="line">        final Runnable run;</span><br><span class="line">        @NonNull</span><br><span class="line">        final Worker worker;</span><br><span class="line">        @NonNull</span><br><span class="line">        volatile boolean disposed;</span><br><span class="line"></span><br><span class="line">        PeriodicDirectTask(@NonNull Runnable run, @NonNull Worker worker) &#123;</span><br><span class="line">            this.run = run;</span><br><span class="line">            this.worker = worker;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            if (!disposed) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    run.run();</span><br><span class="line">                &#125; catch (Throwable ex) &#123;</span><br><span class="line">                    Exceptions.throwIfFatal(ex);</span><br><span class="line">                    worker.dispose();</span><br><span class="line">                    throw ExceptionHelper.wrapOrThrow(ex);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            disposed = true;</span><br><span class="line">            worker.dispose();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return disposed;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static final class DisposeTask implements Runnable, Disposable &#123;</span><br><span class="line">        final Runnable decoratedRun;</span><br><span class="line">        final Worker w;</span><br><span class="line"></span><br><span class="line">        Thread runner;</span><br><span class="line"></span><br><span class="line">        DisposeTask(Runnable decoratedRun, Worker w) &#123;</span><br><span class="line">            this.decoratedRun = decoratedRun;</span><br><span class="line">            this.w = w;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            runner = Thread.currentThread();</span><br><span class="line">            try &#123;</span><br><span class="line">                decoratedRun.run();</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                dispose();</span><br><span class="line">                runner = null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void dispose() &#123;</span><br><span class="line">            if (runner == Thread.currentThread() &amp;&amp; w instanceof NewThreadWorker) &#123;</span><br><span class="line">                ((NewThreadWorker)w).shutdown();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                w.dispose();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public boolean isDisposed() &#123;</span><br><span class="line">            return w.isDisposed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Okloong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/" title="Rxjava2源码分析">http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rxjava/" rel="tag"># Rxjava</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/06/1_Android/tools/Android_Annotation/" rel="next" title="Android注解">
+                <i class="fa fa-chevron-left"></i> Android注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt"></span>
+<a class="jiathis_button_tsina"></a>
+<a class="jiathis_button_tqq"></a>
+<a class="jiathis_button_weixin"></a>
+<a class="jiathis_button_cqq"></span>
+<a class="jiathis_button_qzone"></a>
+<a class="jiathis_button_douban"></a>
+<a class="jiathis_button_fav"></a>
+<a class="jiathis_button_copy"></a>
+<a class="jiathis_button_email"></a>
+<a class="jiathis_button_share"></a>
+
+
+<a href="http://www.jiathis.com/share?uid=2147773" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2147773" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTYwNC84MTY4"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/im.jpg"
+                alt="Okloong" />
+            
+              <p class="site-author-name" itemprop="name">Okloong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/loongX" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://blog.csdn.net/loongago?viewmode=list" target="_blank" title="CSDN">
+                    
+                      <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、基本用法"><span class="nav-text">1、基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、原理探究"><span class="nav-text">2、原理探究</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Observable-create"><span class="nav-text">2.1 Observable.create</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#onAssembly"><span class="nav-text">onAssembly</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-onObservableAssembly"><span class="nav-text">//1 onObservableAssembly</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-observable-subscribe-consumer"><span class="nav-text">2.2 observable.subscribe(consumer)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-LambdaObserver"><span class="nav-text">//1 LambdaObserver</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-subscribe-ls"><span class="nav-text">//2  subscribe(ls)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-RxJavaPlugins-onSubscribe"><span class="nav-text">//3 RxJavaPlugins.onSubscribe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-subscribeActual-observer"><span class="nav-text">//4 subscribeActual(observer)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-subscribeActual"><span class="nav-text">2.3 subscribeActual</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-CreateEmitter-lt-T-gt-parent-new-CreateEmitter-lt-T-gt-observer"><span class="nav-text">//1 CreateEmitter &lt; T &gt; parent = new CreateEmitter&lt; T &gt;(observer);</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-source-subscribe-parent"><span class="nav-text">//2 source.subscribe(parent);</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-map操作符的基本用法"><span class="nav-text">1.map操作符的基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-map源码跟踪"><span class="nav-text">2.map源码跟踪</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-map"><span class="nav-text">2.1 map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-ObservableMap"><span class="nav-text">2.2 ObservableMap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AbstractObservableWithUpstream"><span class="nav-text">AbstractObservableWithUpstream</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-mapper-apply-t"><span class="nav-text">//1 mapper.apply(t)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-actual-onNext-v"><span class="nav-text">//2 actual.onNext(v)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本用法"><span class="nav-text">1. 基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#observeOn"><span class="nav-text">observeOn</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Okloong</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

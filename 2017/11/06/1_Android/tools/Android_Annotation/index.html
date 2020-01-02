@@ -6,12 +6,14 @@
   <meta name="keywords" content=" Annotation ">
   <meta name="description" content="Android注解 | OKloong的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="关于我 Android程序猿一枚 关于博客    认知的过程是由浅入深，知识体系也是由小到大的。每一次写文章都是建立在过去认知里写的，过去的认知可能不完善，而我的认知又会随着时间发展而变化的。鉴于这两者原因，我不认为我的博客一开始写就能一次性写好，就如学习的过程是循序渐进的，所以本博客将采用迭代的形式进行，您看到的每一篇文章都有可能不是它的终章。而我将为其作为知识库长期维护。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="https://okloong.com/categories/index.html">
+<meta property="og:title" content="About me">
+<meta property="og:url" content="https://okloong.com/about/index.html">
 <meta property="og:site_name" content="OKloong的博客">
-<meta property="article:published_time" content="2017-10-31T02:36:29.000Z">
-<meta property="article:modified_time" content="2018-07-26T16:06:25.350Z">
+<meta property="og:description" content="关于我 Android程序猿一枚 关于博客    认知的过程是由浅入深，知识体系也是由小到大的。每一次写文章都是建立在过去认知里写的，过去的认知可能不完善，而我的认知又会随着时间发展而变化的。鉴于这两者原因，我不认为我的博客一开始写就能一次性写好，就如学习的过程是循序渐进的，所以本博客将采用迭代的形式进行，您看到的每一篇文章都有可能不是它的终章。而我将为其作为知识库长期维护。">
+<meta property="article:published_time" content="2017-09-21T16:41:10.000Z">
+<meta property="article:modified_time" content="2018-07-26T16:06:25.348Z">
 <meta property="article:author" content="Okloong">
 <meta name="twitter:card" content="summary">
 
@@ -109,7 +111,7 @@
     
         
             
-            <li><div data-rel="web">web<small>(1)</small></div>
+            <li><div data-rel="综合">综合<small>(1)</small></div>
                 
             </li>
             
@@ -117,7 +119,7 @@
     
         
             
-            <li><div data-rel="综合">综合<small>(1)</small></div>
+            <li><div data-rel="web">web<small>(1)</small></div>
                 
             </li>
             
@@ -330,32 +332,234 @@
 <p>（4）@Document：说明该注解将被包含在javadoc中</p>
 <p>（5）@Inherited：允许子类可以继承父类中的该注解</p>
 <h2 id="运行时注解"><a href="#运行时注解" class="headerlink" title="运行时注解"></a>运行时注解</h2><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><h4 id="参数注解"><a href="#参数注解" class="headerlink" title="参数注解"></a>参数注解</h4><p>下面将用注解实现了一个findViewById功能。</p>
-<h5 id="（1）-定义注解"><a href="#（1）-定义注解" class="headerlink" title="（1） 定义注解"></a>（1） 定义注解</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ViewInject &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* parent view id */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">parentId</span><span class="params">()</span> <span class="keyword">default</span> 0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="（2）-定义注解处理"><a href="#（2）-定义注解处理" class="headerlink" title="（2） 定义注解处理"></a>（2） 定义注解处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ViewUtils</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inject</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        injectObject(activity, <span class="keyword">new</span> ViewFinder(activity));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"ConstantConditions"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectObject</span><span class="params">(Object handler, ViewFinder finder)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Class&lt;?&gt; handlerType = handler.getClass();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// inject view</span></span><br><span class="line">        Field[] fields = handlerType.getDeclaredFields();</span><br><span class="line">        <span class="keyword">if</span> (fields != <span class="keyword">null</span> &amp;&amp; fields.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">                ViewInject viewInject = field.getAnnotation(ViewInject<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">                <span class="keyword">if</span> (viewInject != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        View view = finder.findViewById(viewInject.value(), viewInject.parentId());</span><br><span class="line">                        <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">                            field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                            field.set(handler, view);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（1）-定义注解"><a href="#（1）-定义注解" class="headerlink" title="（1） 定义注解"></a>（1） 定义注解</h5><pre><code class="Java">package com.example.basedemo.annotation.diy;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewFinder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Activity activity;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ViewFinder</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.activity = activity;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">findViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  activity.findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">findViewById</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> pid)</span> </span>&#123;</span><br><span class="line">        View pView = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            pView = <span class="keyword">this</span>.findViewById(pid);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        View view = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (pView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            view = pView.findViewById(id);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            view = <span class="keyword">this</span>.findViewById(id);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ViewInject {
 
+    int value();
+
+    /* parent view id */
+    int parentId() default 0;
+}</code></pre>
+<h5 id="（2）-定义注解处理"><a href="#（2）-定义注解处理" class="headerlink" title="（2） 定义注解处理"></a>（2） 定义注解处理</h5><pre><code class="Java">public class ViewUtils {
+
+    private ViewUtils() {
+    }
+
+    public static void inject(Activity activity) {
+        injectObject(activity, new ViewFinder(activity));
+    }
+
+    @SuppressWarnings(&quot;ConstantConditions&quot;)
+    private static void injectObject(Object handler, ViewFinder finder) {
+
+        Class&lt;?&gt; handlerType = handler.getClass();
+
+        // inject view
+        Field[] fields = handlerType.getDeclaredFields();
+        if (fields != null &amp;&amp; fields.length &gt; 0) {
+            for (Field field : fields) {
+                ViewInject viewInject = field.getAnnotation(ViewInject.class);
+                if (viewInject != null) {
+                    try {
+                        View view = finder.findViewById(viewInject.value(), viewInject.parentId());
+                        if (view != null) {
+                            field.setAccessible(true);
+                            field.set(handler, view);
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+    }
+
+}</code></pre>
+<pre><code class="Java">public class ViewFinder {
+
+
+    private Activity activity;
+
+
+    public ViewFinder(Activity activity) {
+        this.activity = activity;
+    }
+
+    public View findViewById(int id) {
+        return  activity.findViewById(id);
+    }
+
+    public View findViewById(int id, int pid) {
+        View pView = null;
+        if (pid &gt; 0) {
+            pView = this.findViewById(pid);
+        }
+
+        View view = null;
+        if (pView != null) {
+            view = pView.findViewById(id);
+        } else {
+            view = this.findViewById(id);
+        }
+        return view;
+    }
+
+
+}
+</code></pre>
 <h5 id="（3）-注解的使用"><a href="#（3）-注解的使用" class="headerlink" title="（3） 注解的使用"></a>（3） 注解的使用</h5><p>这是activity里面的调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DIYAnnotationActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewInject</span>(R.id.textView)</span><br><span class="line">    <span class="keyword">private</span> TextView textView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_annotation);</span><br><span class="line">        <span class="comment">//调用</span></span><br><span class="line">        ViewUtils.inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                textView.setText(<span class="string">"成功了！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="Java">
+public class DIYAnnotationActivity extends AppCompatActivity {
+
+
+    @ViewInject(R.id.textView)
+    private TextView textView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_annotation);
+        //调用
+        ViewUtils.inject(this);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText(&quot;成功了！&quot;);
+            }
+        });
+
+    }
+
+
+}</code></pre>
 <p>布局文件比较简单就不罗列了。这里可以看出，反射用法过程是：定义注解–定义注解处理方法–调用。</p>
 <h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>下面将在原有的基础上添加点击事件注解。</p>
 <h5 id="（1）定义注解"><a href="#（1）定义注解" class="headerlink" title="（1）定义注解"></a>（1）定义注解</h5><p>定义一个onclick声明</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> OnClick &#123;</span><br><span class="line">    <span class="keyword">int</span>[] value();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span>[] parentId() <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="Java">package com.example.basedemo.annotation.diy;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface OnClick {
+    int[] value();
+
+    int[] parentId() default 0;
+}
+</code></pre>
 <h5 id="（2）定义注解处理"><a href="#（2）定义注解处理" class="headerlink" title="（2）定义注解处理"></a>（2）定义注解处理</h5><p>然后在ViewUtils里声明多一个方法。这是用了Java的动态代理方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewUtils</span> </span>&#123;</span><br><span class="line">    ......省略</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inject</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        injectObject(activity, <span class="keyword">new</span> ViewFinder(activity));</span><br><span class="line">        injectEvent(activity);</span><br><span class="line">    &#125;</span><br><span class="line">	......省略</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectEvent</span><span class="params">(<span class="keyword">final</span> Activity activity)</span> </span>&#123;</span><br><span class="line">        Class&lt;? extends Activity&gt; clazz = activity.getClass();</span><br><span class="line">        Method[] methods = clazz.getDeclaredMethods();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">final</span> Method methodY : methods) &#123;</span><br><span class="line">            OnClick click = methodY.getAnnotation(OnClick<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            <span class="keyword">if</span> (click != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span>[] viewId = click.value();</span><br><span class="line">                methodY.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                Object listener = Proxy.newProxyInstance(View.OnClickListener<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>(),</span></span><br><span class="line">                        new Class[]&#123;View.OnClickListener.class&#125;, new InvocationHandler() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                                <span class="keyword">return</span> methodY.invoke(activity, args);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> id : viewId) &#123;</span><br><span class="line">                        View v = activity.findViewById(id);</span><br><span class="line">                        Method setClickListener = v.getClass().getMethod(<span class="string">"setOnClickListener"</span>, View.OnClickListener<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">                        setClickListener.invoke(v, listener);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="Java">public class ViewUtils {
+    ......省略
+    public static void inject(Activity activity) {
+        injectObject(activity, new ViewFinder(activity));
+        injectEvent(activity);
+    }
+    ......省略
+    private static void injectEvent(final Activity activity) {
+        Class&lt;? extends Activity&gt; clazz = activity.getClass();
+        Method[] methods = clazz.getDeclaredMethods();
+        for (final Method methodY : methods) {
+            OnClick click = methodY.getAnnotation(OnClick.class);
+            if (click != null) {
 
-<h5 id="（3）在activity里面调用"><a href="#（3）在activity里面调用" class="headerlink" title="（3）在activity里面调用"></a>（3）在activity里面调用</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@OnClick</span>(R.id.tb_2)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">       textView.setText(<span class="string">"你按了button2"</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+                int[] viewId = click.value();
+                methodY.setAccessible(true);
+                Object listener = Proxy.newProxyInstance(View.OnClickListener.class.getClassLoader(),
+                        new Class[]{View.OnClickListener.class}, new InvocationHandler() {
+                            @Override
+                            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                                return methodY.invoke(activity, args);
+                            }
+                        });
 
-
+                try {
+                    for (int id : viewId) {
+                        View v = activity.findViewById(id);
+                        Method setClickListener = v.getClass().getMethod(&quot;setOnClickListener&quot;, View.OnClickListener.class);
+                        setClickListener.invoke(v, listener);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+ }</code></pre>
+<h5 id="（3）在activity里面调用"><a href="#（3）在activity里面调用" class="headerlink" title="（3）在activity里面调用"></a>（3）在activity里面调用</h5><pre><code class="Java">    @OnClick(R.id.tb_2)
+    public void onClick(View v) {
+        textView.setText(&quot;你按了button2&quot;);
+    }</code></pre>
 <h4 id="方法注解"><a href="#方法注解" class="headerlink" title="方法注解"></a>方法注解</h4><p>给setcontentview注解</p>
-<h5 id="（1）定义注解-1"><a href="#（1）定义注解-1" class="headerlink" title="（1）定义注解"></a>（1）定义注解</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.basedemo.annotation.diy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ContentView &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="（1）定义注解-1"><a href="#（1）定义注解-1" class="headerlink" title="（1）定义注解"></a>（1）定义注解</h5><pre><code class="Java">package com.example.basedemo.annotation.diy;
 
-<h5 id="（2）注解处理"><a href="#（2）注解处理" class="headerlink" title="（2）注解处理"></a>（2）注解处理</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">injectContentView</span><span class="params">(Object handler)</span></span>&#123;</span><br><span class="line">    Class&lt;?&gt; handlerType = handler.getClass();</span><br><span class="line">    <span class="comment">// inject ContentView</span></span><br><span class="line"></span><br><span class="line">    ContentView contentView = handlerType.getAnnotation(ContentView<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    <span class="keyword">if</span> (contentView != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Method setContentViewMethod = handlerType.getMethod(<span class="string">"setContentView"</span>, <span class="keyword">int</span><span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">            setContentViewMethod.invoke(handler, contentView.value());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ContentView {
+    int value();
+}</code></pre>
+<h5 id="（2）注解处理"><a href="#（2）注解处理" class="headerlink" title="（2）注解处理"></a>（2）注解处理</h5><pre><code class="Java">    public static void injectContentView(Object handler){
+        Class&lt;?&gt; handlerType = handler.getClass();
+        // inject ContentView
+
+        ContentView contentView = handlerType.getAnnotation(ContentView.class);
+        if (contentView != null) {
+            try {
+                Method setContentViewMethod = handlerType.getMethod(&quot;setContentView&quot;, int.class);
+                setContentViewMethod.invoke(handler, contentView.value());
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+    }</code></pre>
 <h5 id="（3）调用"><a href="#（3）调用" class="headerlink" title="（3）调用"></a>（3）调用</h5><p>activity里面调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ContentView</span>(R.layout.activity_annotation)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DIYAnnotationActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@ViewInject</span>(R.id.textView)</span><br><span class="line">    <span class="keyword">private</span> TextView textView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"><span class="comment">//        setContentView(R.layout.activity_annotation);</span></span><br><span class="line">        ViewUtils.injectContentView(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        ViewUtils.inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        textView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                textView.setText(<span class="string">"成功了！"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnClick</span>(R.id.tb_2)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        textView.setText(<span class="string">"你按了button2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="Java">@ContentView(R.layout.activity_annotation)
+public class DIYAnnotationActivity extends AppCompatActivity {
 
 
+    @ViewInject(R.id.textView)
+    private TextView textView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_annotation);
+        ViewUtils.injectContentView(this);
+
+        ViewUtils.inject(this);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText(&quot;成功了！&quot;);
+            }
+        });
+
+    }
+
+    @OnClick(R.id.tb_2)
+    public void onClick(View v) {
+        textView.setText(&quot;你按了button2&quot;);
+    }
+
+}</code></pre>
 <h2 id="编译时注解"><a href="#编译时注解" class="headerlink" title="编译时注解"></a>编译时注解</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>APT(annotation processing tool) 是一种处理注释的工具,它对源代码文件进行检测找出其中的Annotation，使用Annotation进行额外的处理。Annotation处理器在处理Annotation时可以根据源文件中的Annotation生成额外的源文件和其它的文件,APT还会编译生成的源文件和原来的源文件，将它们一起生成class文件.简化工作量。但是在java8 开始apt就被移除了，使用JSR 269 API（Pluggable Annotation Processing API） 来处理注解，所以要用APT要定义编译的jdk版本为1.7。</p>
 <p>实现一个apt工具分两步，一是实现处理器（实现接口AnnotationProcessor），二是实现返回此处理器的工厂类（实现接口AnnotationProcessorFactory）。</p>
 <p>APT首先检测源代码文件中哪些annotation存在。然后APT将查找我们编写的annotation processor factories类，并且要求factories类提供处理源文件中所涉及的annotation的annotation processor。接下来，一个合适的annotation processors将被执行，如果在processors生成源代码文件时，该文件中含有annotation，则APT将重复上面的过程直到没有新文件生成。整个过程APT就像一个在编译时处理annotation的javac.</p>
@@ -503,6 +707,20 @@
 
         /*高亮代码块行号*/
         
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
 
         /*访问数量*/
         
@@ -527,6 +745,38 @@
 </script>
 
 <!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
 
 <!--自定义样式设置-->
 <style>

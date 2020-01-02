@@ -5,9 +5,9 @@
   <subtitle>知识需要沉淀</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://okloong.com/"/>
+  <link href="https://okloong.com/"/>
   <updated>2020-01-02T16:45:20.289Z</updated>
-  <id>http://okloong.com/</id>
+  <id>https://okloong.com/</id>
   
   <author>
     <name>Okloong</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Rxjava2源码分析</title>
-    <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</id>
+    <link href="https://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>https://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</id>
     <published>2018-06-13T03:13:01.000Z</published>
     <updated>2020-01-02T16:45:20.289Z</updated>
     
@@ -30,17 +30,17 @@
     </summary>
     
     
-      <category term="Android" scheme="http://okloong.com/categories/Android/"/>
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
     
     
-      <category term="Rxjava" scheme="http://okloong.com/tags/Rxjava/"/>
+      <category term="Rxjava" scheme="https://okloong.com/tags/Rxjava/"/>
     
   </entry>
   
   <entry>
     <title>Android注解</title>
-    <link href="http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/"/>
-    <id>http://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/</id>
+    <link href="https://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/"/>
+    <id>https://okloong.com/2017/11/06/1_Android/tools/Android_Annotation/</id>
     <published>2017-11-06T03:07:48.000Z</published>
     <updated>2018-07-26T16:06:24.982Z</updated>
     
@@ -51,17 +51,17 @@
     </summary>
     
     
-      <category term="Annotation" scheme="http://okloong.com/categories/Annotation/"/>
+      <category term="Annotation" scheme="https://okloong.com/categories/Annotation/"/>
     
     
-      <category term="Annotation" scheme="http://okloong.com/tags/Annotation/"/>
+      <category term="Annotation" scheme="https://okloong.com/tags/Annotation/"/>
     
   </entry>
   
   <entry>
     <title>反馈式学习</title>
-    <link href="http://okloong.com/2017/09/30/StudyByFeedback/"/>
-    <id>http://okloong.com/2017/09/30/StudyByFeedback/</id>
+    <link href="https://okloong.com/2017/09/30/StudyByFeedback/"/>
+    <id>https://okloong.com/2017/09/30/StudyByFeedback/</id>
     <published>2017-09-30T07:41:08.000Z</published>
     <updated>2019-03-05T13:07:44.036Z</updated>
     
@@ -72,17 +72,17 @@
     </summary>
     
     
-      <category term="综合" scheme="http://okloong.com/categories/%E7%BB%BC%E5%90%88/"/>
+      <category term="综合" scheme="https://okloong.com/categories/%E7%BB%BC%E5%90%88/"/>
     
     
-      <category term="综合" scheme="http://okloong.com/tags/%E7%BB%BC%E5%90%88/"/>
+      <category term="综合" scheme="https://okloong.com/tags/%E7%BB%BC%E5%90%88/"/>
     
   </entry>
   
   <entry>
     <title>Hexo博客搭建</title>
-    <link href="http://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/"/>
-    <id>http://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/</id>
+    <link href="https://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/"/>
+    <id>https://okloong.com/2017/09/23/100_Project/blog/Hexo_Blog/</id>
     <published>2017-09-23T08:30:05.000Z</published>
     <updated>2018-07-26T16:06:24.836Z</updated>
     
@@ -94,10 +94,10 @@
     </summary>
     
     
-      <category term="web" scheme="http://okloong.com/categories/web/"/>
+      <category term="web" scheme="https://okloong.com/categories/web/"/>
     
     
-      <category term="blog" scheme="http://okloong.com/tags/blog/"/>
+      <category term="blog" scheme="https://okloong.com/tags/blog/"/>
     
   </entry>
   

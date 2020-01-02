@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://okloong.com/"/>
-  <updated>2018-09-11T14:43:22.265Z</updated>
+  <updated>2020-01-02T16:45:20.289Z</updated>
   <id>http://okloong.com/</id>
   
   <author>
@@ -14,20 +14,21 @@
     
   </author>
   
-  <generator uri="http://hexo.io/">Hexo</generator>
+  <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
     <title>Rxjava2源码分析</title>
     <link href="http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2源码分析/</id>
+    <id>http://okloong.com/2018/06/13/1_Android/base/Rx/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</id>
     <published>2018-06-13T03:13:01.000Z</published>
-    <updated>2018-09-11T14:43:22.265Z</updated>
+    <updated>2020-01-02T16:45:20.289Z</updated>
     
     <summary type="html">
     
       &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;本文将讲述Rxjava的相关应用和原理，包括基本原理，操作符，线程调用。&lt;/p&gt;
     
     </summary>
+    
     
       <category term="Android" scheme="http://okloong.com/categories/Android/"/>
     
@@ -45,9 +46,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。&lt;br&gt;
+      &lt;p&gt;Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。&lt;/p&gt;
     
     </summary>
+    
     
       <category term="Annotation" scheme="http://okloong.com/categories/Annotation/"/>
     
@@ -65,9 +67,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;excerpt in=&quot;&quot; index=&quot;&quot; |=&quot;&quot; 首页摘要=&quot;&quot;&gt;&lt;br&gt;本篇文章将讲述我自己的学习方法——反馈式学习。每个人对学习方法都有不同的理解，可能某个人对某种学习方式有较深刻的感触，而其他人却不感兴趣。这可能是学习方式没能勾起你的生活体验。但如果你深究到底，你可能会发现它们的核心原理是一样的。同样，这篇文章里面的学习形式其实并不重要，最主要的还是其原理。希望你能根据其背后原理整出自己的学习方法。&lt;br&gt;
+      &lt;p&gt;&amp;lt;Excerpt in index | 首页摘要&amp;gt;&lt;br&gt;本篇文章将讲述我自己的学习方法——反馈式学习。每个人对学习方法都有不同的理解，可能某个人对某种学习方式有较深刻的感触，而其他人却不感兴趣。这可能是学习方式没能勾起你的生活体验。但如果你深究到底，你可能会发现它们的核心原理是一样的。同样，这篇文章里面的学习形式其实并不重要，最主要的还是其原理。希望你能根据其背后原理整出自己的学习方法。&lt;/p&gt;
     
     </summary>
+    
     
       <category term="综合" scheme="http://okloong.com/categories/%E7%BB%BC%E5%90%88/"/>
     
@@ -85,11 +88,11 @@
     
     <summary type="html">
     
-      &lt;excerpt in=&quot;&quot; index=&quot;&quot; |=&quot;&quot; 首页摘要=&quot;&quot;&gt; 
-
-&lt;p&gt;Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown解析文章，生成的静态网页布置在GitHub上面，作为个人博客使用十分方便。本文前面部分将讲Windows10环境来搭建hexo博客，并介绍hexo博客的相关设置以及优化，后面会有linux环境下的相关配置。&lt;br&gt;
+      &lt;p&gt;&amp;lt;Excerpt in index | 首页摘要&amp;gt; &lt;/p&gt;
+&lt;p&gt;Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown解析文章，生成的静态网页布置在GitHub上面，作为个人博客使用十分方便。本文前面部分将讲Windows10环境来搭建hexo博客，并介绍hexo博客的相关设置以及优化，后面会有linux环境下的相关配置。&lt;/p&gt;
     
     </summary>
+    
     
       <category term="web" scheme="http://okloong.com/categories/web/"/>
     

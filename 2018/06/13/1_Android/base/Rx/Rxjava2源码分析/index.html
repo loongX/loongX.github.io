@@ -175,7 +175,7 @@
     
         
             
-            <li><div data-rel="shell">shell<small>(0)</small></div>
+            <li><div data-rel="Java">Java<small>(0)</small></div>
                 
             </li>
             
@@ -183,7 +183,7 @@
     
         
             
-            <li><div data-rel="Java">Java<small>(0)</small></div>
+            <li><div data-rel="shell">shell<small>(0)</small></div>
                 
             </li>
             
@@ -252,15 +252,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">eclipse</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color1">nginx</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">jfinal</a>
+        <a class="color3">eclipse</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -268,11 +264,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">blog</a>
+        <a class="color2">jfinal</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">jekyll</a>
+        <a class="color5">blog</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -281,6 +277,10 @@
     
     <li class="article-tag-list-item">
         <a class="color5">Android事件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">jekyll</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -296,7 +296,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color1">shell</a>
+        <a class="color3">vs code</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">设计模式</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -304,15 +308,11 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color1">shell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color4">JVM</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color3">vs code</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">设计模式</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -537,7 +537,7 @@
         var gitalk = new Gitalk({
             clientID: 'e9e594c7c1e40451b0c0',
             clientSecret: '69e909bee5f73eb321d7764126cde7ec7c73513f',
-            repo: 'BlogTalk',
+            repo: 'loongX.github.io',
             owner: 'loongX',
             admin: ['loongX'],
             id: decodeURI(location.pathname),
@@ -604,7 +604,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#Android 工具','#综合','#plan','#eclipse','#nginx','#jfinal','#http','#blog','#jekyll','#源码解析','#Android事件','#Annotation','#adb','#Linux','#shell','#vscode','#JVM','#vs code','#设计模式','#Android Studio','#Rxjava','#加密',],
+            'data': ['#Android 工具','#综合','#plan','#nginx','#eclipse','#http','#jfinal','#blog','#源码解析','#Android事件','#jekyll','#Annotation','#adb','#Linux','#vs code','#设计模式','#vscode','#shell','#JVM','#Android Studio','#Rxjava','#加密',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');
@@ -771,16 +771,6 @@
     }
     
 
-    
-    .post .pjax article :not(pre) > code {
-        color: #24292e;
-        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
-        background-color: rgba(27,31,35,.05);
-        border-radius: 3px;
-        font-size: 85%;
-        margin: 0;
-        padding: .2em .4em;
-    }
     
 </style>
 

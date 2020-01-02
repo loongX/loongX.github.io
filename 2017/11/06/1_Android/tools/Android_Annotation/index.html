@@ -47,7 +47,7 @@
 </head>
 <div style="display: none">
   <input class="theme_disqus_on" value="false">
-  <input class="theme_preload_comment" value="false">
+  <input class="theme_preload_comment" value="true">
   <input class="theme_blog_path" value="">
 </div>
 
@@ -111,14 +111,6 @@
     
         
             
-            <li><div data-rel="综合">综合<small>(1)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
             <li><div data-rel="web">web<small>(1)</small></div>
                 
             </li>
@@ -127,7 +119,7 @@
     
         
             
-            <li><div data-rel="Java Web">Java Web<small>(0)</small></div>
+            <li><div data-rel="综合">综合<small>(1)</small></div>
                 
             </li>
             
@@ -143,23 +135,15 @@
     
         
             
+            <li><div data-rel="Java Web">Java Web<small>(0)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
             <li><div data-rel="第三方库">第三方库<small>(0)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="Android">Android<small>(1)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="Annotation">Annotation<small>(1)</small></div>
                 
             </li>
             
@@ -175,7 +159,23 @@
     
         
             
+            <li><div data-rel="Android">Android<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
             <li><div data-rel="shell">shell<small>(0)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Annotation">Annotation<small>(1)</small></div>
                 
             </li>
             
@@ -240,11 +240,11 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color3">综合</a>
+        <a class="color1">Android 工具</a>
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color1">Android 工具</a>
+        <a class="color3">综合</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -256,7 +256,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color2">jfinal</a>
+        <a class="color3">eclipse</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -264,7 +264,7 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color3">eclipse</a>
+        <a class="color2">jfinal</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -280,6 +280,26 @@
     </li>
     
     <li class="article-tag-list-item">
+        <a class="color1">Linux</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">Android事件</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">shell</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Annotation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">adb</a>
+    </li>
+    
+    <li class="article-tag-list-item">
         <a class="color2">vscode</a>
     </li>
     
@@ -288,31 +308,11 @@
     </li>
     
     <li class="article-tag-list-item">
-        <a class="color5">Android事件</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color4">adb</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color1">Annotation</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color1">Linux</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color1">shell</a>
+        <a class="color5">设计模式</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color4">JVM</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">设计模式</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -597,7 +597,7 @@
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#综合','#Android 工具','#plan','#nginx','#jfinal','#http','#eclipse','#blog','#jekyll','#源码解析','#vscode','#vs code','#Android事件','#adb','#Annotation','#Linux','#shell','#JVM','#设计模式','#Rxjava','#Android Studio','#加密',],
+            'data': ['#Android 工具','#综合','#plan','#nginx','#eclipse','#http','#jfinal','#blog','#jekyll','#源码解析','#Linux','#Android事件','#shell','#Annotation','#adb','#vscode','#vs code','#设计模式','#JVM','#Rxjava','#Android Studio','#加密',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

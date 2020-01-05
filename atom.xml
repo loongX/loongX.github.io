@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://okloong.com/"/>
-  <updated>2020-01-05T07:47:33.110Z</updated>
+  <updated>2020-01-05T12:36:23.098Z</updated>
   <id>https://okloong.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git-ssh-config</title>
+    <link href="https://okloong.com/2020/01/05/Comprehensive/git-ssh-config/"/>
+    <id>https://okloong.com/2020/01/05/Comprehensive/git-ssh-config/</id>
+    <published>2020-01-05T12:25:44.000Z</published>
+    <updated>2020-01-05T12:36:23.098Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;一、秘钥生成&quot;&gt;&lt;a href=&quot;#一、秘钥生成&quot; class=&quot;headerlink&quot; title=&quot;一、秘钥生成&quot;&gt;&lt;/a&gt;一、秘钥生成&lt;/h3&gt;&lt;p&gt;我是在Windows的gitbase里面操作的。&lt;br&gt;生成秘钥：&lt;br&gt;$ ssh-keygen -t
+        
+      
+    
+    </summary>
+    
+    
+      <category term="计算机" scheme="https://okloong.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
+    
+    
+      <category term="git" scheme="https://okloong.com/tags/git/"/>
+    
+  </entry>
   
   <entry>
     <title>synchronized</title>

@@ -111,14 +111,6 @@
     
         
             
-            <li><div data-rel="综合">综合<small>(1)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
             <li><div data-rel="web">web<small>(1)</small></div>
                 
             </li>
@@ -127,7 +119,7 @@
     
         
             
-            <li><div data-rel="Android">Android<small>(1)</small></div>
+            <li><div data-rel="Annotation">Annotation<small>(1)</small></div>
                 
             </li>
             
@@ -135,7 +127,15 @@
     
         
             
-            <li><div data-rel="Annotation">Annotation<small>(1)</small></div>
+            <li><div data-rel="综合">综合<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Android">Android<small>(1)</small></div>
                 
             </li>
             
@@ -160,7 +160,7 @@
     <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
 </div>
 <input type="hidden" id="yelog_site_posts_number" value="5">
-
+<input type="hidden" id="yelog_site_word_count" value="17.4k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -192,19 +192,19 @@
     <div class="tags-list">
     
     <li class="article-tag-list-item">
-        <a class="color3">综合</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a class="color5">blog</a>
-    </li>
-    
-    <li class="article-tag-list-item">
         <a class="color1">Annotation</a>
     </li>
     
     <li class="article-tag-list-item">
         <a class="color2">Rxjava</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">综合</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">blog</a>
     </li>
     
     <li class="article-tag-list-item">
@@ -233,20 +233,20 @@
             <span class="post-date" title="2018-06-13 11:13:01">2018/06/13</span>
         </a>
         
-        <a  class="web "
-           href="/2017/09/23/Comprehensive/Hexo_Blog/"
-           data-tag="blog"
-           data-author="" >
-            <span class="post-title" title="Hexo博客搭建">Hexo博客搭建</span>
-            <span class="post-date" title="2017-09-23 16:30:05">2017/09/23</span>
-        </a>
-        
         <a  class="综合 "
            href="/2017/09/30/Comprehensive/StudyByFeedback/"
            data-tag="综合"
            data-author="" >
             <span class="post-title" title="反馈式学习">反馈式学习</span>
             <span class="post-date" title="2017-09-30 15:41:08">2017/09/30</span>
+        </a>
+        
+        <a  class="web "
+           href="/2017/09/23/Comprehensive/Hexo_Blog/"
+           data-tag="blog"
+           data-author="" >
+            <span class="post-title" title="Hexo博客搭建">Hexo博客搭建</span>
+            <span class="post-date" title="2017-09-23 16:30:05">2017/09/23</span>
         </a>
         
         <a  class="java "
@@ -293,10 +293,12 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-05 15:42:12'>2020-01-05 15:07</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-05 15:47:33'>2020-01-05 15:07</time>
         
     </div>
     <div class="article-meta">
+        
+        <span>字数:831</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -359,7 +361,6 @@
         }
     }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <p>以LOCK 为对象锁了。</p>
 <pre><code class="java">    /**
      * 用在this
@@ -375,7 +376,6 @@
         }
     }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <p>当前实例为锁。<br>对象锁，只有获取当前对象才能进入该方法里面。synchronized methods(){} 与synchronized（this）{}之间没有什么区别。</p>
 <p>私有锁，在类内部声明一个私有属性如private Object lock，在需要加锁的同步块使用 synchronized(lock）。<br>使用私有锁可以减小锁的细粒度，减少由锁产生的开销。私有锁其实也是对象锁的一种。<br>私有锁还可以这样用：用私有锁实现的等待/通知机制。</p>
 <pre><code class="java">Object lock = new Object();
@@ -393,7 +393,6 @@ synchronized (lock) {
    lock.notify();
 }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <h3 id="2-用在方法里"><a href="#2-用在方法里" class="headerlink" title="2. 用在方法里"></a>2. 用在方法里</h3><pre><code class="java">    /**
      * 用在普通方法
      */
@@ -406,7 +405,6 @@ synchronized (lock) {
         }
     }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <p>如果不是单例，同步方法锁将失效。实际上是当前实例作为锁。</p>
 <pre><code class="java">    /**
      * 用在静态方法
@@ -420,7 +418,6 @@ synchronized (lock) {
         }
     }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <p>静态方法具有全局唯一性，类级别的锁，作为锁线程安全。</p>
 <h3 id="3-用在类里"><a href="#3-用在类里" class="headerlink" title="3. 用在类里"></a>3. 用在类里</h3><pre><code class="java">    /**
      * 用在类
@@ -450,7 +447,6 @@ synchronized (lock) {
         }
     }</code></pre>
 <p>Java</p>
-<p>Copy</p>
 <p>两个都是类级锁，线程安全。<br>类锁：使用 synchronized 修饰静态的方法以及 synchronized(class) 同步代码块使用的锁是类锁。<br>对象锁：使用 synchronized 修饰非静态的方法以及 synchronized(this) 同步代码块使用的锁是对象锁。</p>
 <p>类锁和对对象锁不相互阻塞，相同的类锁或相同的实例锁相互阻塞。方法一旦执行，就独占该锁，直到从该方法返回时才将锁释放，此后被阻塞的线程方能获得该锁，重新进入可执行状态。保证了同一时刻只有一个线程可执行，从而有效的避免了类成员变量的访问冲突。</p>
 
@@ -467,10 +463,10 @@ synchronized (lock) {
 
 <div class="article_copyright">
     <p><span class="copy-title">文章标题:</span>synchronized</p>
-    
+    <p><span class="copy-title">文章字数:</span><span class="post-count">831</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
     <p><span class="copy-title">发布时间:</span>2020-01-05, 15:07:57</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-05, 15:42:12</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-05, 15:47:33</p>
     <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/Java/synchronized/" title="synchronized">https://okloong.com/2020/01/05/Java/synchronized/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
@@ -509,7 +505,7 @@ synchronized (lock) {
 
     </div>
     <div class="copyright">
-        <p class="footer-entry">©2016-2019 Yelog</p>
+        <p class="footer-entry">©2016-2020 Okloong</p>
 <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
 
     </div>
@@ -554,7 +550,7 @@ synchronized (lock) {
     /*作者、标签的自动补全*/
     $(function () {
         $('.search').AutoComplete({
-            'data': ['#综合','#blog','#Annotation','#Rxjava','#java',],
+            'data': ['#Annotation','#Rxjava','#综合','#blog','#java',],
             'itemHeight': 20,
             'width': 418
         }).AutoComplete('show');

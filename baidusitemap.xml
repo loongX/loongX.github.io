@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://okloong.com/2017/09/23/Comprehensive/Hexo_Blog/</loc>
-    <lastmod>2020-01-05</lastmod>
-  </url>  <url>
-    <loc>https://okloong.com/2020/01/05/Android/ndk-base/</loc>
+    <loc>https://okloong.com/2017/11/06/Android/Annotation/</loc>
     <lastmod>2020-01-05</lastmod>
   </url>  <url>
     <loc>https://okloong.com/2020/01/05/Android/apk-build-process/</loc>
     <lastmod>2020-01-05</lastmod>
   </url>  <url>
-    <loc>https://okloong.com/2017/11/06/Android/Annotation/</loc>
+    <loc>https://okloong.com/2017/09/23/Comprehensive/Hexo_Blog/</loc>
+    <lastmod>2020-01-05</lastmod>
+  </url>  <url>
+    <loc>https://okloong.com/2020/01/05/Android/ndk-base/</loc>
     <lastmod>2020-01-05</lastmod>
   </url>  <url>
     <loc>https://okloong.com/2020/01/05/Android/handler/</loc>

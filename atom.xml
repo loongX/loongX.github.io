@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://okloong.com/"/>
-  <updated>2020-01-05T12:45:08.223Z</updated>
+  <updated>2020-01-05T13:40:19.057Z</updated>
   <id>https://okloong.com/</id>
   
   <author>
@@ -15,6 +15,230 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>消息队列原理</title>
+    <link href="https://okloong.com/2020/01/05/Android/handler/"/>
+    <id>https://okloong.com/2020/01/05/Android/handler/</id>
+    <published>2020-01-05T13:37:08.000Z</published>
+    <updated>2020-01-05T13:40:19.057Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;文章将带你理解 Looper、Handler、Message三者的关系。&lt;/p&gt;
+&lt;h1 id=&quot;一、基本用法&quot;&gt;&lt;a href=&quot;#一、基本用法&quot; class=&quot;headerlink&quot; title=&quot;一、基本用法&quot;&gt;&lt;/a&gt;一、基本用法&lt;/h1&gt;&lt;h2
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="handler" scheme="https://okloong.com/tags/handler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IntentService耗时操作的原理</title>
+    <link href="https://okloong.com/2020/01/05/Android/Intentservice/"/>
+    <id>https://okloong.com/2020/01/05/Android/Intentservice/</id>
+    <published>2020-01-05T13:33:14.000Z</published>
+    <updated>2020-01-05T13:37:16.416Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;由于Service和Broadcast都是运行在主线程中，所以在这两个里面我们无法做一些长时间的耗时操作，要执行耗时操作可以用异步线程AsyncTask或者IntentServie。IntentServie的好处是调用玩后会自己关闭service。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="IntentService" scheme="https://okloong.com/tags/IntentService/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>APK打包流程</title>
+    <link href="https://okloong.com/2020/01/05/Android/apk-build-process/"/>
+    <id>https://okloong.com/2020/01/05/Android/apk-build-process/</id>
+    <published>2020-01-05T13:20:56.000Z</published>
+    <updated>2020-01-05T13:35:29.831Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;APK结构&quot;&gt;&lt;a href=&quot;#APK结构&quot; class=&quot;headerlink&quot; title=&quot;APK结构&quot;&gt;&lt;/a&gt;APK结构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;.%5Cimages%5Capk%E7%BB%93%E6%9E%84.png&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="apk" scheme="https://okloong.com/tags/apk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WindowManager的一些属性</title>
+    <link href="https://okloong.com/2020/01/05/Android/windowsmanager-attribute/"/>
+    <id>https://okloong.com/2020/01/05/Android/windowsmanager-attribute/</id>
+    <published>2020-01-05T13:17:01.000Z</published>
+    <updated>2020-01-05T13:19:17.650Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;WindowManager(窗口管理服务)，它是显示View的最底层，Toast，Activity，Dialog的底层都有用到了这个WindowManager。WindowManager里面主要是addView，removeView，updateViewLayout这几个方
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="windowsmanager" scheme="https://okloong.com/tags/windowsmanager/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DownlaodManager下载安装APP</title>
+    <link href="https://okloong.com/2020/01/05/Android/downlaodmanager-download-app/"/>
+    <id>https://okloong.com/2020/01/05/Android/downlaodmanager-download-app/</id>
+    <published>2020-01-05T13:13:51.000Z</published>
+    <updated>2020-01-05T13:17:18.543Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这里是利用android自身的DownlaodManager来下载APP。下面是代码。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;import android.app.Activity;
+import
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="downlaodmanager" scheme="https://okloong.com/tags/downlaodmanager/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NDK调用非JNI标准的so文件</title>
+    <link href="https://okloong.com/2020/01/05/Android/ndk-so-file/"/>
+    <id>https://okloong.com/2020/01/05/Android/ndk-so-file/</id>
+    <published>2020-01-05T13:11:19.000Z</published>
+    <updated>2020-01-05T13:12:25.866Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;调用so文件有两种方式，一种是标准的jni文件，另外一种不是jni标准。jni标准可以直接用jni标准来调用，非jni标准的需要外面包裹一层jni标准才能调用。下面就演示怎么用。&lt;/p&gt;
+&lt;p&gt;NKD可以用ndk-build来编译，也可以用cmake来编译。这里用的是cma
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="NDK" scheme="https://okloong.com/tags/NDK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NDK动态注册</title>
+    <link href="https://okloong.com/2020/01/05/Android/ndk-dynamicregistration/"/>
+    <id>https://okloong.com/2020/01/05/Android/ndk-dynamicregistration/</id>
+    <published>2020-01-05T13:08:01.000Z</published>
+    <updated>2020-01-05T13:11:28.236Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;c/c++和java交互，需要找到双方各自对应的函数或方法来调用。这种产生联系的方式有两种方式，一个是静态注册，另一种事动态注册。动态注册是比静态注册的好处是不需要JNI那一套很长的命名。&lt;/p&gt;
+&lt;p&gt;其他的规则和静态注册无异，只是注册的地方不同而已。&lt;/p&gt;
+&lt;p&gt;下面
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="NDK" scheme="https://okloong.com/tags/NDK/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NDK基础知识</title>
+    <link href="https://okloong.com/2020/01/05/Android/ndk-base/"/>
+    <id>https://okloong.com/2020/01/05/Android/ndk-base/</id>
+    <published>2020-01-05T13:04:04.000Z</published>
+    <updated>2020-01-05T13:06:25.259Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;下面介绍NDK相关基础性的知识。&lt;/p&gt;
+&lt;h1 id=&quot;打印log&quot;&gt;&lt;a href=&quot;#打印log&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="NDK" scheme="https://okloong.com/tags/NDK/"/>
+    
+  </entry>
   
   <entry>
     <title>git的ssh配置和使用</title>

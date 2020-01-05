@@ -111,22 +111,6 @@
     
         
             
-            <li><div data-rel="web">web<small>(1)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
-            <li><div data-rel="Annotation">Annotation<small>(1)</small></div>
-                
-            </li>
-            
-        
-    
-        
-            
             <li><div data-rel="综合">综合<small>(1)</small></div>
                 
             </li>
@@ -135,7 +119,7 @@
     
         
             
-            <li><div data-rel="Android">Android<small>(9)</small></div>
+            <li><div data-rel="Android">Android<small>(10)</small></div>
                 
             </li>
             
@@ -151,7 +135,7 @@
     
         
             
-            <li><div data-rel="计算机">计算机<small>(1)</small></div>
+            <li><div data-rel="计算机">计算机<small>(2)</small></div>
                 
             </li>
             
@@ -253,14 +237,6 @@
     
     <nav id="title-list-nav">
         
-        <a  class="Annotation "
-           href="/2017/11/06/Android/Android_Annotation/"
-           data-tag="Annotation"
-           data-author="" >
-            <span class="post-title" title="Android注解">Android注解</span>
-            <span class="post-date" title="2017-11-06 11:07:48">2017/11/06</span>
-        </a>
-        
         <a  class="Android "
            href="/2018/06/13/Android/Rxjava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"
            data-tag="Rxjava"
@@ -277,7 +253,7 @@
             <span class="post-date" title="2017-09-30 15:41:08">2017/09/30</span>
         </a>
         
-        <a  class="web "
+        <a  class="计算机 "
            href="/2017/09/23/Comprehensive/Hexo_Blog/"
            data-tag="blog"
            data-author="" >
@@ -365,6 +341,14 @@
             <span class="post-date" title="2020-01-05 21:37:08">2020/01/05</span>
         </a>
         
+        <a  class="Android "
+           href="/2017/11/06/Android/Annotation/"
+           data-tag="Annotation"
+           data-author="" >
+            <span class="post-title" title="Android注解">Android注解</span>
+            <span class="post-date" title="2017-11-06 11:07:48">2017/11/06</span>
+        </a>
+        
     </nav>
 </div>
     </div>
@@ -377,7 +361,7 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android/Android_Annotation" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Android/Annotation" class="article article-type-post" itemscope itemprop="blogPost">
     
         <h1 class="article-title">Android注解</h1>
     
@@ -387,7 +371,7 @@
         
         <span class="book">
             
-                <a  data-rel="Annotation">Annotation</a>
+                <a  data-rel="Android">Android</a>
             
         </span>
         
@@ -401,7 +385,7 @@
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2018-07-27 00:06:24'>2017-11-06 11:07</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-05 21:46:44'>2017-11-06 11:07</time>
         
     </div>
     <div class="article-meta">
@@ -454,7 +438,7 @@
       
         <p>Android里面的注解一般有两种，一种运行时注解，另外一种是编译时注解。运行时注解是基于反射原理的，编译时注解这个就多点，常见的是基于apt的代码生成。反射，会在运行时候在对应的位置插入对应的操作；而编译时注解会在编译时候生成对应的代码进行编译。对于运行性能来说，反射更耗性能。本章将说下Android的注解。</p>
 <a id="more"></a>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>从下面这张图可以看到Java注解的结构分支。<br><img src="/images/Java%E6%B3%A8%E8%A7%A3.jpg" alt="Java注解"> </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>从下面这张图可以看到Java注解的结构分支。<br><img src="./images/Java%E6%B3%A8%E8%A7%A3.jpg" alt="Java注解"> </p>
 <p> Java注解（Annotation），也叫元数据。一种代码级别的说明。它是JDK1.5及以后版本引入的一个特性，与类、接口、枚举是在同一个层次。它可以声明在包、类、字段、方法、局部变量、方法参数等的前面，用来对这些元素进行说明，注释。<br> 注解是附加在代码中的一些元信息，用于一些工具在编译、运行时进行解析和使用，起到说明、配置的功能。</p>
 <p> （1）元注解<br>元注解是指注解的注解，负责注解其他的注解。有@Retention @Target @Document @Inherited这四种。</p>
 <p>（2）@Retention: 定义注解的保留策略<br>@Retention(RetentionPolicy.SOURCE)   //注解仅存在于源码中，在class字节码文件中不包含<br>@Retention(RetentionPolicy.CLASS)     // 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得，<br>@Retention(RetentionPolicy.RUNTIME)  // 注解会在class字节码文件中存在，在运行时可以通过反射获取到</p>
@@ -729,8 +713,8 @@ public class DIYAnnotationActivity extends AppCompatActivity {
     <p><span class="copy-title">文章字数:</span><span class="post-count">1.8k</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
     <p><span class="copy-title">发布时间:</span>2017-11-06, 11:07:48</p>
-    <p><span class="copy-title">最后更新:</span>2018-07-27, 00:06:24</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2017/11/06/Android/Android_Annotation/" title="Android注解">https://okloong.com/2017/11/06/Android/Android_Annotation/</a>
+    <p><span class="copy-title">最后更新:</span>2020-01-05, 21:46:44</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2017/11/06/Android/Annotation/" title="Android注解">https://okloong.com/2017/11/06/Android/Annotation/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

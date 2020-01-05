@@ -77,7 +77,7 @@
     <link href="https://okloong.com/2020/01/05/Android/apk-build-process/"/>
     <id>https://okloong.com/2020/01/05/Android/apk-build-process/</id>
     <published>2020-01-05T13:20:56.000Z</published>
-    <updated>2020-01-05T13:35:29.831Z</updated>
+    <updated>2020-01-05T13:48:39.155Z</updated>
     
     <summary type="html">
     
@@ -85,7 +85,7 @@
       
         
         
-          &lt;h2 id=&quot;APK结构&quot;&gt;&lt;a href=&quot;#APK结构&quot; class=&quot;headerlink&quot; title=&quot;APK结构&quot;&gt;&lt;/a&gt;APK结构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;.%5Cimages%5Capk%E7%BB%93%E6%9E%84.png&quot;
+          &lt;h2 id=&quot;APK结构&quot;&gt;&lt;a href=&quot;#APK结构&quot; class=&quot;headerlink&quot; title=&quot;APK结构&quot;&gt;&lt;/a&gt;APK结构&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;./images/apk%E7%BB%93%E6%9E%84.png&quot;
         
       
     
@@ -217,7 +217,7 @@ import
     <link href="https://okloong.com/2020/01/05/Android/ndk-base/"/>
     <id>https://okloong.com/2020/01/05/Android/ndk-base/</id>
     <published>2020-01-05T13:04:04.000Z</published>
-    <updated>2020-01-05T13:06:25.259Z</updated>
+    <updated>2020-01-05T13:49:13.714Z</updated>
     
     <summary type="html">
     
@@ -317,10 +317,10 @@ import
   
   <entry>
     <title>Android注解</title>
-    <link href="https://okloong.com/2017/11/06/Android/Android_Annotation/"/>
-    <id>https://okloong.com/2017/11/06/Android/Android_Annotation/</id>
+    <link href="https://okloong.com/2017/11/06/Android/Annotation/"/>
+    <id>https://okloong.com/2017/11/06/Android/Annotation/</id>
     <published>2017-11-06T03:07:48.000Z</published>
-    <updated>2018-07-26T16:06:24.982Z</updated>
+    <updated>2020-01-05T13:46:44.923Z</updated>
     
     <summary type="html">
     
@@ -329,7 +329,7 @@ import
     </summary>
     
     
-      <category term="Annotation" scheme="https://okloong.com/categories/Annotation/"/>
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
     
     
       <category term="Annotation" scheme="https://okloong.com/tags/Annotation/"/>
@@ -362,7 +362,7 @@ import
     <link href="https://okloong.com/2017/09/23/Comprehensive/Hexo_Blog/"/>
     <id>https://okloong.com/2017/09/23/Comprehensive/Hexo_Blog/</id>
     <published>2017-09-23T08:30:05.000Z</published>
-    <updated>2018-07-26T16:06:24.836Z</updated>
+    <updated>2020-01-05T13:50:02.184Z</updated>
     
     <summary type="html">
     
@@ -372,7 +372,7 @@ import
     </summary>
     
     
-      <category term="web" scheme="https://okloong.com/categories/web/"/>
+      <category term="计算机" scheme="https://okloong.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/"/>
     
     
       <category term="blog" scheme="https://okloong.com/tags/blog/"/>

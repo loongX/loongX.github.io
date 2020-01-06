@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NDK基础知识 | OKloong的博客</title>
+  <meta name="keywords" content=" NDK ">
+  <meta name="description" content="NDK基础知识 | OKloong的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="分类">
+<meta property="og:url" content="https://okloong.com/categories/index.html">
+<meta property="og:site_name" content="OKloong的博客">
+<meta property="article:published_time" content="2017-10-31T02:36:29.000Z">
+<meta property="article:modified_time" content="2018-07-26T16:06:25.350Z">
+<meta property="article:author" content="Okloong">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/darcula.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1" ></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.0.1" ></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="OKloong的博客" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="true">
+  <input class="theme_blog_path" value="">
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Okloong</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/loongX" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:long8086@foxmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(15)</small></div></li>
+    
+        
+            
+            <li><div data-rel="综合">综合<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Android">Android<small>(11)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="计算机">计算机<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="java">java<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="15">
+<input type="hidden" id="yelog_site_word_count" value="34.3k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a class="color4">IntentService</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Annotation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Rxjava</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">downlaodmanager</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">apk</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">NDK</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">handler</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">windowsmanager</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">blog</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">综合</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">java</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">log</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="Android "
+           href="/2020/01/05/Intentservice/"
+           data-tag="IntentService"
+           data-author="" >
+            <span class="post-title" title="IntentService耗时操作的原理">IntentService耗时操作的原理</span>
+            <span class="post-date" title="2020-01-05 21:33:14">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2017/11/06/Annotation/"
+           data-tag="Annotation"
+           data-author="" >
+            <span class="post-title" title="Android注解">Android注解</span>
+            <span class="post-date" title="2017-11-06 11:07:48">2017/11/06</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2018/06/13/Rxjava2/"
+           data-tag="Rxjava"
+           data-author="" >
+            <span class="post-title" title="Rxjava2源码分析">Rxjava2源码分析</span>
+            <span class="post-date" title="2018-06-13 11:13:01">2018/06/13</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/downlaodmanager-download-app/"
+           data-tag="downlaodmanager"
+           data-author="" >
+            <span class="post-title" title="DownlaodManager下载安装APP">DownlaodManager下载安装APP</span>
+            <span class="post-date" title="2020-01-05 21:13:51">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/apk-build-process/"
+           data-tag="apk"
+           data-author="" >
+            <span class="post-title" title="APK打包流程">APK打包流程</span>
+            <span class="post-date" title="2020-01-05 21:20:56">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-dynamicregistration/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK动态注册">NDK动态注册</span>
+            <span class="post-date" title="2020-01-05 21:08:01">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-base/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK基础知识">NDK基础知识</span>
+            <span class="post-date" title="2020-01-05 21:04:04">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-so-file/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK调用非JNI标准的so文件">NDK调用非JNI标准的so文件</span>
+            <span class="post-date" title="2020-01-05 21:11:19">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/handler/"
+           data-tag="handler"
+           data-author="" >
+            <span class="post-title" title="消息队列原理">消息队列原理</span>
+            <span class="post-date" title="2020-01-05 21:37:08">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/windowsmanager-attribute/"
+           data-tag="windowsmanager"
+           data-author="" >
+            <span class="post-title" title="WindowManager的一些属性">WindowManager的一些属性</span>
+            <span class="post-date" title="2020-01-05 21:17:01">2020/01/05</span>
+        </a>
+        
+        <a  class="计算机 "
+           href="/2017/09/23/Hexo_Blog/"
+           data-tag="blog"
+           data-author="" >
+            <span class="post-title" title="Hexo博客搭建">Hexo博客搭建</span>
+            <span class="post-date" title="2017-09-23 16:30:05">2017/09/23</span>
+        </a>
+        
+        <a  class="综合 "
+           href="/2017/09/30/StudyByFeedback/"
+           data-tag="综合"
+           data-author="" >
+            <span class="post-title" title="反馈式学习">反馈式学习</span>
+            <span class="post-date" title="2017-09-30 15:41:08">2017/09/30</span>
+        </a>
+        
+        <a  class="计算机 "
+           href="/2020/01/05/git-ssh-config/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git的ssh配置和使用">git的ssh配置和使用</span>
+            <span class="post-date" title="2020-01-05 20:25:44">2020/01/05</span>
+        </a>
+        
+        <a  class="java "
+           href="/2020/01/05/synchronized/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="synchronized">synchronized</span>
+            <span class="post-date" title="2020-01-05 15:07:57">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/06/Timber/"
+           data-tag="log"
+           data-author="" >
+            <span class="post-title" title="Timber原理解析">Timber原理解析</span>
+            <span class="post-date" title="2020-01-06 15:48:12">2020/01/06</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-Android/ndk-base" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">NDK基础知识</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="Android">Android</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color4">NDK</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-01-06 21:38:17'>2020-01-05 21:04</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:809</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#打印log"><span class="toc-text">打印log</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java调用c的函数"><span class="toc-text">java调用c的函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#c调用java的方法"><span class="toc-text">c调用java的方法</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>下面介绍NDK相关基础性的知识。</p>
+<h1 id="打印log"><a href="#打印log" class="headerlink" title="打印log"></a>打印log</h1><p>一般调试ndk都需要log。那怎么打印log呢？<br>下面是打印log的方法。</p>
+<pre><code class="c">#include &lt;jni.h&gt;
+#include&lt;android/log.h&gt;
+
+#define LOG_TAG &quot;System.out.c&quot;
+#define LOGV(...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGF(...) __android_log_print(ANDROID_LOG_FATAL, LOG_TAG, __VA_ARGS__)</code></pre>
+<p>这里用宏定义定义了android系统下几个log打印。<code>__VA_ARGS__</code>代表宏参数<code>...</code>，括号内 … 的内容原样抄写在<code>__VA_ARGS__</code>的位置。<br>使用方法如下，在适合的地方调用该方法。</p>
+<pre><code class="c">LOGD(&quot;这里打印log&quot;);
+LOGI(&quot;这是来自info信息&quot;);</code></pre>
+<h1 id="java调用c的函数"><a href="#java调用c的函数" class="headerlink" title="java调用c的函数"></a>java调用c的函数</h1><p>这里介绍的是静态注册的方法。</p>
+<pre><code class="c">extern &quot;C&quot; {
+
+// Data callback stuff
+JavaVM* theJvm;
+jobject dataCallbackObj;
+jmethodID midDataCallback;
+
+/**
+ * Initializes JNI interface stuff, specifically the info needed to call back into the Java
+ * layer when MIDI data is received.
+ */
+JNICALL void Java_com_slzr_ndk_NDKManager_initNative(JNIEnv * env, jobject instance) {
+    env-&gt;GetJavaVM(&amp;theJvm);
+
+    // Setup the receive data callback (into Java)
+    jclass clsNDKManager = env-&gt;FindClass(&quot;com/slzr/ndk/NDKManager&quot;);
+    dataCallbackObj = env-&gt;NewGlobalRef(instance);
+    midDataCallback = env-&gt;GetMethodID(clsNDKManager, &quot;onNativeMessageReceive&quot;, &quot;([B)V&quot;);//[B
+}
+
+} // extern &quot;C&quot;</code></pre>
+<p>当JVM调用这些函数，就传递一个JNIEnv指针，一个jobject的指针，你说看到是输入参数里面有<code>(JNIEnv * env, jobject instance)</code>就是这个东西了。<br>Java_com_slzr_ndk_NDKManager_initNative包含有了包名，类名和方法名，中间用下划线分开。由于该方法是没有返回值，所以直接用了<code>JNICALL</code>，如果有返回值比如说是String返回，用<code>JNIEXPORT jstring JNICALL</code>这样的形式。JNIEXPORT和JNICALL中间夹着返回值。</p>
+<p>对应到java里面的方法是。</p>
+<pre><code class="java">    public native void initNative();</code></pre>
+<p>native 是java里面的关键字，表示地调用c语言里面的函数。</p>
+<h1 id="c调用java的方法"><a href="#c调用java的方法" class="headerlink" title="c调用java的方法"></a>c调用java的方法</h1><p>在NDK里面c调用java的方法类似于反射。<br>需要先获取到对应的方法名称，虚拟机等。</p>
+<p>这个回去相关的信息的c代码。</p>
+<pre><code class="c">#include &lt;jni.h&gt;
+
+extern &quot;C&quot; {
+
+// Data callback stuff
+JavaVM* theJvm;
+jobject dataCallbackObj;
+jmethodID midDataCallback;
+
+/**
+ * Initializes JNI interface stuff, specifically the info needed to call back into the Java
+ * layer when MIDI data is received.
+ */
+JNICALL void Java_com_slzr_ndk_NDKManager_initNative(JNIEnv * env, jobject instance) {
+    env-&gt;GetJavaVM(&amp;theJvm);
+
+    // Setup the receive data callback (into Java)
+    jclass clsNDKManager = env-&gt;FindClass(&quot;com/slzr/ndk/NDKManager&quot;);
+    dataCallbackObj = env-&gt;NewGlobalRef(instance);
+    midDataCallback = env-&gt;GetMethodID(clsNDKManager, &quot;onNativeMessageReceive&quot;, &quot;([B)V&quot;);//[B
+}
+
+} // extern &quot;C&quot;</code></pre>
+<p>initNative是初始化函数，对应java里面的<code>public native void initNative();</code>调用。env是java虚拟机对象，instance是Object。在这里，先获取到对应的class对象、Object对象和对应的方法。</p>
+<p>下面的c调用java里面的方法。</p>
+<pre><code class="c">// The Data Callback
+extern JavaVM *theJvm;              // Need this for allocating data buffer for...
+extern jobject dataCallbackObj;     // This is the (Java) object that implements...
+extern jmethodID midDataCallback;   // ...this callback routine
+
+int soso(char *data) {
+    ......
+    JNIEnv *env;
+    theJvm-&gt;AttachCurrentThread(&amp;env, NULL);
+    if (env == NULL) {
+        LOGI(&quot;Error retrieving JNI Env&quot;);
+    }
+
+    // Allocate the Java array and fill with received data
+    jbyteArray ret = env-&gt;NewByteArray(strlen(data));
+    env-&gt;SetByteArrayRegion(ret, 0, strlen(data), (jbyte *) data);
+
+    // send it to the (Java) callback
+    env-&gt;CallVoidMethod(dataCallbackObj, midDataCallback, ret);
+
+
+    return 1;
+}</code></pre>
+<p>这里是上面保存下来的相关参数再调用一次。jbyteArray 是转换成java里面的数组。可以在java里面写相对应的实现。<br>这是调用java里面的onNativeMessageReceive方法。</p>
+<pre><code class="java">    public void onNativeMessageReceive(final byte[] message) {
+        String str=null;
+        try {
+            str = new String(message, &quot;utf-8&quot;);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.i(&quot;NDKManager&quot;,&quot;这是来自ndkmanger的信息&quot; + str);
+    }</code></pre>
+<p>附件：<br><a href="https://github.com/loongX/NDKSamples/tree/master/NDK-DynamicRegistration" target="_blank" rel="noopener">demo源码地址</a></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 long8086@foxmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>NDK基础知识</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">809</span></p>
+    <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-01-05, 21:04:04</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-06, 21:38:17</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/ndk-base/" title="NDK基础知识">https://okloong.com/2020/01/05/ndk-base/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: 'e9e594c7c1e40451b0c0',
+            clientSecret: '69e909bee5f73eb321d7764126cde7ec7c73513f',
+            repo: 'loongX.github.io',
+            owner: 'loongX',
+            admin: ['loongX'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2020 Okloong</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#IntentService','#Annotation','#Rxjava','#downlaodmanager','#apk','#NDK','#handler','#windowsmanager','#blog','#综合','#git','#java','#log',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WindowManager的一些属性 | OKloong的博客</title>
+  <meta name="keywords" content=" windowsmanager ">
+  <meta name="description" content="WindowManager的一些属性 | OKloong的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="分类">
+<meta property="og:url" content="https://okloong.com/categories/index.html">
+<meta property="og:site_name" content="OKloong的博客">
+<meta property="article:published_time" content="2017-10-31T02:36:29.000Z">
+<meta property="article:modified_time" content="2018-07-26T16:06:25.350Z">
+<meta property="article:author" content="Okloong">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/darcula.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1" ></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.0.1" ></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="OKloong的博客" type="application/atom+xml">
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="true">
+  <input class="theme_blog_path" value="">
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>Okloong</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/loongX" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:long8086@foxmail.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(15)</small></div></li>
+    
+        
+            
+            <li><div data-rel="综合">综合<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="Android">Android<small>(11)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="计算机">计算机<small>(2)</small></div>
+                
+            </li>
+            
+        
+    
+        
+            
+            <li><div data-rel="java">java<small>(1)</small></div>
+                
+            </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a class="about  hasFriend  site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="15">
+<input type="hidden" id="yelog_site_word_count" value="34.3k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a class="color4">IntentService</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">Annotation</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color2">Rxjava</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color1">downlaodmanager</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">apk</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">NDK</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">handler</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">windowsmanager</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">blog</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color3">综合</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">git</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color5">java</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a class="color4">log</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="Android "
+           href="/2020/01/05/Intentservice/"
+           data-tag="IntentService"
+           data-author="" >
+            <span class="post-title" title="IntentService耗时操作的原理">IntentService耗时操作的原理</span>
+            <span class="post-date" title="2020-01-05 21:33:14">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2017/11/06/Annotation/"
+           data-tag="Annotation"
+           data-author="" >
+            <span class="post-title" title="Android注解">Android注解</span>
+            <span class="post-date" title="2017-11-06 11:07:48">2017/11/06</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2018/06/13/Rxjava2/"
+           data-tag="Rxjava"
+           data-author="" >
+            <span class="post-title" title="Rxjava2源码分析">Rxjava2源码分析</span>
+            <span class="post-date" title="2018-06-13 11:13:01">2018/06/13</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/downlaodmanager-download-app/"
+           data-tag="downlaodmanager"
+           data-author="" >
+            <span class="post-title" title="DownlaodManager下载安装APP">DownlaodManager下载安装APP</span>
+            <span class="post-date" title="2020-01-05 21:13:51">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/apk-build-process/"
+           data-tag="apk"
+           data-author="" >
+            <span class="post-title" title="APK打包流程">APK打包流程</span>
+            <span class="post-date" title="2020-01-05 21:20:56">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-dynamicregistration/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK动态注册">NDK动态注册</span>
+            <span class="post-date" title="2020-01-05 21:08:01">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-base/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK基础知识">NDK基础知识</span>
+            <span class="post-date" title="2020-01-05 21:04:04">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/ndk-so-file/"
+           data-tag="NDK"
+           data-author="" >
+            <span class="post-title" title="NDK调用非JNI标准的so文件">NDK调用非JNI标准的so文件</span>
+            <span class="post-date" title="2020-01-05 21:11:19">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/handler/"
+           data-tag="handler"
+           data-author="" >
+            <span class="post-title" title="消息队列原理">消息队列原理</span>
+            <span class="post-date" title="2020-01-05 21:37:08">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/05/windowsmanager-attribute/"
+           data-tag="windowsmanager"
+           data-author="" >
+            <span class="post-title" title="WindowManager的一些属性">WindowManager的一些属性</span>
+            <span class="post-date" title="2020-01-05 21:17:01">2020/01/05</span>
+        </a>
+        
+        <a  class="计算机 "
+           href="/2017/09/23/Hexo_Blog/"
+           data-tag="blog"
+           data-author="" >
+            <span class="post-title" title="Hexo博客搭建">Hexo博客搭建</span>
+            <span class="post-date" title="2017-09-23 16:30:05">2017/09/23</span>
+        </a>
+        
+        <a  class="综合 "
+           href="/2017/09/30/StudyByFeedback/"
+           data-tag="综合"
+           data-author="" >
+            <span class="post-title" title="反馈式学习">反馈式学习</span>
+            <span class="post-date" title="2017-09-30 15:41:08">2017/09/30</span>
+        </a>
+        
+        <a  class="计算机 "
+           href="/2020/01/05/git-ssh-config/"
+           data-tag="git"
+           data-author="" >
+            <span class="post-title" title="git的ssh配置和使用">git的ssh配置和使用</span>
+            <span class="post-date" title="2020-01-05 20:25:44">2020/01/05</span>
+        </a>
+        
+        <a  class="java "
+           href="/2020/01/05/synchronized/"
+           data-tag="java"
+           data-author="" >
+            <span class="post-title" title="synchronized">synchronized</span>
+            <span class="post-date" title="2020-01-05 15:07:57">2020/01/05</span>
+        </a>
+        
+        <a  class="Android "
+           href="/2020/01/06/Timber/"
+           data-tag="log"
+           data-author="" >
+            <span class="post-title" title="Timber原理解析">Timber原理解析</span>
+            <span class="post-date" title="2020-01-06 15:48:12">2020/01/06</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-Android/windowsmanager-attribute" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">WindowManager的一些属性</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            
+                <a  data-rel="Android">Android</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a class="color5">windowsmanager</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2020-01-06 21:38:17'>2020-01-05 21:17</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:2.7k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WindowsManager"><span class="toc-text">WindowsManager</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、WindowsManager使用方法"><span class="toc-text">1、WindowsManager使用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、WindowManager的关联类"><span class="toc-text">2、WindowManager的关联类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1、-WindowManager"><span class="toc-text">2.1、 WindowManager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2、ViewManager"><span class="toc-text">2.2、ViewManager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3、WindowManagerImpl"><span class="toc-text">2.3、WindowManagerImpl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、WindowManager-的一些属性"><span class="toc-text">3、WindowManager 的一些属性</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>WindowManager(窗口管理服务)，它是显示View的最底层，Toast，Activity，Dialog的底层都有用到了这个WindowManager。WindowManager里面主要是addView，removeView，updateViewLayout这几个方法来显示View，以及通过WindowManager.LayoutParams这个API来设置相关的属性。下文讲详细介绍。</p>
+<h1 id="WindowsManager"><a href="#WindowsManager" class="headerlink" title="WindowsManager"></a>WindowsManager</h1><h2 id="1、WindowsManager使用方法"><a href="#1、WindowsManager使用方法" class="headerlink" title="1、WindowsManager使用方法"></a>1、WindowsManager使用方法</h2><p>1</p>
+<pre><code class="java">//获取WindowManager对象
+WindowManager wManager = getApplicationContext().getSystemService(Context.WINDOW_ SERVICE);
+//获得WindowManager.LayoutParams对象，为后续操作作准备
+WindowManager.LayoutParams wmParams=new WindowManager.LayoutParams();
+//...WindowManager.LayoutParams一顿设置
+wManager.addView(textView, wmParams);</code></pre>
+<p>2</p>
+<pre><code class="java">public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Button floatingButton = new Button(this);
+        floatingButton.setText(&quot;button&quot;);
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                0, 0,
+                PixelFormat.TRANSPARENT
+        );
+        // flag 设置 Window 属性
+        layoutParams.flags= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        // type 设置 Window 类别（层级）
+        layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
+        layoutParams.gravity = Gravity.CENTER;
+        WindowManager windowManager = getWindowManager();
+        windowManager.addView(floatingButton, layoutParams);
+    }
+}
+
+&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;/&gt;</code></pre>
+<p>3全屏设置</p>
+<pre><code class="java">protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //去除标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //去除状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main);//要放到加载布局文件代码之前
+        initView();
+        initData();
+        initListener();
+}</code></pre>
+<h2 id="2、WindowManager的关联类"><a href="#2、WindowManager的关联类" class="headerlink" title="2、WindowManager的关联类"></a>2、WindowManager的关联类</h2><h3 id="2-1、-WindowManager"><a href="#2-1、-WindowManager" class="headerlink" title="2.1、 WindowManager"></a>2.1、 WindowManager</h3><p>先来看看WindowManager里面有什么。<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManager.java</code></p>
+<pre><code class="java">public interface WindowManager extends ViewManager {
+
+    int DOCKED_INVALID = -1;
+    int DOCKED_LEFT = 1;
+    int DOCKED_TOP = 2;
+    int DOCKED_RIGHT = 3;
+    int DOCKED_BOTTOM = 4;
+    final static String INPUT_CONSUMER_PIP = &quot;pip_input_consumer&quot;;
+    final static String INPUT_CONSUMER_NAVIGATION = &quot;nav_input_consumer&quot;;
+    final static String INPUT_CONSUMER_WALLPAPER = &quot;wallpaper_input_consumer&quot;;
+
+    public static class BadTokenException extends RuntimeException {
+        public BadTokenException() {}
+        public BadTokenException(String name) { super(name);}
+    }
+
+    public static class InvalidDisplayException extends RuntimeException {
+        public InvalidDisplayException() {}
+        public InvalidDisplayException(String name) { super(name);}
+    }
+
+    public Display getDefaultDisplay();
+    public void removeViewImmediate(View view);
+    public interface KeyboardShortcutsReceiver {
+        void onKeyboardShortcutsReceived(List&lt;KeyboardShortcutGroup&gt; result);
+    }
+
+    final int TAKE_SCREENSHOT_FULLSCREEN = 1;
+    final int TAKE_SCREENSHOT_SELECTED_REGION = 2;
+    public static final String PARCEL_KEY_SHORTCUTS_ARRAY = &quot;shortcuts_array&quot;;
+
+    public void requestAppKeyboardShortcuts(final KeyboardShortcutsReceiver receiver, int deviceId);
+
+    public static class LayoutParams extends ViewGroup.LayoutParams implements Parcelable {
+    ......
+    }
+    ......
+
+ }</code></pre>
+<p>WindowManager是一个接口，继承ViewManager。里面有一些实例属性和方法，还有一个LayoutParams占据着很大一部分。LayoutParams是一个序列化类。而且WindowManager里面的大部分都是隐藏的属性和方法，只给系统调用。</p>
+<h3 id="2-2、ViewManager"><a href="#2-2、ViewManager" class="headerlink" title="2.2、ViewManager"></a>2.2、ViewManager</h3><p>WindowManager继承ViewManager。ViewManager里面实际上只有三个方法：<code>addView</code>、<code>updateViewLayout</code>、<code>removeView</code>，分别对应着添加view、更新viewlayout、移走view。</p>
+<p>\frameworks\base\core\java\android\view\ViewManager.java</p>
+<pre><code class="java">package android.view;
+public interface ViewManager
+{
+    public void addView(View view, ViewGroup.LayoutParams params);
+    public void updateViewLayout(View view, ViewGroup.LayoutParams params);
+    public void removeView(View view);
+}</code></pre>
+<h3 id="2-3、WindowManagerImpl"><a href="#2-3、WindowManagerImpl" class="headerlink" title="2.3、WindowManagerImpl"></a>2.3、WindowManagerImpl</h3><p>那么WindowManager的实现类是哪个？是WindowManagerImpl。<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManagerImpl.java</code></p>
+<pre><code class="java">public final class WindowManagerImpl implements WindowManager {
+    private final WindowManagerGlobal mGlobal = WindowManagerGlobal.getInstance();
+    private final Context mContext;
+    private final Window mParentWindow;
+
+    private IBinder mDefaultToken;
+
+    public WindowManagerImpl(Context context) {
+        this(context, null);
+    }
+
+    private WindowManagerImpl(Context context, Window parentWindow) {
+        mContext = context;
+        mParentWindow = parentWindow;
+    }
+
+    public WindowManagerImpl createLocalWindowManager(Window parentWindow) {
+        return new WindowManagerImpl(mContext, parentWindow);
+    }
+
+    public WindowManagerImpl createPresentationWindowManager(Context displayContext) {
+        return new WindowManagerImpl(displayContext, mParentWindow);
+    }
+
+    public void setDefaultToken(IBinder token) {
+        mDefaultToken = token;
+    }
+
+    @Override
+    public void addView(@NonNull View view, @NonNull ViewGroup.LayoutParams params) {
+        applyDefaultToken(params);
+        mGlobal.addView(view, params, mContext.getDisplay(), mParentWindow);
+    }
+
+    @Override
+    public void updateViewLayout(@NonNull View view, @NonNull ViewGroup.LayoutParams params) {
+        applyDefaultToken(params);
+        mGlobal.updateViewLayout(view, params);
+    }
+
+    private void applyDefaultToken(@NonNull ViewGroup.LayoutParams params) {
+        // Only use the default token if we don&#39;t have a parent window.
+        if (mDefaultToken != null &amp;&amp; mParentWindow == null) {
+            if (!(params instanceof WindowManager.LayoutParams)) {
+                throw new IllegalArgumentException(&quot;Params must be WindowManager.LayoutParams&quot;);
+            }
+
+            // Only use the default token if we don&#39;t already have a token.
+            final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams) params;
+            if (wparams.token == null) {
+                wparams.token = mDefaultToken;
+            }
+        }
+    }
+
+    @Override
+    public void removeView(View view) {
+        mGlobal.removeView(view, false);
+    }
+
+    @Override
+    public void removeViewImmediate(View view) {
+        mGlobal.removeView(view, true);
+    }
+
+    @Override
+    public void requestAppKeyboardShortcuts(
+            final KeyboardShortcutsReceiver receiver, int deviceId) {
+        IResultReceiver resultReceiver = new IResultReceiver.Stub() {
+            @Override
+            public void send(int resultCode, Bundle resultData) throws RemoteException {
+                List&lt;KeyboardShortcutGroup&gt; result =
+                        resultData.getParcelableArrayList(PARCEL_KEY_SHORTCUTS_ARRAY);
+                receiver.onKeyboardShortcutsReceived(result);
+            }
+        };
+        try {
+            WindowManagerGlobal.getWindowManagerService()
+                .requestAppKeyboardShortcuts(resultReceiver, deviceId);
+        } catch (RemoteException e) {
+        }
+    }
+
+    @Override
+    public Display getDefaultDisplay() {
+        return mContext.getDisplay();
+    }
+
+    @Override
+    public Region getCurrentImeTouchRegion() {
+        try {
+            return WindowManagerGlobal.getWindowManagerService().getCurrentImeTouchRegion();
+        } catch (RemoteException e) {
+        }
+        return null;
+    }
+}</code></pre>
+<p>可以看到实现类里面主要的参数是下面这几个。</p>
+<pre><code class="java">    private final WindowManagerGlobal mGlobal = WindowManagerGlobal.getInstance();
+    private final Context mContext;
+    private final Window mParentWindow;
+
+    private IBinder mDefaultToken;</code></pre>
+<p>里面最主要的是WindowManagerGlobal了，view的增删改都是由它完成的。<br>WindowManagerGlobal里面主要管理是一下一些参数。view的相关控制用ArrayList装载着。<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManagerGlobal.java</code></p>
+<pre><code class="java">    private static WindowManagerGlobal sDefaultWindowManager;
+    private static IWindowManager sWindowManagerService;
+    private static IWindowSession sWindowSession;
+
+    private final Object mLock = new Object();
+
+    private final ArrayList&lt;View&gt; mViews = new ArrayList&lt;View&gt;();
+    private final ArrayList&lt;ViewRootImpl&gt; mRoots = new ArrayList&lt;ViewRootImpl&gt;();
+    private final ArrayList&lt;WindowManager.LayoutParams&gt; mParams =
+            new ArrayList&lt;WindowManager.LayoutParams&gt;();
+    private final ArraySet&lt;View&gt; mDyingViews = new ArraySet&lt;View&gt;();
+
+    private Runnable mSystemPropertyUpdater;</code></pre>
+<p>addView<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManagerGlobal.java</code></p>
+<pre><code class="java">    public void addView(View view, ViewGroup.LayoutParams params,
+            Display display, Window parentWindow) {
+        if (view == null) {
+            throw new IllegalArgumentException(&quot;view must not be null&quot;);
+        }
+        if (display == null) {
+            throw new IllegalArgumentException(&quot;display must not be null&quot;);
+        }
+        if (!(params instanceof WindowManager.LayoutParams)) {
+            throw new IllegalArgumentException(&quot;Params must be WindowManager.LayoutParams&quot;);
+        }
+
+        final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams) params;
+        if (parentWindow != null) {
+            parentWindow.adjustLayoutParamsForSubWindow(wparams);
+        } else {
+            // If there&#39;s no parent, then hardware acceleration for this view is
+            // set from the application&#39;s hardware acceleration setting.
+            final Context context = view.getContext();
+            if (context != null
+                    &amp;&amp; (context.getApplicationInfo().flags
+                            &amp; ApplicationInfo.FLAG_HARDWARE_ACCELERATED) != 0) {
+                wparams.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+            }
+        }
+
+        ViewRootImpl root;
+        View panelParentView = null;
+
+        synchronized (mLock) {
+            // Start watching for system property changes.
+            if (mSystemPropertyUpdater == null) {
+                mSystemPropertyUpdater = new Runnable() {
+                    @Override public void run() {
+                        synchronized (mLock) {
+                            for (int i = mRoots.size() - 1; i &gt;= 0; --i) {
+                                mRoots.get(i).loadSystemProperties();
+                            }
+                        }
+                    }
+                };
+                SystemProperties.addChangeCallback(mSystemPropertyUpdater);
+            }
+
+            int index = findViewLocked(view, false);
+            if (index &gt;= 0) {
+                if (mDyingViews.contains(view)) {
+                    // Don&#39;t wait for MSG_DIE to make it&#39;s way through root&#39;s queue.
+                    mRoots.get(index).doDie();
+                } else {
+                    throw new IllegalStateException(&quot;View &quot; + view
+                            + &quot; has already been added to the window manager.&quot;);
+                }
+                // The previous removeView() had not completed executing. Now it has.
+            }
+
+            // If this is a panel window, then find the window it is being
+            // attached to for future reference.
+            if (wparams.type &gt;= WindowManager.LayoutParams.FIRST_SUB_WINDOW &amp;&amp;
+                    wparams.type &lt;= WindowManager.LayoutParams.LAST_SUB_WINDOW) {
+                final int count = mViews.size();
+                for (int i = 0; i &lt; count; i++) {
+                    if (mRoots.get(i).mWindow.asBinder() == wparams.token) {
+                        panelParentView = mViews.get(i);
+                    }
+                }
+            }
+
+            root = new ViewRootImpl(view.getContext(), display);
+
+            view.setLayoutParams(wparams);
+
+            mViews.add(view);
+            mRoots.add(root);
+            mParams.add(wparams);
+
+            // do this last because it fires off messages to start doing things
+            try {
+                root.setView(view, wparams, panelParentView);
+            } catch (RuntimeException e) {
+                // BadTokenException or InvalidDisplayException, clean up.
+                if (index &gt;= 0) {
+                    removeViewLocked(index, true);
+                }
+                throw e;
+            }
+        }
+    }</code></pre>
+<p>updateViewLayout<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManagerGlobal.java</code></p>
+<pre><code class="java">    public void updateViewLayout(View view, ViewGroup.LayoutParams params) {
+        if (view == null) {
+            throw new IllegalArgumentException(&quot;view must not be null&quot;);
+        }
+        if (!(params instanceof WindowManager.LayoutParams)) {
+            throw new IllegalArgumentException(&quot;Params must be WindowManager.LayoutParams&quot;);
+        }
+
+        final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams)params;
+
+        view.setLayoutParams(wparams);
+
+        synchronized (mLock) {
+            int index = findViewLocked(view, true);
+            ViewRootImpl root = mRoots.get(index);
+            mParams.remove(index);
+            mParams.add(index, wparams);
+            root.setLayoutParams(wparams, false);
+        }
+    }</code></pre>
+<p>removeView<br><code>Android_8_0_r36_\frameworks\base\core\java\android\view\WindowManagerGlobal.java</code></p>
+<pre><code class="java">    public void removeView(View view, boolean immediate) {
+        if (view == null) {
+            throw new IllegalArgumentException(&quot;view must not be null&quot;);
+        }
+
+        synchronized (mLock) {
+            int index = findViewLocked(view, true);
+            View curView = mRoots.get(index).getView();
+            removeViewLocked(index, immediate);
+            if (curView == view) {
+                return;
+            }
+
+            throw new IllegalStateException(&quot;Calling with view &quot; + view
+                    + &quot; but the ViewAncestor is attached to &quot; + curView);
+        }
+    }</code></pre>
+<h2 id="3、WindowManager-的一些属性"><a href="#3、WindowManager-的一些属性" class="headerlink" title="3、WindowManager 的一些属性"></a>3、WindowManager 的一些属性</h2><p>WindowManager.LayoutParams属性里面主要有Type属性和Flags属性。</p>
+<p>Type表示Window的类型，Window有三种类型，分别是应用窗口、子窗口和系统窗口。<br><code>\frameworks\base\core\java\android\view\ViewManager.java</code></p>
+<pre><code class="java">        /**
+         * Start of window types that represent normal application windows.
+         */
+        public static final int FIRST_APPLICATION_WINDOW = 1;
+        public static final int TYPE_BASE_APPLICATION   = 1;//一个应用程序窗口,作为“基础”窗口 　
+        public static final int TYPE_APPLICATION        = 2;//正常的应用程序窗口
+        public static final int TYPE_APPLICATION_STARTING = 3;//特殊应用程序窗口显示
+        public static final int TYPE_DRAWN_APPLICATION = 4;//显示前绘画
+        public static final int LAST_APPLICATION_WINDOW = 99;//End of types of application windows.
+
+        //子窗口
+        public static final int FIRST_SUB_WINDOW = 1000;
+        public static final int TYPE_APPLICATION_PANEL = FIRST_SUB_WINDOW;//应用面板
+        public static final int TYPE_APPLICATION_MEDIA = FIRST_SUB_WINDOW + 1;//窗口显示媒体(如视频)
+        public static final int TYPE_APPLICATION_SUB_PANEL = FIRST_SUB_WINDOW + 2;//应用程序窗口的顶部
+        public static final int TYPE_APPLICATION_ATTACHED_DIALOG = FIRST_SUB_WINDOW + 3;//类似TYPE_APPLICATION_PANEL，布局为顶级窗口
+        public static final int TYPE_APPLICATION_MEDIA_OVERLAY  = FIRST_SUB_WINDOW + 4;//显示媒体层叠窗口
+        public static final int TYPE_APPLICATION_ABOVE_SUB_PANEL = FIRST_SUB_WINDOW + 5;//上面一个sub-panel之上的应用程序的窗口        
+        public static final int LAST_SUB_WINDOW = 1999;//子系统结尾
+
+        /**
+         * Start of system-specific window types.  
+         */
+        public static final int FIRST_SYSTEM_WINDOW     = 2000;//These are not normally created by applications.
+        public static final int TYPE_STATUS_BAR         = FIRST_SYSTEM_WINDOW;//状态栏。只能有一个状态栏 
+        public static final int TYPE_SEARCH_BAR         = FIRST_SYSTEM_WINDOW+1;//搜索栏。只能有一个搜索栏
+        public static final int TYPE_PHONE              = FIRST_SYSTEM_WINDOW+2;//电话
+        public static final int TYPE_SYSTEM_ALERT       = FIRST_SYSTEM_WINDOW+3;//系统窗口,如低功率警觉
+        public static final int TYPE_KEYGUARD           = FIRST_SYSTEM_WINDOW+4;//键盘守卫窗口
+        public static final int TYPE_TOAST              = FIRST_SYSTEM_WINDOW+5;//临时通知。
+        public static final int TYPE_SYSTEM_OVERLAY     = FIRST_SYSTEM_WINDOW+6;//系统覆盖窗口,它需要显示出来
+        public static final int TYPE_PRIORITY_PHONE     = FIRST_SYSTEM_WINDOW+7;//优先电话界面,需要即使显示
+        public static final int TYPE_SYSTEM_DIALOG      = FIRST_SYSTEM_WINDOW+8;//从状态栏面板幻灯片 
+        public static final int TYPE_KEYGUARD_DIALOG    = FIRST_SYSTEM_WINDOW+9;//键盘守卫显示对话
+        public static final int TYPE_SYSTEM_ERROR       = FIRST_SYSTEM_WINDOW+10;//内部系统错误窗口,出现在上面 
+        public static final int TYPE_INPUT_METHOD       = FIRST_SYSTEM_WINDOW+11;//内部输入法窗口,上面出现
+        public static final int TYPE_INPUT_METHOD_DIALOG= FIRST_SYSTEM_WINDOW+12;//内部输入方法对话框窗口,上面出现
+        public static final int TYPE_WALLPAPER          = FIRST_SYSTEM_WINDOW+13;//壁纸窗口,放在任何想要的窗口 
+        public static final int TYPE_STATUS_BAR_PANEL   = FIRST_SYSTEM_WINDOW+14;//面板幻灯片从状态栏 
+        public static final int TYPE_SECURE_SYSTEM_OVERLAY = FIRST_SYSTEM_WINDOW+15;//安全系统覆盖窗口
+        public static final int TYPE_DRAG               = FIRST_SYSTEM_WINDOW+16;//拖动图层，放在最上面
+        public static final int TYPE_STATUS_BAR_SUB_PANEL = FIRST_SYSTEM_WINDOW+17;//从状态栏下面板,幻灯片
+        public static final int TYPE_POINTER = FIRST_SYSTEM_WINDOW+18;//(鼠标)指针 
+        public static final int TYPE_NAVIGATION_BAR = FIRST_SYSTEM_WINDOW+19;//导航栏(有别于状态栏时) 
+        public static final int TYPE_VOLUME_OVERLAY = FIRST_SYSTEM_WINDOW+20;//音量级别覆盖/对话框显示
+        public static final int TYPE_BOOT_PROGRESS = FIRST_SYSTEM_WINDOW+21;//引导进度对话框，在所有窗口之上
+        public static final int TYPE_INPUT_CONSUMER = FIRST_SYSTEM_WINDOW+22;//当系统UI隐藏时候输入事件
+        public static final int TYPE_DREAM = FIRST_SYSTEM_WINDOW+23;//屏保窗口
+        public static final int TYPE_NAVIGATION_BAR_PANEL = FIRST_SYSTEM_WINDOW+24;//导航栏面板
+        public static final int TYPE_DISPLAY_OVERLAY = FIRST_SYSTEM_WINDOW+26;//显示窗口覆盖
+        public static final int TYPE_MAGNIFICATION_OVERLAY = FIRST_SYSTEM_WINDOW+27;//放大窗口覆盖
+        public static final int TYPE_PRIVATE_PRESENTATION = FIRST_SYSTEM_WINDOW+30;//私有虚拟显示在顶部的描述
+        public static final int TYPE_VOICE_INTERACTION = FIRST_SYSTEM_WINDOW+31;//声音交互
+        public static final int TYPE_ACCESSIBILITY_OVERLAY = FIRST_SYSTEM_WINDOW+32;
+        public static final int TYPE_VOICE_INTERACTION_STARTING = FIRST_SYSTEM_WINDOW+33;
+        public static final int TYPE_DOCK_DIVIDER = FIRST_SYSTEM_WINDOW+34;
+        public static final int TYPE_QS_DIALOG = FIRST_SYSTEM_WINDOW+35;
+        public static final int TYPE_SCREENSHOT = FIRST_SYSTEM_WINDOW + 36;
+        public static final int TYPE_PRESENTATION = FIRST_SYSTEM_WINDOW + 37;
+        public static final int TYPE_APPLICATION_OVERLAY = FIRST_SYSTEM_WINDOW + 38;
+        public static final int LAST_SYSTEM_WINDOW      = 2999;//系统窗口结尾</code></pre>
+<p>应用窗口从1开始，到99。子窗口范围为1000 ~ 1999 ，系统窗口范围为2000~2999。子窗口表示依赖于应用窗口的窗口，比如PopupWindow就是依赖于应用的子窗口。Android系统有个X,Y,Z轴的坐标体系。X表示横轴，Y表示竖轴，Z表示垂直于平面的轴。这些窗口数值对应的事Z轴。数字越大表示越靠近用户。从上面的数值可以看出，系统窗口是最靠近用户的，其次是子窗口，最后是应用窗口。<br>Flags参数表示Window的属性，控制着Window的显示特性。</p>
+<pre><code class="java">       FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+       FLAG_DIM_BEHIND
+       FLAG_NOT_FOCUSABLE//不获取焦点，不接收各种输入事件,由后面的窗口得到焦点
+       FLAG_NOT_TOUCHABLE
+       FLAG_NOT_TOUCH_MODAL//不获取触摸事件，由后面的窗口得到触摸事件
+       FLAG_TOUCHABLE_WHEN_WAKING
+       FLAG_KEEP_SCREEN_ON
+       FLAG_LAYOUT_IN_SCREEN
+       FLAG_LAYOUT_NO_LIMITS
+       FLAG_FULLSCREEN
+       FLAG_FORCE_NOT_FULLSCREEN
+       FLAG_SECURE
+       FLAG_SCALED
+       FLAG_IGNORE_CHEEK_PRESSES
+       FLAG_LAYOUT_INSET_DECOR
+       FLAG_ALT_FOCUSABLE_IM
+       FLAG_WATCH_OUTSIDE_TOUCH
+       FLAG_SHOW_WHEN_LOCKED    //让Window显示在锁屏的界面上
+       FLAG_SHOW_WALLPAPER
+       FLAG_TURN_SCREEN_ON
+       FLAG_DISMISS_KEYGUARD
+       FLAG_SPLIT_TOUCH
+       FLAG_HARDWARE_ACCELERATED
+       FLAG_LOCAL_FOCUS_MODE
+       FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS</code></pre>
+<p>Flags标识按位来增加，比如下面这这些。当几个功能叠加的时候可以用或运算。<br><code>flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE</code></p>
+<pre><code class="java">public static final int FLAG_ALLOW_LOCK_WHILE_SCREEN_ON     = 0x00000001;
+public static final int FLAG_DIM_BEHIND                     = 0x00000002;
+public static final int FLAG_BLUR_BEHIND                    = 0x00000004;
+public static final int FLAG_NOT_FOCUSABLE                  = 0x00000008;
+public static final int FLAG_NOT_TOUCHABLE                  = 0x00000010;
+public static final int FLAG_NOT_TOUCH_MODAL                = 0x00000020;
+public static final int FLAG_TOUCHABLE_WHEN_WAKING          = 0x00000040;
+public static final int FLAG_KEEP_SCREEN_ON                 = 0x00000080;
+public static final int FLAG_LAYOUT_IN_SCREEN               = 0x00000100;
+......
+public static final int FLAG_SHOW_WHEN_LOCKED               = 0x00080000;
+......</code></pre>
+<p>不止这两个属性设置，还有softInputMode，gravity，horizontalMargin，verticalMargin，screenBrightness，buttonBrightness，rotationAnimation等等的参数设置。WindowManager.LayoutParams里面有<code>addFlags</code>、<code>clearFlags</code>、<code>setColorMode</code>等来控制这些属性的设置。<br>softInputMode是软键盘设置，可以看下它的几个参数。</p>
+<pre><code class="java">            SOFT_INPUT_STATE_UNSPECIFIED,
+            SOFT_INPUT_STATE_UNCHANGED,
+            SOFT_INPUT_STATE_HIDDEN,
+            SOFT_INPUT_STATE_ALWAYS_HIDDEN,
+            SOFT_INPUT_STATE_VISIBLE,
+            SOFT_INPUT_STATE_ALWAYS_VISIBLE,
+            SOFT_INPUT_ADJUST_UNSPECIFIED,
+            SOFT_INPUT_ADJUST_RESIZE,
+            SOFT_INPUT_ADJUST_PAN,
+            SOFT_INPUT_ADJUST_NOTHING,
+            SOFT_INPUT_IS_FORWARD_NAVIGATION,</code></pre>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 long8086@foxmail.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>WindowManager的一些属性</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">2.7k</span></p>
+    <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
+    <p><span class="copy-title">发布时间:</span>2020-01-05, 21:17:01</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-06, 21:38:17</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/windowsmanager-attribute/" title="WindowManager的一些属性">https://okloong.com/2020/01/05/windowsmanager-attribute/</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: 'e9e594c7c1e40451b0c0',
+            clientSecret: '69e909bee5f73eb321d7764126cde7ec7c73513f',
+            repo: 'loongX.github.io',
+            owner: 'loongX',
+            admin: ['loongX'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('10',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2020 Okloong</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.0.1" ></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#IntentService','#Annotation','#Rxjava','#downlaodmanager','#apk','#NDK','#handler','#windowsmanager','#blog','#综合','#git','#java','#log',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: ;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+        .nav .hide-list.fullscreen {
+            left: 492px
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

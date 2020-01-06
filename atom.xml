@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://okloong.com/"/>
-  <updated>2020-01-06T13:38:17.719Z</updated>
+  <updated>2020-01-06T15:52:21.539Z</updated>
   <id>https://okloong.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>adb命令</title>
+    <link href="https://okloong.com/2020/01/06/adb-command/"/>
+    <id>https://okloong.com/2020/01/06/adb-command/</id>
+    <published>2020-01-06T15:48:21.000Z</published>
+    <updated>2020-01-06T15:52:21.539Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h3 id=&quot;apk&quot;&gt;&lt;a href=&quot;#apk&quot; class=&quot;headerlink&quot; title=&quot;apk&quot;&gt;&lt;/a&gt;apk&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;adb devices #查看连接的设备
+#
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="adb" scheme="https://okloong.com/tags/adb/"/>
+    
+  </entry>
   
   <entry>
     <title>Timber原理解析</title>

@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>SystemClock类</title>
+      <link href="/2020/01/07/SystemClock/"/>
+      <url>/2020/01/07/SystemClock/</url>
+      
+        <content type="html"><![CDATA[<p>在handler设置了延时时间，如果用户在这期间设置了系统时间，那么handler里面的事件可能会混乱，不是按预期时间延期。handler里面用的是currentTimeMillis时间，也就是系统时间，该时间可能会向前或向后不可预知地跳越。</p><blockquote><p>System.currentTimeMillis() 系统时间。这个时间会用SystemClock.setCurrentTimeMillis来改变。这个setCurrentTimeMillis会向前或向后设置时间。</p></blockquote><pre><code class="java">public static boolean setCurrentTimeMillis(long millis) 设置当前的&quot;墙&quot;时间，要求调用进程有许可权限。返回是否成功。</code></pre><p>有时候为了稳定计时，需要一些稳定向后的时间。下面罗列其他稳定的向后的时间。</p><pre><code class="java">public static long currentThreadTimeMillis() 返在当前线程运行的毫秒数。public static long elapsedRealtime() 返回系统启动到现在的毫秒数，包含休眠时间。public static long elapsedRealtimeNanos() 返回系统启动到现在的纳秒数，包含休眠时间。public static long uptimeMillis() 返回系统启动到现在的毫秒数，不包含休眠时间。就是说统计系统启动到现在的非休眠期时间。</code></pre><p>SystemClock类里面的其他方法。</p><pre><code class="java">public static void sleep(long ms) 等待给定的时间。这个是SystemClock.sleep，和Thread.sleep(millis)类似，但是它不会抛出InterruptedException异常。事件被推迟到下一个中断操作。该方法直到指定的时间过去才返回。</code></pre><p>参考链接：</p><p><a href="https://developer.android.com/reference/android/os/SystemClock.html#currentThreadTimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#currentThreadTimeMillis()</a></p><p><a href="https://developer.android.com/reference/android/os/SystemClock.html#uptimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#uptimeMillis()</a></p><p><a href="https://developer.android.com/reference/java/lang/System.html#currentTimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/java/lang/System.html#currentTimeMillis()</a></p><p><a href="https://developer.android.com/reference/android/os/SystemClock.html#elapsedRealtime()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#elapsedRealtime()</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Android </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SystemClock </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>adb命令</title>
       <link href="/2020/01/06/adb-command/"/>
       <url>/2020/01/06/adb-command/</url>

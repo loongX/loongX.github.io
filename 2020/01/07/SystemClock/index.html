@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>NDK动态注册 | OKloong的博客</title>
-  <meta name="keywords" content=" NDK ">
-  <meta name="description" content="NDK动态注册 | OKloong的博客">
+  <title>SystemClock类 | OKloong的博客</title>
+  <meta name="keywords" content=" SystemClock ">
+  <meta name="description" content="SystemClock类 | OKloong的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="分类">
@@ -395,9 +395,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android/ndk-dynamicregistration" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Android/SystemClock类" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">NDK动态注册</h1>
+        <h1 class="article-title">SystemClock类</h1>
     
     <div class="article-meta">
         
@@ -412,19 +412,19 @@
         
         <span class="tag">
             
-            <a class="color4">NDK</a>
+            <a class="color2">SystemClock</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-06 21:38:17'>2020-01-05 21:08</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-14 23:14:20'>2020-01-07 09:10</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:616</span>
+        <span>字数:396</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -470,109 +470,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>c/c++和java交互，需要找到双方各自对应的函数或方法来调用。这种产生联系的方式有两种方式，一个是静态注册，另一种事动态注册。动态注册是比静态注册的好处是不需要JNI那一套很长的命名。</p>
-<p>其他的规则和静态注册无异，只是注册的地方不同而已。</p>
-<p>下面是动态注册的方式。</p>
-<pre><code class="c">/**
- * 动态注册
- */
-extern &quot;C&quot; {
+        <p>在handler设置了延时时间，如果用户在这期间设置了系统时间，那么handler里面的事件可能会混乱，不是按预期时间延期。handler里面用的是currentTimeMillis时间，也就是系统时间，该时间可能会向前或向后不可预知地跳越。</p>
+<blockquote>
+<p>System.currentTimeMillis() 系统时间。这个时间会用SystemClock.setCurrentTimeMillis来改变。这个setCurrentTimeMillis会向前或向后设置时间。</p>
+</blockquote>
+<pre><code class="java">public static boolean setCurrentTimeMillis(long millis) 设置当前的&quot;墙&quot;时间，要求调用进程有许可权限。返回是否成功。</code></pre>
+<p>有时候为了稳定计时，需要一些稳定向后的时间。下面罗列其他稳定的向后的时间。</p>
+<pre><code class="java">
+public static long currentThreadTimeMillis() 返在当前线程运行的毫秒数。
 
-jstring stringFromJNI2(JNIEnv *env, jobject instance) {
-    std::string hello = &quot;Hello from C++&quot;;
-    return env-&gt;NewStringUTF(hello.c_str());
-}
+public static long elapsedRealtime() 返回系统启动到现在的毫秒数，包含休眠时间。
 
-jint add(JNIEnv *env, jclass clazz, jint a, jint b) {
-    LOGE(&quot;ADD!!&quot;);
-    return a + b;
+public static long elapsedRealtimeNanos() 返回系统启动到现在的纳秒数，包含休眠时间。
 
-}
-
-#define JNIREG_CLASS &quot;com/slzr/ndk/NDKManager&quot;//指定要注册的类
-/**
-* 方法对应表
-*/
-static JNINativeMethod gMethods[] = {
-//        {&quot;stringFromJNI2&quot;, &quot;()Ljava/lang/String;&quot;, (void *) stringFromJNI2},
-        {&quot;add&quot;,            &quot;(II)I&quot;,                (void *) add}
-};
-
-/*
-* 为某一个类注册本地方法
-*/
-static int registerNativeMethods(JNIEnv *env, const char *className, JNINativeMethod *gMethods,
-                                 int numMethods) {
-    jclass clazz;
-    clazz = env-&gt;FindClass(className);
-    if (clazz == NULL) {
-        return JNI_FALSE;
-    }
-    if (env-&gt;RegisterNatives(clazz, gMethods, numMethods) &lt; 0) {
-        return JNI_FALSE;
-    }
-
-    return JNI_TRUE;
-}
-
-
-/*
-* 为所有类注册本地方法
-*/
-static int registerNatives(JNIEnv *env) {
-    return registerNativeMethods(env, JNIREG_CLASS, gMethods,
-                                 sizeof(gMethods) / sizeof(gMethods[0]));
-}
-
-/*
-* System.loadLibrary(&quot;lib&quot;)时调用
-* 如果成功返回JNI版本, 失败返回-1
-*/
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-    JNIEnv *env = NULL;
-    jint result = -1;
-    if (vm-&gt;GetEnv((void **) &amp;env, JNI_VERSION_1_6) != JNI_OK) {
-        return -1;
-    }
-    assert(env != NULL);
-    if (!registerNatives(env)) {//注册
-        return -1;
-    }
-    //成功
-    result = JNI_VERSION_1_6;
-    return result;
-}
-}</code></pre>
-<p>这里说明一下，<code>JNI_OnLoad</code>是<code>System.loadLibrary</code>加载完动态库执行的函数，写在jni.h里面。<br><code>registerNatives</code>写本地的方法。<code>gMethods</code>写方法列表，第一参数是java里面的方法名称，第二参数是方法输入参数，第三个参数是c/c++里面对应的函数。它的结构类型如下：</p>
-<pre><code class="c">typedef struct {
-    const char* name;
-    const char* signature;
-    void*       fnPtr;
-} JNINativeMethod;</code></pre>
-<p>第二个参数可以参照java的反射。</p>
-<pre><code>字符 Java类型 C类型
-V      void            void
-Z       jboolean     boolean
-I        jint              int
-J       jlong            long
-D      jdouble       double
-F      jfloat            float
-B      jbyte            byte
-C      jchar           char
-S      jshort          short
-
-数组则以&quot;[&quot;开始，用两个字符表示。
-[I       jintArray      int[]
-[F     jfloatArray    float[]
-[B     jbyteArray    byte[]
-[C    jcharArray    char[]
-[S    jshortArray   short[]
-[D    jdoubleArray double[]
-[J     jlongArray     long[]
-[Z    jbooleanArray boolean[]</code></pre><p>gMethods里面的第二参数<code>()</code>表示输入参数，有多少就写多少进去。比如说两个int参数，就写<code>(II)</code>。括号后面跟着的是返回值<code>V</code>表示没有返回值void。<code>Ljava/lang/String;</code>对应是String类型。<code>Ljava/lang/Object;</code>对应是Object类型。</p>
-<p>在java层面仍然需要native 编写。</p>
-<pre><code class="java">    public native int add(int a, int b);</code></pre>
-<p>附件：<br><a href="https://github.com/loongX/NDKSamples/tree/master/NDK-DynamicRegistration" target="_blank" rel="noopener">demo源码地址</a></p>
+public static long uptimeMillis() 返回系统启动到现在的毫秒数，不包含休眠时间。就是说统计系统启动到现在的非休眠期时间。
+</code></pre>
+<p>SystemClock类里面的其他方法。</p>
+<pre><code class="java">public static void sleep(long ms) 等待给定的时间。这个是SystemClock.sleep，和Thread.sleep(millis)类似，但是它不会抛出InterruptedException异常。事件被推迟到下一个中断操作。该方法直到指定的时间过去才返回。</code></pre>
+<p>参考链接：</p>
+<p><a href="https://developer.android.com/reference/android/os/SystemClock.html#currentThreadTimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#currentThreadTimeMillis()</a></p>
+<p><a href="https://developer.android.com/reference/android/os/SystemClock.html#uptimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#uptimeMillis()</a></p>
+<p><a href="https://developer.android.com/reference/java/lang/System.html#currentTimeMillis()" target="_blank" rel="noopener">https://developer.android.com/reference/java/lang/System.html#currentTimeMillis()</a></p>
+<p><a href="https://developer.android.com/reference/android/os/SystemClock.html#elapsedRealtime()" target="_blank" rel="noopener">https://developer.android.com/reference/android/os/SystemClock.html#elapsedRealtime()</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 long8086@foxmail.com </span>
@@ -586,12 +505,12 @@ S      jshort          short
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>NDK动态注册</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">616</span></p>
+    <p><span class="copy-title">文章标题:</span>SystemClock类</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">396</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-05, 21:08:01</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-06, 21:38:17</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/ndk-dynamicregistration/" title="NDK动态注册">https://okloong.com/2020/01/05/ndk-dynamicregistration/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-07, 09:10:06</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-14, 23:14:20</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/07/SystemClock/" title="SystemClock类">https://okloong.com/2020/01/07/SystemClock/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>

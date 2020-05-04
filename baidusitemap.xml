@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://okloong.com/2017/09/30/StudyByFeedback/</loc>
+    <lastmod>2020-05-04</lastmod>
+  </url>  <url>
+    <loc>https://okloong.com/2020/01/16/Runtime/</loc>
+    <lastmod>2020-01-16</lastmod>
+  </url>  <url>
     <loc>https://okloong.com/2020/01/07/SystemClock/</loc>
     <lastmod>2020-01-14</lastmod>
   </url>  <url>
@@ -11,9 +17,6 @@
     <lastmod>2020-01-06</lastmod>
   </url>  <url>
     <loc>https://okloong.com/2020/01/05/git-ssh-config/</loc>
-    <lastmod>2020-01-06</lastmod>
-  </url>  <url>
-    <loc>https://okloong.com/2017/09/30/StudyByFeedback/</loc>
     <lastmod>2020-01-06</lastmod>
   </url>  <url>
     <loc>https://okloong.com/2017/09/23/Hexo_Blog/</loc>

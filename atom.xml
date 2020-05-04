@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://okloong.com/"/>
-  <updated>2020-01-14T15:14:20.733Z</updated>
+  <updated>2020-01-16T15:31:24.106Z</updated>
   <id>https://okloong.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Runtime</title>
+    <link href="https://okloong.com/2020/01/16/Runtime/"/>
+    <id>https://okloong.com/2020/01/16/Runtime/</id>
+    <published>2020-01-16T00:57:46.000Z</published>
+    <updated>2020-01-16T15:31:24.106Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;先看一个应用。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;Runtime.getRuntime().exec(&amp;quot;gpio-test 98
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="https://okloong.com/categories/Android/"/>
+    
+    
+      <category term="Runtime" scheme="https://okloong.com/tags/Runtime/"/>
+    
+  </entry>
   
   <entry>
     <title>SystemClock类</title>
@@ -429,11 +457,17 @@ import
     <link href="https://okloong.com/2017/09/30/StudyByFeedback/"/>
     <id>https://okloong.com/2017/09/30/StudyByFeedback/</id>
     <published>2017-09-30T07:41:08.000Z</published>
-    <updated>2020-01-06T13:38:17.756Z</updated>
+    <updated>2020-05-04T03:58:15.431Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;&amp;lt;Excerpt in index | 首页摘要&amp;gt;&lt;br&gt;本篇文章将讲述我自己的学习方法——反馈式学习。每个人对学习方法都有不同的理解，可能某个人对某种学习方式有较深刻的感触，而其他人却不感兴趣。这可能是学习方式没能勾起你的生活体验。但如果你深究到底，你可能会发现它们的核心原理是一样的。同样，这篇文章里面的学习形式其实并不重要，最主要的还是其原理。希望你能根据其背后原理整出自己的学习方法。&lt;/p&gt;
+      
+      
+        
+        
+          &lt;p&gt;本篇文章将讲述我自己的学习方法——反馈式学习。每个人对学习方法都有不同的理解，可能某个人对某种学习方式有较深刻的感触，而其他人却不感兴趣。这可能是学习方式没能勾起你的生活体验。但如果你深究到底，你可能会发现它们的核心原理是一样的。同样，这篇文章里面的学习形式其实并不重要，最
+        
+      
     
     </summary>
     

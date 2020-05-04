@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>DownlaodManager下载安装APP | OKloong的博客</title>
-  <meta name="keywords" content=" downlaodmanager ">
-  <meta name="description" content="DownlaodManager下载安装APP | OKloong的博客">
+  <title>Runtime | OKloong的博客</title>
+  <meta name="keywords" content=" Runtime ">
+  <meta name="description" content="Runtime | OKloong的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta property="og:type" content="website">
 <meta property="og:title" content="分类">
@@ -407,9 +407,9 @@
 </aside>
 <div class="post">
     <div class="pjax">
-        <article id="post-Android/downlaodmanager-download-app" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Android/Runtime" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">DownlaodManager下载安装APP</h1>
+        <h1 class="article-title">Runtime</h1>
     
     <div class="article-meta">
         
@@ -424,19 +424,19 @@
         
         <span class="tag">
             
-            <a class="color1">downlaodmanager</a>
+            <a class="color3">Runtime</a>
             
         </span>
         
     </div>
     <div class="article-meta">
         
-        创建时间:<time class="date" title='更新时间: 2020-01-06 21:38:17'>2020-01-05 21:13</time>
+        创建时间:<time class="date" title='更新时间: 2020-01-16 23:31:24'>2020-01-16 08:57</time>
         
     </div>
     <div class="article-meta">
         
-        <span>字数:1k</span>
+        <span>字数:195</span>
         
         
         <span id="busuanzi_container_page_pv">
@@ -482,278 +482,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这里是利用android自身的DownlaodManager来下载APP。下面是代码。</p>
-<pre><code class="java">import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
-import android.support.v4.content.FileProvider;
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-
-/**
- * Created by okloong on 2019/8/9 0009 上午 00:15.
- * Describe:
- */
-public class AppDownloadManager {
-    public static final String TAG = &quot;AppDownloadManager&quot;;
-    private WeakReference&lt;Activity&gt; weakReference;
-    private DownloadManager mDownloadManager;
-    private DownloadChangeObserver mDownLoadChangeObserver;
-    private DownloadReceiver mDownloadReceiver;
-    private long mReqId;
-    private OnUpdateListener mUpdateListener;
-
-    public AppDownloadManager(Activity activity) {
-        weakReference = new WeakReference&lt;Activity&gt;(activity);
-        mDownloadManager = (DownloadManager) weakReference.get().getSystemService(Context.DOWNLOAD_SERVICE);
-        mDownLoadChangeObserver = new DownloadChangeObserver(new Handler());
-        mDownloadReceiver = new DownloadReceiver();
-    }
-
-
-    public void setUpdateListener(OnUpdateListener mUpdateListener) {
-        this.mUpdateListener = mUpdateListener;
-    }
-
-    public void downloadApk(String apkUrl, String title, String desc) {
-        // fix bug : 装不了新版本，在下载之前应该删除已有文件
-        File apkFile = new File(weakReference.get().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), &quot;app_name.apk&quot;);
-
-        if (apkFile != null &amp;&amp; apkFile.exists()) {
-            apkFile.delete();
-        }
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
-        //设置title
-        request.setTitle(title);
-        // 设置描述
-        request.setDescription(desc);
-        // 完成后显示通知栏
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(weakReference.get(), Environment.DIRECTORY_DOWNLOADS, &quot;app_name.apk&quot;);
-        //在手机SD卡上创建一个download文件夹
-        // Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdir() ;
-        //指定下载到SD卡的/download/my/目录下
-        // request.setDestinationInExternalPublicDir(&quot;/codoon/&quot;,&quot;codoon_health.apk&quot;);
-
-        request.setMimeType(&quot;application/vnd.android.package-archive&quot;);
-        //
-        mReqId = mDownloadManager.enqueue(request);
-    }
-
-    /**
-     * 取消下载
-     */
-    public void cancel() {
-        mDownloadManager.remove(mReqId);
-    }
-
-    /**
-     * 对应 {@link Activity }
-     */
-    public void resume() {
-        //设置监听Uri.parse(&quot;content://downloads/my_downloads&quot;)
-        weakReference.get().getContentResolver().registerContentObserver(Uri.parse(&quot;content://downloads/my_downloads&quot;), true,
-                mDownLoadChangeObserver);
-        // 注册广播，监听APK是否下载完成
-        weakReference.get().registerReceiver(mDownloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-    }
-
-    /**
-     * 对应{@ link Activity# onPause()} () }
-     */
-    public void onPause() {
-        weakReference.get().getContentResolver().unregisterContentObserver(mDownLoadChangeObserver);
-        weakReference.get().unregisterReceiver(mDownloadReceiver);
-    }
-
-    private void updateView() {
-        int[] bytesAndStatus = new int[]{0, 0, 0};
-        DownloadManager.Query query = new DownloadManager.Query().setFilterById(mReqId);
-        Cursor c = null;
-        try {
-            c = mDownloadManager.query(query);
-            if (c != null &amp;&amp; c.moveToFirst()) {
-                //已经下载的字节数
-                bytesAndStatus[0] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                //总需下载的字节数
-                bytesAndStatus[1] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                //状态所在的列索引
-                bytesAndStatus[2] = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-            }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-
-        if (mUpdateListener != null) {
-            mUpdateListener.update(bytesAndStatus[0], bytesAndStatus[1]);
-        }
-
-        Log.i(TAG, &quot;下载进度：&quot; + bytesAndStatus[0] + &quot;/&quot; + bytesAndStatus[1] + &quot;&quot;);
-    }
-
-    class DownloadChangeObserver extends ContentObserver {
-
-        /**
-         * Creates a content observer.
-         *
-         * @param handler The handler to run {@link #onChange} on, or null if none.
-         */
-        public DownloadChangeObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            super.onChange(selfChange);
-            updateView();
-        }
-    }
-
-    class DownloadReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            boolean haveInstallPermission;
-            // 兼容Android 8.0
-            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) {
-
-                //先获取是否有安装未知来源应用的权限
-                haveInstallPermission = context.getPackageManager().canRequestPackageInstalls();
-                if (!haveInstallPermission) {//没有权限
-                    // 弹窗，并去设置页面授权
-                    final AndroidOInstallPermissionListener listener = new AndroidOInstallPermissionListener() {
-                        @Override
-                        public void permissionSuccess() {
-                            Log.i(TAG, &quot;下载成功！准备安装&quot;);
-                            installApk(context, intent);
-                        }
-
-                        @Override
-                        public void permissionFail() {
-//                            ToastUtils.shortToast(context, &quot;授权失败，无法安装应用&quot;);
-                        }
-                    };
-
-//                    AndroidOPermissionActivity.sListener = listener;
-//                    Intent intent1 = new Intent(context, AndroidOPermissionActivity.class);
-//                    context.startActivity(intent1);
-
-
-                } else {
-                    installApk(context, intent);
-                }
-            } else {
-                installApk(context, intent);
-            }
-
-        }
-    }
-
-
-    /**
-     * @param context
-     * @param intent
-     */
-    private void installApk(Context context, Intent intent) {
-        long completeDownLoadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-
-        Log.e(TAG, &quot;收到广播&quot;);
-        Uri uri;
-        Intent intentInstall = new Intent();
-        intentInstall.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intentInstall.setAction(Intent.ACTION_VIEW);
-
-        if (completeDownLoadId == mReqId) {
-            if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.M) { // 6.0以下
-                uri = mDownloadManager.getUriForDownloadedFile(completeDownLoadId);
-            } else if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.N) { // 6.0 - 7.0
-                File apkFile = queryDownloadedApk(context, completeDownLoadId);
-                uri = Uri.fromFile(apkFile);
-            } else { // Android 7.0 以上
-                uri = FileProvider.getUriForFile(context,
-                        &quot;com.okloong.appfile.fileProvider&quot;,
-                        new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), &quot;app_name.apk&quot;));
-                intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            }
-
-            // 安装应用
-            Log.e(TAG, &quot;下载完成了&quot;);
-
-            intentInstall.setDataAndType(uri, &quot;application/vnd.android.package-archive&quot;);
-            context.startActivity(intentInstall);
-        }
-    }
-
-    //通过downLoadId查询下载的apk，解决6.0以后安装的问题
-    public static File queryDownloadedApk(Context context, long downloadId) {
-        File targetApkFile = null;
-        DownloadManager downloader = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-
-        if (downloadId != -1) {
-            DownloadManager.Query query = new DownloadManager.Query();
-            query.setFilterById(downloadId);
-            query.setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL);
-            Cursor cur = downloader.query(query);
-            if (cur != null) {
-                if (cur.moveToFirst()) {
-                    String uriString = cur.getString(cur.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                    if (!TextUtils.isEmpty(uriString)) {
-                        targetApkFile = new File(Uri.parse(uriString).getPath());
-                    }
-                }
-                cur.close();
-            }
-        }
-        return targetApkFile;
-    }
-
-    public interface OnUpdateListener {
-        void update(int currentByte, int totalByte);
-    }
-
-    public interface AndroidOInstallPermissionListener {
-        void permissionSuccess();
-
-        void permissionFail();
-    }
-
-
-
-}</code></pre>
-<p>在AndroidMainfest的``标签里面添加prvoider。</p>
-<pre><code class="xml">        &lt;provider
-            android:name=&quot;android.support.v4.content.FileProvider&quot;
-            android:authorities=&quot;com.okloong.appfile.fileProvider&quot;
-            android:exported=&quot;false&quot;
-            android:grantUriPermissions=&quot;true&quot;&gt;
-            &lt;meta-data
-                android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;
-                android:resource=&quot;@xml/filepath&quot; /&gt;
-        &lt;/provider&gt;</code></pre>
-<p>res目录下新建xml目录，然后新建filepath.xml文件。</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;resources&gt;
-        &lt;paths &gt;
-        &lt;external-path
-            name=&quot;download&quot;
-            path=&quot;&quot; /&gt;
-        &lt;/paths&gt;
-&lt;/resources&gt;</code></pre>
+        <p>先看一个应用。</p>
+<pre><code class="java">Runtime.getRuntime().exec(&quot;gpio-test 98 1&quot;);</code></pre>
+<p>Runtime，顾名思义是运行时。这个封装了JVM进程的运行环境，连通java和clib环境。可以在里面实现部分命令。在android里面这个运行会受系统权限约束。在java里面可以用这个来执行脚本功能。</p>
+<pre><code class="java">public static Runtime getRuntime()  普通方法  用于取得Runtime类的实例
+public long freeMemory()  普通方法 用于返回Java虚拟机中的空闲内存
+public long maxMemory() 返回JVM的最大内存量
+public void gc() 运行垃圾回收器。释放空间。
+public Process exec(String command) throws IOException 执行本机命令</code></pre>
+<p>参考链接：</p>
+<p><a href="https://developer.android.com/reference/java/lang/Runtime" target="_blank" rel="noopener">https://developer.android.com/reference/java/lang/Runtime</a></p>
+<p><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/7/docs/api/java/lang/Runtime.html</a></p>
+<p><a href="https://blog.csdn.net/jianpan_zouni/article/details/83587725" target="_blank" rel="noopener">https://blog.csdn.net/jianpan_zouni/article/details/83587725</a></p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 long8086@foxmail.com </span>
@@ -767,12 +507,12 @@ public class AppDownloadManager {
 
 
 <div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>DownlaodManager下载安装APP</p>
-    <p><span class="copy-title">文章字数:</span><span class="post-count">1k</span></p>
+    <p><span class="copy-title">文章标题:</span>Runtime</p>
+    <p><span class="copy-title">文章字数:</span><span class="post-count">195</span></p>
     <p><span class="copy-title">本文作者:</span><a  title="Okloong">Okloong</a></p>
-    <p><span class="copy-title">发布时间:</span>2020-01-05, 21:13:51</p>
-    <p><span class="copy-title">最后更新:</span>2020-01-06, 21:38:17</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/05/downlaodmanager-download-app/" title="DownlaodManager下载安装APP">https://okloong.com/2020/01/05/downlaodmanager-download-app/</a>
+    <p><span class="copy-title">发布时间:</span>2020-01-16, 08:57:46</p>
+    <p><span class="copy-title">最后更新:</span>2020-01-16, 23:31:24</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/2020/01/16/Runtime/" title="Runtime">https://okloong.com/2020/01/16/Runtime/</a>
     <p>
         <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
     </p>
